@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapitre 1: Français - Néerlandais</title>
+    <style>
+        /* Police personnalisée depuis Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
 
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: 600;
+        }
+
+        td {
+            color: #555;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        audio {
+            margin-left: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .translation-cell {
+            color: #333;
+            font-weight: 600;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chapitre 1: Français - Néerlandais</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Français</th>
+                <th>Audio Ndls</th>
+                <th>Action</th>
+                <th>Traduction Néerlandaises</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Comment ça va ?</td>
+                <td>
+                    <audio controls>
+                        <source src="audio/1.mp3" type="audio/mpeg">
+                        Votre navigateur ne supporte pas l'élément audio.
+                    </audio>
+                </td>
+                <td><button onclick="toggleTranslation(1)">Afficher</button></td>
+                <td class="hidden translation-cell" id="translation-1">
+                    Hoe gaat het?
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Qu'as-tu fait ce week-end ?</td>
+                <td>
+                    <audio controls>
+                        <source src="audio/2.mp3" type="audio/mpeg">
+                        Votre navigateur ne supporte pas l'élément audio.
+                    </audio>
+                </td>
+                <td><button onclick="toggleTranslation(2)">Afficher</button></td>
+                <td class="hidden translation-cell" id="translation-2">
+                    Wat heb je dit weekend gedaan?
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Quel temps fait-il aujourd'hui ?</td>
+                <td>
+                    <audio controls>
+                        <source src="audio/3.mp3" type="audio/mpeg">
+                        Votre navigateur ne supporte pas l'élément audio.
+                    </audio>
+                </td>
+                <td><button onclick="toggleTranslation(3)">Afficher</button></td>
+                <td class="hidden translation-cell" id="translation-3">
+                    Wat voor weer is het vandaag?
+                </td>
+            </tr>
+            <!-- Autres phrases jusqu'à la 30e -->
+        </tbody>
+    </table>
+
+    <script>
+        function toggleTranslation(id) {
+            const translation = document.getElementById('translation-' + id);
+            if (translation.classList.contains('hidden')) {
+                translation.classList.remove('hidden');
+            } else {
+                translation.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
