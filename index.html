@@ -3,250 +3,319 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Het / De — Néerlandais (Théorie & Exercices)</title>
+<title>DE / HET — Exercice + Théorie complète</title>
 <style>
-  :root{ --bg:#040405; --panel:#0b0c0f; --muted:#bfcbd8; --accent:#68b0ff; }
-  body{
-    margin:0; font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(180deg,#020203 0%, #071028 100%);
-    color:#eef7ff; line-height:1.45; -webkit-font-smoothing:antialiased;
-    padding:18px;
+  :root{
+    --bg:#0a0b10; --panel:#121827; --ink:#e9f2ff; --muted:#b7c4d6;
+    --accent:#68b0ff; --ok:#1fbf75; --ko:#ff5d5d; --btn:#1f2937; --btnh:#374151;
   }
-  .wrap{ max-width:1100px; margin:0 auto; }
-  header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
-  h1{ font-size:22px; margin:0; }
-  .panel{ background:rgba(255,255,255,0.02); padding:18px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
-  .exercise{ display:flex; flex-direction:column; align-items:center; gap:10px; padding:18px; border-radius:10px; }
-  .phrase{ font-size:2.2rem; text-align:center; font-weight:600; min-height:72px; padding:6px; }
-  .translation{ font-size:1.2rem; color:var(--muted); margin-top:6px; display:none; }
-  .controls{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:12px; }
-  button{ background:#16324b; border:0; color:#eef7ff; padding:12px 16px; font-size:1rem; border-radius:10px; cursor:pointer; }
-  button.focus-btn{ background:#2b6b3b; }
-  button.big{ padding:14px 20px; font-size:1.05rem; }
-  button:active{ transform:translateY(1px); }
-  .counter{ color:var(--accent); margin-top:8px; }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:Arial,Helvetica,sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.5; padding:18px;}
+  .wrap{max-width:1100px; margin:0 auto;}
+  header{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;}
+  h1{font-size:22px; margin:0; color:var(--accent)}
+  .panel{background:var(--panel); border-radius:14px; padding:18px; box-shadow:0 12px 28px rgba(0,0,0,.45);}
+  /* Exercice */
+  .exercise{display:flex; flex-direction:column; gap:12px;}
+  .hud{display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:0.95rem; color:var(--muted)}
+  .blank{font-size:2.2rem; text-align:center; font-weight:700; min-height:82px;}
+  .hint{font-size:1rem; color:var(--muted); text-align:center; min-height:24px;}
+  .choices{display:flex; justify-content:center; gap:14px; flex-wrap:wrap}
+  button{background:var(--btn); color:var(--ink); border:0; padding:14px 18px; font-size:1.1rem; border-radius:12px; cursor:pointer;}
+  button.big{font-size:1.25rem; padding:16px 22px;}
+  button:focus{outline:2px solid var(--accent)}
+  button:hover{background:var(--btnh)}
+  .ok{color:var(--ok)} .ko{color:var(--ko)}
+  .mark{font-size:1.8rem; text-align:center; min-height:32px;}
+  .voice{display:flex; justify-content:center; gap:10px; flex-wrap:wrap}
+  .focus-active .hide-in-focus{display:none}
+  .score{font-weight:700; color:var(--accent)}
   /* Théorie */
-  .theory{ margin-top:22px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); padding:18px; border-radius:12px; color:#e6f1fb; }
-  .theory h2{ color:var(--accent); text-align:center; margin-top:0; }
-  .theory h3{ color:#bfe1ff; }
-  .theory ul{ margin:8px 0 12px 20px; color:var(--muted); }
-  code{ background:rgba(255,255,255,0.03); padding:2px 6px; border-radius:6px; color:#ffd97a; }
-  table{ width:100%; border-collapse:collapse; margin-top:12px; color:var(--muted); }
-  th,td{ padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.03); text-align:left; }
-  .examples{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:12px; }
-  .card{ background:rgba(255,255,255,0.01); padding:10px; border-radius:8px; }
-  footer{ margin-top:18px; color:var(--muted); font-size:0.95rem; text-align:center; }
-  @media (max-width:720px){
-    .phrase{ font-size:1.6rem; }
-  }
+  .theory{margin-top:20px}
+  .section{margin-top:18px}
+  .section h2{color:var(--accent); margin:0 0 8px;}
+  .section h3{color:#bfe1ff; margin:14px 0 6px;}
+  .muted{color:var(--muted)}
+  table{width:100%; border-collapse:collapse; margin:10px 0; color:var(--muted)}
+  th,td{padding:8px 10px; border-bottom:1px solid rgba(255,255,255,.06); text-align:left}
+  code{background:#1e293b; padding:2px 6px; border-radius:6px; color:#facc15}
+  /* Poster (SVG responsive) */
+  .poster{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01)); padding:12px; border-radius:12px; margin-top:12px;}
+  svg{width:100%; height:auto; display:block}
+  footer{margin-top:16px; text-align:center; color:var(--muted); font-size:0.95rem}
+  @media (max-width:720px){ .blank{font-size:1.6rem} }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>⚖️ Het / De — exercices + théorie complète</h1>
-    <div style="font-size:0.95rem;color: #cfe9ff">Page : Het & De</div>
+
+  <header class="hide-in-focus">
+    <h1>⚖️ Choisir <span style="color:#bfe1ff">DE</span> ou <span style="color:#bfe1ff">HET</span></h1>
+    <div class="muted">Mode VR-friendly • pointage sans clavier</div>
   </header>
 
-  <div class="panel exercise" id="exercisePanel">
-    <div class="phrase" id="phrase">Chargement…</div>
-    <div class="translation" id="translation">Traduction</div>
-
-    <div class="controls" id="controlsTop">
-      <button onclick="prevPhrase()">⬅️ Précédent</button>
-      <button onclick="nextPhrase()">➡️ Suivant</button>
-      <button onclick="toggleTranslation()">💬 Traduction</button>
-      <button onclick="playAudio()">🔊 Écouter</button>
+  <!-- EXERCICE -->
+  <section class="panel exercise" aria-label="Exercice DE/HET">
+    <div class="hud">
+      <div>Question <span id="qnum">1</span>/<span id="qtot">—</span></div>
+      <div>Score : <span class="score" id="score">0</span></div>
+      <div class="hide-in-focus" id="progressMsg"></div>
     </div>
 
-    <div class="controls" id="controlsBottom" style="margin-top:6px">
-      <button class="focus-btn" onclick="toggleFocus()">🎯 Mode Focus</button>
-      <button onclick="startSequence()" class="big">▶️ Enchaîner tout</button>
-      <button onclick="pauseSequence()" class="big">⏸️ Pause</button>
-      <div class="counter" id="counter"></div>
-    </div>
-  </div>
+    <div class="blank" id="phrase">___ …</div>
+    <div class="hint" id="hint"></div>
 
-  <!-- Théorie détaillée -->
-  <section class="theory" id="theory">
-    <h2>📖 Théorie complète : choisir <code>de</code> ou <code>het</code></h2>
-
-    <p><strong>Rappel fondamental</strong> : en néerlandais il n’y a que deux articles définis au singulier : <code>de</code> et <code>het</code>. Historiquement ils correspondent aux genres communs (masculin/féminin → <code>de</code>) et neutre → <code>het</code>. Aujourd’hui l’attribution est souvent arbitraire — il faut mémoriser — mais il existe des règles, des tendances fiables et des astuces pratiques.</p>
-
-    <h3>✅ Règles absolument fiables (100%)</h3>
-    <ul>
-      <li><strong>Les diminutifs</strong> (forme en <code>-je</code>, <code>-tje</code>, <code>-etje</code>, <code>-pje</code>, <code>-kje</code>) sont <strong>toujours</strong> <code>het</code> au singulier.<br>
-          Exemple : <code>het meisje</code> (la petite fille), <code>het huisje</code> (la maisonnette).</li>
-      <li><strong>Le pluriel</strong> utilise <code>de</code> : quelle que soit la terminaison, le pluriel défini est <code>de</code> (ex. <code>de huizen</code>, <code>de meisjes</code>).</li>
-      <li>Quand on nominalise un infinitif pour en faire un concept (= utiliser un verbe comme nom), on utilise souvent <code>het</code> : <br>
-          <code>Het lopen is gezond.</code> (Le fait de courir est sain.)</li>
-    </ul>
-
-    <h3>🔎 Tendances fiables (bonnes heuristiques)</h3>
-    <p>Les modèles suivants ne sont pas sans exception, mais ils donnent une très bonne chance d'avoir le bon article :</p>
-
-    <h4>Suffixes qui favorisent <code>de</code></h4>
-    <ul>
-      <li><code>-ing</code> → noms d'action : <code>de <b>vergadering</b></code>, <code>de <b>opleiding</b></code></li>
-      <li><code>-heid</code> → abstraits type « -té » : <code>de <b>vrijheid</b></code>, <code>de <b>gezondheid</b></code></li>
-      <li><code>-ie / -tie</code> → souvent <code>de</code> : <code>de <b>economie</b></code>, <code>de <b>situatie</b></code></li>
-      <li><code>-schap</code> → relations/états : <code>de <b>vriendschap</b></code> (mais attention à <code>het landschap</code> = exception fréquente)</li>
-      <li><code>-nis</code> → connaissance/état : <code>de <b>kennis</b></code></li>
-    </ul>
-
-    <h4>Suffixes qui favorisent <code>het</code></h4>
-    <ul>
-      <li><code>-um</code> → <code>het <b>museum</b></code>, <code>het <b>centrum</b></code></li>
-      <li><code>-ment</code> → <code>het <b>document</b></code>, <code>het <b>experiment</b></code></li>
-      <li><code>-isme</code> → idéologies/enseignements : <code>het <b>socialisme</b></code>, <code>het <b>kapitalisme</b></code></li>
-      <li><code>-sel</code> → résultat / appareil : <code>het <b>verschil</b></code>, <code>het <b>voorstel</b></code></li>
-      <li><code>-aat</code> → <code>het <b>klimaat</b></code>, <code>het <b>migratievraagstuk</b></code> (tendance)</li>
-    </ul>
-
-    <h3>📚 Catégories souvent <code>de</code></h3>
-    <ul>
-      <li>Personnes et professions (singulier) : <code>de man</code>, <code>de leraar</code>, <code>de dokter</code>.</li>
-      <li>Arbres, fleurs, animaux courants (souvent) : <code>de eik</code>, <code>de roos</code>, <code>de kat</code> — attention aux exceptions (ex. <code>het paard</code>).</li>
-      <li>Mots abstraits formés par les suffixes ci-dessus (ex. <code>-heid</code>, <code>-ing</code>).</li>
-    </ul>
-
-    <h3>📘 Catégories souvent <code>het</code></h3>
-    <ul>
-      <li>Objets neutres / choses inanimées et certains concepts : <code>het huis</code>, <code>het boek</code>, <code>het idee</code> (mais <code>de idee</code> aussi peut exister selon usage).</li>
-      <li>Beaucoup de mots en <code>-um</code>, <code>-ment</code>, <code>-isme</code>, <code>-sel</code>.</li>
-      <li>Noms de langues (souvent) : <code>het Nederlands</code>, <code>het Engels</code> — on peut aussi dire <code>de Nederlandse taal</code>.</li>
-    </ul>
-
-    <h3>⚠️ Pièges et exceptions fréquentes</h3>
-    <ul>
-      <li><strong>Pas de règle universelle</strong> : il existe toujours des exceptions — il faut mémoriser les cas irréguliers.</li>
-      <li><code>landschap</code> (paysage) est <code>het</code> alors que beaucoup de mots en <code>-schap</code> sont <code>de</code> (ex. <code>de vriendschap</code>).</li>
-      <li>Les animaux sont imprévisibles : <code>de hond</code>, <code>de kat</code>, mais <code>het paard</code>, <code>het schaap</code> (mouton).</li>
-      <li>Certains mots peuvent admettre les deux articles selon nuance : ex. <code>het glas</code> (le verre en général) / <code>de glas</code> *n'est pas courant* — mieux de mémoriser les formes usuelles.</li>
-    </ul>
-
-    <h3>🔧 Règles pratiques et astuces mémotechniques</h3>
-    <ol>
-      <li><strong>Regle du diminutif</strong> : si le mot peut avoir un diminutif en <code>-je</code>, alors le diminutif sera <code>het</code>. Ex. <code>het hondje</code>. Mais attention : ce n’est pas une méthode sûre pour deviner l’article du radical (ex. <code>de man</code> → <code>het mannetje</code>).</li>
-      <li><strong>Compounds</strong> (mots composés) : l’article dépend du noyau (dernier élément). Ex. <code>de tafel</code> → <code>de keukentafel</code>. Si le dernier élément est un mot <code>het</code>, le composé prendra <code>het</code>.</li>
-      <li><strong>Mémorise l’article avec le mot</strong> : quand tu apprends un mot, note toujours « <code>de</code> huis », « <code>het</code> huis » — crée des flashcards « mot + article ». Utilise la répétition espacée (Leitner).</li>
-      <li><strong>Si doute → apprends la famille/suffixe</strong> : les suffixes donnent souvent 70–90% de fiabilité (voir liste ci-dessus).</li>
-      <li><strong>Pratique active</strong> : utilise le mot dans une phrase complète plutôt que seul — ça ancre l’article (ex. <code>Het huis is groot.</code> plutôt que seulement « huis »).</li>
-    </ol>
-
-    <h3>📋 Table pratique (exemples fréquents)</h3>
-    <table>
-      <thead><tr><th>Article</th><th>Mot (NL)</th><th>Traduction (FR)</th></tr></thead>
-      <tbody>
-        <tr><td>de</td><td>de man</td><td>l'homme</td></tr>
-        <tr><td>de</td><td>de vrouw</td><td>la femme</td></tr>
-        <tr><td>de</td><td>de tafel</td><td>la table</td></tr>
-        <tr><td>het</td><td>het huis</td><td>la maison</td></tr>
-        <tr><td>het</td><td>het boek</td><td>le livre</td></tr>
-        <tr><td>de</td><td>de cursus</td><td>le cours</td></tr>
-        <tr><td>het</td><td>het museum</td><td>le musée</td></tr>
-        <tr><td>de</td><td>de vergadering</td><td>la réunion</td></tr>
-        <tr><td>de</td><td>de vrijheid</td><td>la liberté</td></tr>
-        <tr><td>het</td><td>het experiment</td><td>l'expérience</td></tr>
-        <tr><td>de</td><td>de vriend</td><td>l'ami</td></tr>
-        <tr><td>het</td><td>het meisje</td><td>la (petite) fille — diminutif</td></tr>
-        <tr><td>de</td><td>de leraar</td><td>l'enseignant</td></tr>
-        <tr><td>het</td><td>het klimaat</td><td>le climat</td></tr>
-        <tr><td>de</td><td>de situatie</td><td>la situation</td></tr>
-      </tbody>
-    </table>
-
-    <h3>📌 Listes de familles - repères rapides</h3>
-    <div class="examples">
-      <div class="card">
-        <strong>Très souvent <code>de</code></strong>
-        <ul>
-          <li><code>-ing</code> (actie): de <em>vergadering</em>, de <em>opleiding</em></li>
-          <li><code>-heid</code> (état): de <em>vrijheid</em>, de <em>mogelijkheid</em></li>
-          <li><code>-ie</code>/<code>-tie</code>: de <em>theorie</em>, de <em>situatie</em></li>
-          <li>Professions / personnes: de <em>dokter</em>, de <em>student</em></li>
-        </ul>
-      </div>
-      <div class="card">
-        <strong>Très souvent <code>het</code></strong>
-        <ul>
-          <li><code>-um</code>: het <em>museum</em></li>
-          <li><code>-ment</code>: het <em>document</em></li>
-          <li><code>-isme</code>: het <em>socialisme</em></li>
-          <li><code>-sel</code>: het <em>verschil</em></li>
-          <li>Diminutifs <code>-je</code>: het <em>huisje</em>, het <em>meisje</em></li>
-        </ul>
-      </div>
+    <div class="choices" role="group" aria-label="Choix article">
+      <button class="big" onclick="choose('de')">🅳 DE</button>
+      <button class="big" onclick="choose('het')">🅷 HET</button>
     </div>
 
-    <h3>❗ Exemples d'exceptions utiles à connaître</h3>
-    <ul>
-      <li><code>het landschap</code> (paysage) — alors que beaucoup de noms en <code>-schap</code> sont <code>de</code>.</li>
-      <li><code>het paard</code> (le cheval) — animaux = parfois <code>de</code>, parfois <code>het</code> (mieux vaut mémoriser les animaux fréquents).</li>
-      <li>Certains mots techniques ou emprunts latins se comportent différemment selon l'usage régional.</li>
-    </ul>
+    <div class="mark" id="mark"></div>
 
-    <h3>💡 Conseils d’apprentissage (méthode)</h3>
-    <ol>
-      <li>Quand tu apprends un nouveau mot, note-le toujours avec son article (par ex. <code>de auto</code>, <code>het raam</code>).</li>
-      <li>Crée des flashcards « mot + article » et révise en <em>Leitner/spaced repetition</em>.</li>
-      <li>Fais des phrases complètes : la contextualisation aide à fixer l’article.</li>
-      <li>Utilise le diminution trick pour deviner le neutre : si diminutif possible → <code>het</code> (utile pour prononciation et accord).</li>
-      <li>En VR : lis à voix haute, enregistre-toi, puis compare — bonne technique pour ancrage auditif et moteur.</li>
-    </ol>
-
-    <footer style="margin-top:12px; color:var(--muted);">
-      Si tu veux, je peux intégrer cette théorie directement dans le fichier `het-de.html` de ton pack (je peux t’envoyer la ZIP mise à jour). Souhaites-tu que je mette à jour le pack et te donne le ZIP avec cette page incluse ?
-    </footer>
+    <div class="voice hide-in-focus">
+      <button onclick="speak()">🔊 Écouter</button>
+      <button onclick="toggleFocus()">🎯 Mode Focus</button>
+      <button onclick="restart()">↻ Recommencer</button>
+      <button onclick="pauseRun()" id="pauseBtn">⏸ Pause auto</button>
+      <button onclick="autoRun()" id="autoBtn">▶️ Auto</button>
+    </div>
   </section>
+
+  <!-- THÉORIE -->
+  <section class="panel theory" aria-label="Théorie DE/HET">
+    <div class="section">
+      <h2>📖 Règles et tendances (DE / HET)</h2>
+      <p class="muted">
+        En néerlandais, <code>de</code> marque le **genre commun** (masculin/féminin) et <code>het</code> le **neutre**. Il faut mémoriser, mais des **familles** et **suffixes** aident fortement.
+        Pluriel → toujours <code>de</code>. Les **diminutifs** en <code>-je</code> → toujours <code>het</code>.
+      </p>
+    </div>
+
+    <div class="section">
+      <h3>1) Terminaisons qui prennent le plus souvent <code>de</code></h3>
+      <table>
+        <thead><tr><th>Suffixe / modèle</th><th>Exemples (→ de)</th><th>Exceptions fréquentes</th></tr></thead>
+        <tbody>
+          <tr><td>-ing, -st, -de (dérivé verbal)</td><td>de <em>verzekering</em>, de <em>komst</em></td><td></td></tr>
+          <tr><td>-ade, -ode, -ude, -ide</td><td>de <em>salade</em>, de <em>barcode</em>, de <em>fraude</em>, de <em>astroïde</em></td><td>substances en -ide souvent <code>het</code> : <em>het kaliumjodide</em></td></tr>
+          <tr><td>-te (nom d’action)</td><td>de <em>geboorte</em></td><td>collectifs en <code>ge-</code> → <code>het</code> : <em>het gebergte</em></td></tr>
+          <tr><td>-ie / -tie / -sie / -logie</td><td>de <em>premie</em>, de <em>ambitie</em>, de <em>conclusie</em>, de <em>filosofie</em>, de <em>analogie</em></td><td></td></tr>
+          <tr><td>-ine, -se</td><td>de <em>lawine</em>, de <em>hypothese</em></td><td></td></tr>
+          <tr><td>-age</td><td>de <em>chantage</em></td><td><em>het percentage</em>; <em>de/het personage</em>, <em>de/het voltage</em></td></tr>
+          <tr><td>-ij / -arij / -enij / -erij / -ernij</td><td>de <em>partij</em>, de <em>boerderij</em>, de <em>lekkernij</em></td><td><em>het schilderij</em> (exception)</td></tr>
+          <tr><td>-ica, -theek</td><td>de <em>mechanica</em>, de <em>discotheek</em></td><td></td></tr>
+          <tr><td>-heid, -teit / -iteit</td><td>de <em>overheid</em>, de <em>universiteit</em></td><td></td></tr>
+          <tr><td>-suur, -tuur</td><td>de <em>dressuur</em>, de <em>cultuur</em></td><td><em>het bestuur</em>, <em>het creatuur</em> (rare)</td></tr>
+          <tr><td>-nis, -tis, -xis, -sis</td><td>de <em>geschiedenis</em>, de <em>hepatitis</em>, de <em>syntaxis</em>, de <em>scepsis</em></td><td><em>het chassis</em></td></tr>
+        </tbody>
+      </table>
+
+      <h3>2) Catégories généralement en <code>de</code></h3>
+      <ul class="muted">
+        <li>Personnes / professions : <em>de agent, de bankier, de actrice</em> (mais <em>het lid</em>, <em>het hoofd</em>…).</li>
+        <li>Arbres, plantes, fruits : <em>de beuk, de roos, de banaan</em>.</li>
+        <li>Rivières, chaînes de montagnes, lettres, chiffres : <em>de Rijn, de Mont Blanc, de z, de zes</em>.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>3) Terminaisons/catégories qui prennent le plus souvent <code>het</code></h3>
+      <table>
+        <thead><tr><th>Suffixe / modèle</th><th>Exemples (→ het)</th><th>Notes / exceptions</th></tr></thead>
+        <tbody>
+          <tr><td>-isme, -ment, -sel, -um</td><td>het <em>kapitalisme</em>, het <em>abonnement</em>, het <em>stelsel</em>, het <em>aquarium</em></td><td><em>de/het cement</em>, <em>de/het deksel</em> (variation)</td></tr>
+          <tr><td>mots de 2 syllabes commençant par be-/ge-/ont-/ver-</td><td>het <em>beslag</em>, het <em>gebit</em>, het <em>ontzag</em>, het <em>verslag</em></td><td></td></tr>
+          <tr><td>Diminutifs en -je (règle sûre)</td><td>het <em>boompje</em>, het <em>tafeltje</em>, het <em>glaasje</em></td><td>toujours <code>het</code></td></tr>
+          <tr><td>Langues, pays/lieux (comme concepts), métaux, points cardinaux, sports/jeux</td><td>het <em>Nederlands</em>, het <em>(multi)culturele Nederland</em>, het <em>goud</em>, het <em>zuiden</em>, het <em>voetbal</em>, het <em>biljart</em></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h3>4) Mots à double article</h3>
+      <table>
+        <thead><tr><th>Avec sens différent</th><th>Exemple</th></tr></thead>
+        <tbody>
+          <tr><td><code>de</code> / <code>het</code></td><td><em>de bos</em> (liasse) / <em>het bos</em> (forêt)</td></tr>
+          <tr><td><code>de</code> / <code>het</code></td><td><em>de golf</em> (vague) / <em>het golf</em> (sport)</td></tr>
+          <tr><td><code>de</code> / <code>het</code></td><td><em>de pad</em> (crapaud) / <em>het pad</em> (chemin)</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">Parfois <code>de</code> et <code>het</code> coexistent **sans** changer le sens : <em>de/het folie</em>, <em>de/het kilo</em>, <em>de/het matras</em>.</p>
+    </div>
+
+    <div class="section poster">
+      <h3>5) Poster visuel (recréation inspirée)</h3>
+      <svg viewBox="0 0 920 460" role="img" aria-label="Poster visuel DE/HET">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#0b1733" offset="0"/>
+            <stop stop-color="#112b57" offset="1"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#11331f" offset="0"/>
+            <stop stop-color="#1a5032" offset="1"/>
+          </linearGradient>
+          <style>
+            .b{fill:#0f172a;stroke:#1f2a44;stroke-width:2}
+            .title{font:700 22px Arial; fill:#bfe1ff}
+            .cat{font:600 16px Arial; fill:#e9f2ff}
+            .line{stroke:#2e3b4e;stroke-width:2}
+            .item{font:14px Arial; fill:#cfe2ff}
+          </style>
+        </defs>
+        <!-- Colonne DE -->
+        <rect x="20" y="20" width="420" height="420" rx="16" fill="url(#g1)" />
+        <text x="40" y="52" class="title">DE (genre commun)</text>
+        <line x1="40" y1="60" x2="420" y2="60" class="line"/>
+        <text x="40" y="95" class="cat">Suffixes fréquents</text>
+        <text x="40" y="120" class="item">-ing, -st, -de ; -ade/-ode/-ude/-ide ; -ie/-tie/-sie/-logie ; -ine ; -se</text>
+        <text x="40" y="145" class="item">-age ; -ij/-arij/-enij/-erij/-ernij ; -ica ; -theek ; -heid ; -teit/-iteit ; -suur/-tuur ; -nis/-tis/-xis/-sis</text>
+        <text x="40" y="180" class="cat">Catégories</text>
+        <text x="40" y="205" class="item">Personnes / professions (ex. de leraar)</text>
+        <text x="40" y="230" class="item">Arbres, plantes, fruits</text>
+        <text x="40" y="255" class="item">Rivières, chaînes de montagnes, lettres, chiffres</text>
+        <text x="40" y="285" class="cat">Exceptions courantes</text>
+        <text x="40" y="310" class="item">het kaliumjodide ; het gebergte ; het schilderij</text>
+        <text x="40" y="335" class="item">het bestuur ; het creatuur ; het chassis ; het percentage</text>
+
+        <!-- Colonne HET -->
+        <rect x="480" y="20" width="420" height="420" rx="16" fill="url(#g2)" />
+        <text x="500" y="52" class="title">HET (neutre)</text>
+        <line x1="500" y1="60" x2="880" y2="60" class="line"/>
+        <text x="500" y="95" class="cat">Suffixes fréquents</text>
+        <text x="500" y="120" class="item">-isme, -ment, -sel, -um</text>
+        <text x="500" y="145" class="item">2 syllabes en be-, ge-, ont-, ver-</text>
+        <text x="500" y="180" class="cat">Règles sûres / Catégories</text>
+        <text x="500" y="205" class="item">Diminutifs -je → toujours HET</text>
+        <text x="500" y="230" class="item">Langues ; pays/lieux (concepts) ; métaux</text>
+        <text x="500" y="255" class="item">Points cardinaux ; sports/jeux (ex. het voetbal, het biljart)</text>
+        <text x="500" y="290" class="cat">Double article (sens différent)</text>
+        <text x="500" y="315" class="item">de bos / het bos ; de golf / het golf ; de pad / het pad</text>
+        <text x="500" y="350" class="cat">Double article (même sens)</text>
+        <text x="500" y="375" class="item">de/het folie ; de/het kilo ; de/het matras</text>
+      </svg>
+      <p class="muted" style="margin-top:8px">Poster recréé (SVG vectoriel) — lisible en VR, aucune image externe.</p>
+    </div>
+
+    <footer>Tip : mémorise le mot avec son article (<code>de auto</code>, <code>het raam</code>) et entraîne-toi par familles/suffixes.</footer>
+  </section>
+
 </div>
 
 <script>
-/* Interaction (même logique que les autres pages) */
-const phrases = [
-  {nl:"De man leest een krant.", fr:"L'homme lit un journal."},
-  {nl:"Het huis is groot.", fr:"La maison est grande."},
-  {nl:"De tafel is nieuw.", fr:"La table est neuve."},
-  {nl:"Het kind speelt buiten.", fr:"L'enfant joue dehors."},
-  {nl:"De auto is snel.", fr:"La voiture est rapide."},
-  {nl:"Het boek is interessant.", fr:"Le livre est intéressant."},
-  {nl:"De vrouw kookt.", fr:"La femme cuisine."},
-  {nl:"Het weer is mooi vandaag.", fr:"Il fait beau aujourd'hui."},
-  {nl:"De hond slaapt.", fr:"Le chien dort."},
-  {nl:"Het water is koud.", fr:"L'eau est froide."}
+/* ========= Données : phrases à trou + solution =========
+   Rappel :
+   - On lit la phrase une fois que la réponse est validée (article correct).
+   - Indices concis pour guider (suffixe/catégorie).
+*/
+const items = [
+  { tpl:"___ man leest een krant.", ans:"de", hint:"personne/profession" },
+  { tpl:"___ huis is groot.", ans:"het", hint:"objet neutre" },
+  { tpl:"___ vergadering begint om negen uur.", ans:"de", hint:"-ing → de" },
+  { tpl:"___ museum is gesloten.", ans:"het", hint:"-um → het" },
+  { tpl:"___ meisje speelt buiten.", ans:"het", hint:"diminutif -je → het" },
+  { tpl:"___ universiteit is oud.", ans:"de", hint:"-iteit → de" },
+  { tpl:"___ landschap is prachtig.", ans:"het", hint:"exception en -schap" },
+  { tpl:"___ vriendschap is belangrijk.", ans:"de", hint:"-schap → de" },
+  { tpl:"___ schilderij is duur.", ans:"het", hint:"exception en -ij" },
+  { tpl:"___ boerderij is groot.", ans:"de", hint:"-erij → de" },
+  { tpl:"___ paard loopt snel.", ans:"het", hint:"animal (exception)" },
+  { tpl:"___ hond slaapt.", ans:"de", hint:"animal (souvent de)" },
+  { tpl:"___ water is koud.", ans:"het", hint:"substance neutre" },
+  { tpl:"___ Rijn is lang.", ans:"de", hint:"rivières → de" },
+  { tpl:"___ goud is duur.", ans:"het", hint:"métal → het" },
+  { tpl:"___ zuiden is warm in de zomer.", ans:"het", hint:"points cardinaux → het" },
+  { tpl:"___ voetbal is populair.", ans:"het", hint:"sport/jeu → het" },
+  { tpl:"___ gebit is sterk.", ans:"het", hint:"2 syllabes en ge- → het" },
+  { tpl:"___ verslag is klaar.", ans:"het", hint:"2 syllabes en ver- → het" },
+  { tpl:"___ geboorte is belangrijk.", ans:"de", hint:"-te (nom d’action) → de" },
+  { tpl:"___ percentage is gestegen.", ans:"het", hint:"exception en -age" },
+  { tpl:"___ agent spreekt met ons.", ans:"de", hint:"personne/profession" },
+  { tpl:"___ Nederlands is niet makkelijk.", ans:"het", hint:"langue → het" },
+  { tpl:"___ deksel ligt op de pan.", ans:"de", hint:"de/het deksel (variation) — usage fréquent: de" },
+  { tpl:"___ bos is mooi in de herfst.", ans:"het", hint:"het bos (forêt) ; de bos = liasse" }
 ];
 
-let current = 0;
-let seqInterval = null;
-function showPhrase(){
-  document.getElementById('phrase').textContent = phrases[current].nl;
-  document.getElementById('translation').style.display = 'none';
-  document.getElementById('counter').textContent = '';
+// état
+let i = 0, score = 0, autoTimer = null, paused = false;
+
+const qnum = document.getElementById('qnum');
+const qtot = document.getElementById('qtot');
+const phrase = document.getElementById('phrase');
+const hint = document.getElementById('hint');
+const mark = document.getElementById('mark');
+const scoreEl = document.getElementById('score');
+const progressMsg = document.getElementById('progressMsg');
+
+qtot.textContent = items.length;
+
+function render(){
+  qnum.textContent = i+1;
+  phrase.textContent = items[i].tpl;
+  hint.textContent = "Indice : " + items[i].hint;
+  mark.textContent = "";
 }
-function toggleTranslation(){
-  const t = document.getElementById('translation');
-  if(t.style.display === 'none'){ t.textContent = phrases[current].fr; t.style.display='block'; }
-  else t.style.display='none';
+function speak(){
+  // lit la phrase avec l'article correct
+  if(!('speechSynthesis' in window)) return;
+  const correct = items[i].ans.toUpperCase() + items[i].tpl.slice(3);
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const u = new SpeechSynthesisUtterance(correct);
+  u.lang = 'nl-NL';
+  speechSynthesis.speak(u);
 }
-function prevPhrase(){ current = (current-1+phrases.length)%phrases.length; showPhrase(); }
-function nextPhrase(){ current = (current+1)%phrases.length; showPhrase(); }
-function playAudio(){ try{ speechSynthesis.cancel(); }catch(e){}; const u = new SpeechSynthesisUtterance(phrases[current].nl); u.lang='nl-NL'; speechSynthesis.speak(u); }
-function startSequence(){
-  pauseSequence();
-  let i = 0;
-  seqInterval = setInterval(()=>{
-    current = i % phrases.length;
-    showPhrase();
-    setTimeout(()=>playAudio(), 200);
-    document.getElementById('counter').textContent = `Phrase ${i+1} / ${phrases.length}`;
+function choose(sel){
+  const ok = sel === items[i].ans;
+  mark.textContent = ok ? "✔️" : "✖️";
+  mark.className = ok ? "mark ok" : "mark ko";
+  if(ok) score++;
+  scoreEl.textContent = score;
+
+  // lire la phrase correcte (renforce l'ancrage auditif)
+  setTimeout(speak, 120);
+
+  // avancer auto après feedback
+  setTimeout(()=>{
     i++;
-    if(i>=phrases.length){ clearInterval(seqInterval); seqInterval=null; document.getElementById('counter').textContent='✅ Terminé'; }
-  }, 4200);
+    if(i >= items.length){
+      phrase.textContent = "🎉 Terminé ! Score : " + score + " / " + items.length;
+      hint.textContent = "Appuie sur « Recommencer » pour rejouer.";
+      mark.textContent = "";
+      stopAuto();
+      return;
+    }
+    render();
+  }, 900);
 }
-function pauseSequence(){ if(seqInterval){ clearInterval(seqInterval); seqInterval=null; } try{ speechSynthesis.cancel(); }catch(e){}; document.getElementById('counter').textContent='⏸ En pause'; }
+
+function restart(){
+  stopAuto();
+  i = 0; score = 0; scoreEl.textContent = score; paused = false;
+  document.getElementById('pauseBtn').textContent = "⏸ Pause auto";
+  render();
+}
+
+function autoRun(){
+  stopAuto();
+  paused = false;
+  autoTimer = setInterval(()=>{
+    if(paused) return;
+    // par défaut on propose un faux choix pour forcer l'interaction ?
+    // Ici : on ne choisit pas automatiquement. Laisse l'utilisateur pointer.
+    // On peut juste rappeler l'indice :
+    progressMsg.textContent = "Mode Auto : réponds en pointant DE ou HET";
+  }, 1500);
+}
+function pauseRun(){
+  paused = !paused;
+  document.getElementById('pauseBtn').textContent = paused ? "▶️ Reprendre auto" : "⏸ Pause auto";
+}
+function stopAuto(){ if(autoTimer){ clearInterval(autoTimer); autoTimer = null; } progressMsg.textContent = ""; }
+
 function toggleFocus(){ document.body.classList.toggle('focus-active'); }
 
-showPhrase();
+render();
 </script>
 </body>
 </html>
