@@ -317,5 +317,6 @@ function toggleFocus(){ document.body.classList.toggle('focus-active'); }
 
 render();
 </script>
+<p><a href="index.html" style="color:lightblue;">⬅️ Retour à l'accueil</a></p>
 </body>
 </html>
