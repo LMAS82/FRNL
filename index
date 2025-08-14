@@ -15,5 +15,6 @@ button:hover { background: #666; }
 <button onclick="location.href='repetition.html'">💬 Répétition de phrases</button>
 <button onclick="location.href='negation.html'">🚫 La négation</button>
 <button onclick="location.href='het-de.html'">⚖️ Het / De</button>
+<button onclick="location.href='opinion.html'">⚖️ Opinion</button>
 </body>
 </html>
