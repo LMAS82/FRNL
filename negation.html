@@ -1,15 +1,507 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>La négation</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Négation en néerlandais — Exercices & Théorie complètes</title>
 <style>
-body { background: #111; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+  :root{
+    --bg:#0a0b10; --panel:#121827; --ink:#e9f2ff; --muted:#b7c4d6;
+    --accent:#68b0ff; --ok:#1fbf75; --ko:#ff6b6b; --btn:#1f2937; --btnh:#374151;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:Arial,Helvetica,sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.6; padding:18px;}
+  .wrap{max-width:1100px; margin:0 auto;}
+  a.back{position:sticky; top:0; display:inline-block; text-decoration:none; background:#0f1a2b; color:#fff; padding:10px 14px; border-radius:10px; border:1px solid #21406b}
+  h1,h2,h3{color:#bfe1ff; margin:12px 0}
+  .panel{background:var(--panel); border-radius:14px; padding:18px; box-shadow:0 12px 28px rgba(0,0,0,.45); margin:14px 0}
+  .row{display:flex; gap:14px; flex-wrap:wrap}
+  .btn{background:var(--btn); color:var(--ink); border:0; padding:14px 18px; font-size:1.15rem; border-radius:12px; cursor:pointer}
+  .btn.big{font-size:1.35rem; padding:18px 24px; border:1px solid rgba(255,255,255,.09)}
+  .btn:hover{background:var(--btnh)}
+  .ok{color:var(--ok)} .ko{color:var(--ko)}
+  .tag{display:inline-block; padding:2px 8px; border-radius:999px; background:#21314f; color:#cfe2ff; font-size:.9rem; margin-left:6px}
+  .grid{display:grid; gap:12px}
+  .g-2{grid-template-columns:1fr 1fr}
+  .g-3{grid-template-columns:repeat(3,1fr)}
+  .g-4{grid-template-columns:repeat(4,1fr)}
+  .center{text-align:center}
+  .huge{font-size:2.1rem}
+  .muted{color:var(--muted)}
+  .focus-active .hide-in-focus{display:none}
+  .chip{display:inline-block; padding:6px 10px; border:1px solid #2e3b4e; border-radius:999px; margin:4px 6px; font-size:.95rem}
+  .ex-title{display:flex; align-items:center; justify-content:space-between; gap:8px}
+  .mark{font-size:1.8rem; min-height:32px; text-align:center}
+  .score{font-weight:700; color:var(--accent)}
+  .token{display:inline-block; padding:6px 8px; margin:4px 3px; border-radius:8px; background:#1e2a41; border:1px solid #2a3b5e; cursor:pointer; user-select:none}
+  .slot{display:inline-block; width:22px; height:10px; border-bottom:2px dashed #6b85ad; margin:0 3px; transform:translateY(-4px)}
+  .sentence{font-size:1.6rem; text-align:center; padding:10px; background:#0e1524; border:1px solid #1c2a48; border-radius:10px}
+  .ex-block{margin-top:10px}
+  table{width:100%; border-collapse:collapse; margin:10px 0; color:#dbe7ff}
+  th,td{padding:8px 10px; border-bottom:1px solid rgba(255,255,255,.07); text-align:left; vertical-align:top}
+  code{background:#1e293b; padding:2px 6px; border-radius:6px; color:#facc15}
+  svg{width:100%; height:auto; display:block}
+  .poster{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01)); padding:12px; border-radius:12px}
+  @media (max-width:860px){ .g-2,.g-3,.g-4{grid-template-columns:1fr} .huge{font-size:1.6rem} }
 </style>
 </head>
 <body>
-<a href="index.html" style="color:white;">⬅ Retour</a>
-<h1>🚫 La négation</h1>
-<p>Ici viendra la théorie complète sur la négation et les exercices interactifs.</p>
+<div class="wrap">
+  <a class="back" href="index.html">⬅ Retour index</a>
+  <h1>🚫 La négation en néerlandais <span class="tag">niveau avancé</span></h1>
+  <p class="muted">Interface pensée pour VR (gros boutons / sans clavier). Utilise le <strong>Mode Focus</strong> pour t’immerger pendant les exercices.</p>
+
+  <!-- ===== EXERCICES ===== -->
+
+  <!-- Ex 1: NIET vs GEEN -->
+  <section class="panel" id="ex1">
+    <div class="ex-title">
+      <h2>Exercice 1 — Choisir <code>niet</code> ou <code>geen</code></h2>
+      <div>Score : <span class="score" id="sc1">0</span></div>
+    </div>
+    <p class="muted">Règle de base : <code>geen</code> nie un nom indéfini/sans article ; <code>niet</code> nie un verbe, un adjectif, un adverbe, un GN défini, une PP, ou la proposition entière.</p>
+    <div class="sentence huge" id="ex1_sentence">___ …</div>
+    <div class="center ex-block">
+      <button class="btn big" onclick="ex1_answer('niet')">niet</button>
+      <button class="btn big" onclick="ex1_answer('geen')">geen</button>
+      <button class="btn" onclick="ex1_speak()">🔊 Écouter</button>
+      <button class="btn" onclick="toggleFocus()">🎯 Focus</button>
+      <button class="btn" onclick="ex1_restart()">↻ Recommencer</button>
+    </div>
+    <div class="mark" id="ex1_mark"></div>
+    <p class="muted" id="ex1_hint"></p>
+  </section>
+
+  <!-- Ex 2: Placement de NIET -->
+  <section class="panel" id="ex2">
+    <div class="ex-title">
+      <h2>Exercice 2 — Placer <code>niet</code> au bon endroit</h2>
+      <div>Score : <span class="score" id="sc2">0</span></div>
+    </div>
+    <p class="muted">Clique sur l’<u>emplacement</u> (petite barre pointillée) où doit apparaître <code>niet</code>. En principale, la négation globale vient souvent <em>près de la fin</em> (avant le champ verbal final) ; si tu nies un constituant précis (Adj/PP/Adv), <code>niet</code> le précède.</p>
+    <div class="sentence" id="ex2_sentence"></div>
+    <div class="center ex-block">
+      <button class="btn" onclick="ex2_speak()">🔊 Écouter</button>
+      <button class="btn" onclick="toggleFocus()">🎯 Focus</button>
+      <button class="btn" onclick="ex2_restart()">↻ Recommencer</button>
+    </div>
+    <div class="mark" id="ex2_mark"></div>
+    <p class="muted" id="ex2_hint"></p>
+  </section>
+
+  <!-- Ex 3: Transformer en négatif (QCM) -->
+  <section class="panel" id="ex3">
+    <div class="ex-title">
+      <h2>Exercice 3 — Transformer en négatif (QCM)</h2>
+      <div>Score : <span class="score" id="sc3">0</span></div>
+    </div>
+    <p class="muted">Choisis la transformation négative correcte (portée et article). Attention aux paires <code>nog niet</code> vs <code>nog geen</code>, <code>niet meer</code> vs <code>geen … meer</code>.</p>
+    <div class="sentence" id="ex3_base"></div>
+    <div id="ex3_options" class="grid g-2 ex-block"></div>
+    <div class="center ex-block">
+      <button class="btn" onclick="ex3_speak()">🔊 Écouter</button>
+      <button class="btn" onclick="ex3_restart()">↻ Recommencer</button>
+    </div>
+    <div class="mark" id="ex3_mark"></div>
+    <p class="muted" id="ex3_hint"></p>
+  </section>
+
+  <!-- Ex 4: Pronoms/adverbes négatifs -->
+  <section class="panel" id="ex4">
+    <div class="ex-title">
+      <h2>Exercice 4 — Pronoms & adverbes négatifs</h2>
+      <div>Score : <span class="score" id="sc4">0</span></div>
+    </div>
+    <p class="muted">Choisis le bon élément : <code>niemand</code> (personne), <code>niets / niks</code> (rien), <code>nooit</code> (jamais), <code>nergens</code> (nulle part), <code>geen enkel(e)</code> (aucun), <code>helemaal niet/geen</code> (pas du tout), <code>nog niet/geen</code> (pas encore), <code>niet meer/geen … meer</code> (ne … plus).</p>
+    <div class="sentence" id="ex4_sentence"></div>
+    <div id="ex4_choices" class="grid g-3 ex-block"></div>
+    <div class="center ex-block">
+      <button class="btn" onclick="ex4_speak()">🔊 Écouter</button>
+      <button class="btn" onclick="ex4_restart()">↻ Recommencer</button>
+    </div>
+    <div class="mark" id="ex4_mark"></div>
+    <p class="muted" id="ex4_hint"></p>
+  </section>
+
+  <!-- ===== THEORIE ===== -->
+  <section class="panel">
+    <h2>Théorie complète — Négation en néerlandais</h2>
+
+    <h3>1) Distribution de <code>niet</code> vs <code>geen</code></h3>
+    <table>
+      <thead><tr><th></th><th>Utilisation</th><th>Exemples</th><th>Remarques</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>geen</strong></td>
+          <td>Nie un <em>nom</em> indéfini (comptable ou massique) : « pas de / aucun »</td>
+          <td><em>Ik heb <u>geen</u> auto</em> (je n’ai pas de voiture).<br>
+              <em>Er is <u>geen</u> koffie</em> (il n’y a pas de café).</td>
+          <td>Avec déterminants zéros/indéfinis. Pluriel aussi : <em><u>geen</u> problemen</em>.</td>
+        </tr>
+        <tr>
+          <td><strong>niet</strong></td>
+          <td>Nie un <em>verbe</em>, un <em>adjectif</em>, un <em>adverbe</em>, une <em>PP</em>, un <em>GN défini/démonstratif/possessif</em> ou la <em>proposition entière</em>.</td>
+          <td><em>Hij werkt <u>niet</u></em> ; <em>Dat is <u>niet</u> duur</em> ; <em>Ik woon <u>niet</u> in Gent</em> ; <em>Ik ken <u>die</u> man <u>niet</u></em>.</td>
+          <td>Avant l’élément nié (portée étroite) ; sinon vers la fin (portée large).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>2) Placement de <code>niet</code> (ordres V2 / V-final)</h3>
+    <ul>
+      <li><strong>Proposition principale (V2)</strong> : verbe conjugué en 2ᵉ position ; <code>niet</code> :
+        <ul>
+          <li><em>Portée large</em> : près de la fin, <em>avant le champ verbal final</em> (infinitifs/participes).<br>
+              <em>Ik koop het boek <u>niet</u>.</em></li>
+          <li><em>Portée étroite</em> : <code>niet</code> précède l’élément nié (Adj/Adv/PP/GN défini).<br>
+              <em>Het is <u>niet</u> gemakkelijk</em> ; <em>Ik woon <u>niet</u> in Antwerpen</em> ; <em>Ik ken <u>die</u> man <u>niet</u></em>.</li>
+        </ul>
+      </li>
+      <li><strong>Subordonnée (V-final)</strong> : <code>dat/omdat/als…</code>, verbe conjugué en fin ; <code>niet</code> se place <em>avant</em> le champ verbal final, mais après les compléments si la portée est large.<br>
+          <em>… omdat ik het boek <u>niet</u> koop.</em></li>
+    </ul>
+
+    <div class="poster">
+      <h3>Visuel 1 — Décider <code>niet</code> vs <code>geen</code></h3>
+      <svg viewBox="0 0 920 330" role="img" aria-label="Décision niet/geen">
+        <defs><style>
+          .t{font:700 22px Arial;fill:#bfe1ff}.b{font:14px Arial;fill:#dbe7ff}
+          .box{fill:#12233f;stroke:#2a416b;stroke-width:2}
+          .arrow{stroke:#567fc4;stroke-width:2;marker-end:url(#m)}
+        </style>
+        <marker id="m" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <polygon points="0 0, 6 3, 0 6" fill="#567fc4"/>
+        </marker>
+        </defs>
+        <rect class="box" x="20" y="20" width="280" height="90" rx="10"/>
+        <text class="t" x="160" y="55" text-anchor="middle">Que nies-tu ?</text>
+        <text class="b" x="160" y="80" text-anchor="middle">Nom indéfini vs tout le reste</text>
+
+        <rect class="box" x="340" y="20" width="260" height="120" rx="10"/>
+        <text class="t" x="470" y="55" text-anchor="middle">Nom (indéfini)</text>
+        <text class="b" x="470" y="85" text-anchor="middle">→ <tspan fill="#1fbf75">GEEN</tspan></text>
+        <text class="b" x="470" y="105" text-anchor="middle">pluriel et massifs inclus</text>
+
+        <rect class="box" x="640" y="20" width="260" height="120" rx="10"/>
+        <text class="t" x="770" y="55" text-anchor="middle">Verbe / Adj / Adv / PP / GN déf.</text>
+        <text class="b" x="770" y="85" text-anchor="middle">→ <tspan fill="#1fbf75">NIET</tspan></text>
+        <text class="b" x="770" y="105" text-anchor="middle">placer selon la portée</text>
+
+        <line class="arrow" x1="300" y1="65" x2="340" y2="65"/>
+        <line class="arrow" x1="300" y1="65" x2="640" y2="65"/>
+      </svg>
+    </div>
+
+    <div class="poster" style="margin-top:12px">
+      <h3>Visuel 2 — Placement de <code>niet</code> (principale vs subordonnée)</h3>
+      <svg viewBox="0 0 920 300" role="img" aria-label="Placement de niet">
+        <defs><style>
+          .b{fill:#12233f;stroke:#2a416b;stroke-width:2}.t{font:700 20px Arial;fill:#bfe1ff}
+          .ex{font:16px Arial;fill:#dbe7ff}
+        </style></defs>
+        <rect class="b" x="20" y="20" width="880" height="120" rx="10"/>
+        <text class="t" x="40" y="50">Principale (V2)</text>
+        <text class="ex" x="40" y="80">Ik</text>
+        <text class="ex" x="90" y="80">koop</text>
+        <text class="ex" x="160" y="80">het boek</text>
+        <text class="ex" x="260" y="80" fill="#1fbf75">niet</text>
+        <text class="ex" x="320" y="80">morgen</text>
+        <text class="ex" x="400" y="80">.</text>
+        <text class="ex" x="40" y="105" fill="#9bd3ff">Portée large : “niet” avant le bloc verbal/fin de proposition</text>
+
+        <rect class="b" x="20" y="160" width="880" height="120" rx="10"/>
+        <text class="t" x="40" y="190">Subordonnée (V-final)</text>
+        <text class="ex" x="40" y="220">… omdat ik</text>
+        <text class="ex" x="180" y="220">het boek</text>
+        <text class="ex" x="270" y="220" fill="#1fbf75">niet</text>
+        <text class="ex" x="330" y="220">koop</text>
+        <text class="ex" x="380" y="220">.</text>
+        <text class="ex" x="40" y="245" fill="#9bd3ff">“niet” avant le groupe verbal final</text>
+      </svg>
+    </div>
+
+    <h3>3) Portée et lecture</h3>
+    <ul>
+      <li><em>Portée étroite</em> : <code>niet</code> précède l’élément ciblé : <em>Ik eet <u>niet</u> thuis</em> (lieu), <em>Dat is <u>niet</u> interessant</em> (adjectif).</li>
+      <li><em>Portée large</em> : négation globale : <em>Ik ga <u>niet</u></em> ; <em>Hij heeft het <u>niet</u> gekocht</em>.</li>
+      <li>Subordonnées : mêmes principes, mais le verbe conjugué vient en fin → <code>niet</code> se place juste avant ce bloc, sauf si portée étroite.</li>
+    </ul>
+
+    <h3>4) Séries fréquentes et polarité négative</h3>
+    <table>
+      <thead><tr><th>Forme</th><th>Valeur</th><th>Exemple</th></tr></thead>
+      <tbody>
+        <tr><td><code>niet meer</code></td><td>ne … plus (verbe/propriété)</td><td><em>Ik rook <u>niet meer</u>.</em></td></tr>
+        <tr><td><code>geen … meer</code></td><td>ne … plus de (nom)</td><td><em>We hebben <u>geen</u> tijd <u>meer</u>.</em></td></tr>
+        <tr><td><code>nog niet</code></td><td>pas encore (verbe/propriété)</td><td><em>Ik ben <u>nog niet</u> klaar.</em></td></tr>
+        <tr><td><code>nog geen</code></td><td>pas encore de (nom)</td><td><em>Ze heeft <u>nog geen</u> auto.</em></td></tr>
+        <tr><td><code>helemaal/bepaald/lang niet</code></td><td>pas du tout / certainement pas / loin d’être</td><td><em>Dat is <u>helemaal niet</u> duur.</em></td></tr>
+        <tr><td><code>geen enkel(e)</code></td><td>aucun(e)</td><td><em>Er is <u>geen enkele</u> oplossing.</em></td></tr>
+        <tr><td><code>niemand</code>, <code>niets</code>/<code>niks</code>, <code>nooit</code>, <code>nergens</code></td><td>personne, rien, jamais, nulle part</td><td><em><u>Niemand</u> kwam.</em> / <em>Ik zag <u>niets</u>.</em></td></tr>
+        <tr><td><code>ook maar</code>, <code>ooit</code>, <code>hoegenaamd</code></td><td>items de polarité (souvent avec négation)</td><td><em>Ik heb <u>nooit</u> ook maar iets gezegd.</em></td></tr>
+      </tbody>
+    </table>
+
+    <h3>5) Remarques fines</h3>
+    <ul>
+      <li><strong>GN définis/démonstratifs/possessifs</strong> : utilisent <code>niet</code> → <em>Ik ken <u>die</u> vrouw <u>niet</u>.</em></li>
+      <li><strong>Massiques vs comptables</strong> avec <code>geen</code> : <em>Er is <u>geen</u> water</em> (massique) / <em>We hebben <u>geen</u> stoelen</em> (pluriel comptable).</li>
+      <li><strong>Style</strong> : <em>niks</em> (familier) ≈ <em>niets</em> (standard). Évite la double négation française.</li>
+      <li><strong>Focus</strong> : la position de <code>niet</code> reflète souvent l’élément mis au focus (portée).</li>
+    </ul>
+  </section>
+
+  <section class="panel hide-in-focus">
+    <div class="row">
+      <button class="btn" onclick="toggleFocus()">🎯 Basculer Mode Focus</button>
+      <span class="muted">Le mode focus masque l’interface et ne garde que la phrase/exercice.</span>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ===== Utilitaires communs ===== */
+function speakText(text, lang='nl-NL'){
+  if(!('speechSynthesis' in window)) return;
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang;
+  speechSynthesis.speak(u);
+}
+function toggleFocus(){ document.body.classList.toggle('focus-active'); }
+
+/* ===== Exercice 1: niet vs geen ===== */
+const ex1_items = [
+  {tpl:"Ik heb ___ tijd.", ans:"geen", hint:"Nom indéfini (temps) → geen", speak:"Ik heb geen tijd."},
+  {tpl:"Hij werkt ___.", ans:"niet", hint:"Verbe (activité) → niet", speak:"Hij werkt niet."},
+  {tpl:"Zij drinkt ___ koffie.", ans:"geen", hint:"Nom massique (koffie) sans article → geen", speak:"Zij drinkt geen koffie."},
+  {tpl:"Dat is ___ duur.", ans:"niet", hint:"Adjectif → niet", speak:"Dat is niet duur."},
+  {tpl:"We hebben ___ problemen.", ans:"geen", hint:"Pluriel indéfini → geen", speak:"We hebben geen problemen."},
+  {tpl:"Ik ken die man ___ .", ans:"niet", hint:"GN défini (die man) → niet", speak:"Ik ken die man niet."},
+  {tpl:"Er staat ___ auto voor het huis.", ans:"geen", hint:"Nom indéfini → geen", speak:"Er staat geen auto voor het huis."},
+  {tpl:"Ze is ___ thuis.", ans:"niet", hint:"Adverbe/lieu → niet", speak:"Ze is niet thuis."}
+];
+let ex1_i=0, ex1_score=0;
+const ex1_sentence = document.getElementById('ex1_sentence');
+const ex1_mark = document.getElementById('ex1_mark');
+const ex1_hint = document.getElementById('ex1_hint');
+const ex1_sc = document.getElementById('sc1');
+function ex1_render(){
+  ex1_sentence.textContent = ex1_items[ex1_i].tpl;
+  ex1_mark.textContent = ""; ex1_hint.textContent = "";
+}
+function ex1_answer(sel){
+  const it = ex1_items[ex1_i];
+  const ok = sel===it.ans;
+  ex1_mark.textContent = ok ? "✔️" : "✖️";
+  ex1_mark.className = ok ? "mark ok" : "mark ko";
+  if(ok){ ex1_score++; ex1_sc.textContent = ex1_score; }
+  ex1_hint.textContent = it.hint;
+  setTimeout(()=>{ ex1_i++; if(ex1_i>=ex1_items.length){ ex1_sentence.textContent = "🎉 Terminé !"; return; } ex1_render(); }, 1100);
+  setTimeout(()=>{ if(ok) speakText(it.speak); }, 150);
+}
+function ex1_restart(){ ex1_i=0; ex1_score=0; ex1_sc.textContent=0; ex1_render(); }
+function ex1_speak(){ const it=ex1_items[ex1_i]; speakText(it.speak); }
+ex1_render();
+
+/* ===== Exercice 2: placement de "niet" =====
+   Représentation: tokens + indices d'insertion valides (un ou plusieurs).
+   L'utilisateur clique sur une "slot" (emplacement) entre tokens.
+*/
+const ex2_items = [
+  // {tokens:[...], valid:[indices], hint, speakCorrect}
+  {tokens:["Ik","koop","het","boek","morgen","."], valid:[3], hint:"Portée large → avant les éléments finaux/adverbiaux", speak:"Ik koop het boek niet morgen."},
+  {tokens:["Ik","woon","in","Antwerpen","."], valid:[2], hint:"Portée étroite (PP) → niet précède la PP", speak:"Ik woon niet in Antwerpen."},
+  {tokens:["Dat","is","erg","duur","."], valid:[3], hint:"Nie l’adjectif → niet précède l’adjectif", speak:"Dat is niet duur."},
+  {tokens:["Hij","heeft","het","niet","gekocht","."], valid:[4], hint:"Verbe auxiliaire + participe : la négation avant le participe ; (ici déjà présent pour vérification)", speak:"Hij heeft het niet gekocht."},
+  {tokens:["Ik","heb","vandaag","gewerkt","."], valid:[3], hint:"Portée large : avant le participe", speak:"Ik heb vandaag niet gewerkt."},
+  {tokens:["…","omdat","ik","het","boek","koop"], valid:[5], hint:"Subordonnée (V-final) : niet avant le verbe final", speak:"… omdat ik het boek niet koop."}
+];
+let ex2_i=0, ex2_score=0;
+const ex2_sentence = document.getElementById('ex2_sentence');
+const ex2_mark = document.getElementById('ex2_mark');
+const ex2_hint = document.getElementById('ex2_hint');
+const ex2_sc = document.getElementById('sc2');
+
+function ex2_render(){
+  const it = ex2_items[ex2_i];
+  // Construire slots entre tokens: _ t0 _ t1 _ ... tN _
+  const frag=[];
+  for(let k=0;k<=it.tokens.length;k++){
+    const slot = document.createElement('span');
+    slot.className='slot';
+    slot.title='placer niet ici';
+    slot.onclick=()=>ex2_choose(k);
+    frag.push(slot);
+    if(k<it.tokens.length){
+      const t = document.createElement('span');
+      t.className='token';
+      t.textContent = it.tokens[k];
+      frag.push(t);
+    }
+  }
+  ex2_sentence.innerHTML='';
+  frag.forEach(el=>ex2_sentence.appendChild(el));
+  ex2_mark.textContent=''; ex2_hint.textContent='';
+}
+function ex2_choose(idx){
+  const it = ex2_items[ex2_i];
+  const ok = it.valid.includes(idx);
+  ex2_mark.textContent = ok ? "✔️" : "✖️";
+  ex2_mark.className = ok ? "mark ok" : "mark ko";
+  if(ok){ ex2_score++; ex2_sc.textContent = ex2_score; setTimeout(()=>speakText(it.speak),150); }
+  ex2_hint.textContent = it.hint;
+  setTimeout(()=>{ ex2_i++; if(ex2_i>=ex2_items.length){ ex2_sentence.textContent="🎉 Terminé !"; return; } ex2_render(); }, 1100);
+}
+function ex2_restart(){ ex2_i=0; ex2_score=0; ex2_sc.textContent=0; ex2_render(); }
+function ex2_speak(){ const it=ex2_items[ex2_i]; speakText(it.speak); }
+ex2_render();
+
+/* ===== Exercice 3: Transformer en négatif (QCM) ===== */
+const ex3_items = [
+  {
+    base:"We hebben tijd.",
+    options:[
+      {txt:"We hebben niet tijd.", ok:false, why:"GN indéfini → geen, pas niet"},
+      {txt:"We hebben geen tijd.", ok:true, why:"Nom indéfini (tijd) → geen"},
+      {txt:"We niet hebben tijd.", ok:false, why:"V2 rompu"}
+    ],
+    speak:"We hebben geen tijd."
+  },
+  {
+    base:"Ik woon in Antwerpen.",
+    options:[
+      {txt:"Ik woon geen Antwerpen.", ok:false, why:"PP → niet avant la PP"},
+      {txt:"Ik woon niet in Antwerpen.", ok:true, why:"Nie la PP → niet + PP"},
+      {txt:"Ik niet woon in Antwerpen.", ok:false, why:"V2 rompu"}
+    ],
+    speak:"Ik woon niet in Antwerpen."
+  },
+  {
+    base:"Hij koopt het boek.",
+    options:[
+      {txt:"Hij koopt het boek niet.", ok:true, why:"Portée large → niet en fin (avant champs verbal)"},
+      {txt:"Hij geen koopt het boek.", ok:false, why:"geen nie un nom, pas un verbe"},
+      {txt:"Hij niet koopt het boek.", ok:false, why:"V2 rompu"}
+    ],
+    speak:"Hij koopt het boek niet."
+  },
+  {
+    base:"Ze hebben kinderen.",
+    options:[
+      {txt:"Ze hebben geen kinderen.", ok:true, why:"Pluriel indéfini → geen"},
+      {txt:"Ze hebben niet kinderen.", ok:false, why:"Nom indéfini → geen"},
+      {txt:"Ze niet hebben kinderen.", ok:false, why:"V2 rompu"}
+    ],
+    speak:"Ze hebben geen kinderen."
+  },
+  {
+    base:"Ik ben klaar.",
+    options:[
+      {txt:"Ik ben niet klaar.", ok:true, why:"Adj → niet"},
+      {txt:"Ik geen klaar ben.", ok:false, why:"geen ne convient pas"},
+      {txt:"Ik ben geen klaar.", ok:false, why:"geen + nom ; ici adj"}
+    ],
+    speak:"Ik ben niet klaar."
+  },
+  {
+    base:"We hebben koffie.",
+    options:[
+      {txt:"We hebben geen koffie meer.", ok:true, why:"ne … plus de → geen … meer"},
+      {txt:"We hebben niet koffie meer.", ok:false, why:"Nom massique indéfini → geen"},
+      {txt:"We niet hebben koffie meer.", ok:false, why:"V2 rompu"}
+    ],
+    speak:"We hebben geen koffie meer."
+  },
+  {
+    base:"Ik ben klaar.",
+    options:[
+      {txt:"Ik ben nog niet klaar.", ok:true, why:"pas encore (verbe/état) → nog niet"},
+      {txt:"Ik ben nog geen klaar.", ok:false, why:"geen + nom, pas adj"},
+      {txt:"Ik nog niet ben klaar.", ok:false, why:"ordre V2"}
+    ],
+    speak:"Ik ben nog niet klaar."
+  }
+];
+let ex3_i=0, ex3_score=0;
+const ex3_base = document.getElementById('ex3_base');
+const ex3_opts = document.getElementById('ex3_options');
+const ex3_mark = document.getElementById('ex3_mark');
+const ex3_hint = document.getElementById('ex3_hint');
+const ex3_sc = document.getElementById('sc3');
+
+function ex3_render(){
+  const it = ex3_items[ex3_i];
+  ex3_base.textContent = it.base;
+  ex3_opts.innerHTML='';
+  it.options.forEach((op,idx)=>{
+    const b=document.createElement('button');
+    b.className='btn big';
+    b.textContent=op.txt;
+    b.onclick=()=>ex3_choose(idx);
+    ex3_opts.appendChild(b);
+  });
+  ex3_mark.textContent=''; ex3_hint.textContent='';
+}
+function ex3_choose(k){
+  const it = ex3_items[ex3_i];
+  const op = it.options[k];
+  const ok = !!op.ok;
+  ex3_mark.textContent = ok ? "✔️" : "✖️";
+  ex3_mark.className = ok ? "mark ok" : "mark ko";
+  ex3_hint.textContent = op.why;
+  if(ok){ ex3_score++; ex3_sc.textContent=ex3_score; setTimeout(()=>speakText(it.speak),150); }
+  setTimeout(()=>{ ex3_i++; if(ex3_i>=ex3_items.length){ ex3_base.textContent="🎉 Terminé !"; ex3_opts.innerHTML=''; return;} ex3_render(); }, 1200);
+}
+function ex3_restart(){ ex3_i=0; ex3_score=0; ex3_sc.textContent=0; ex3_render(); }
+function ex3_speak(){ const it=ex3_items[ex3_i]; speakText(it.speak); }
+ex3_render();
+
+/* ===== Exercice 4: pronoms/adverbes négatifs ===== */
+const ex4_items = [
+  {fr:"Personne n’est venu.", opts:["niemand","niets","nergens","nooit"], ans:"niemand", nl:"Niemand is gekomen."},
+  {fr:"Je n’ai rien vu.", opts:["niemand","niets","nergens","nooit"], ans:"niets", nl:"Ik heb niets gezien."},
+  {fr:"Nous ne sortons jamais.", opts:["nooit","nergens","niks","geen enkel"], ans:"nooit", nl:"We gaan nooit uit."},
+  {fr:"Ils n’habitent nulle part près d’ici.", opts:["nergens","niemand","niets","geen"], ans:"nergens", nl:"Ze wonen nergens dichtbij hier."},
+  {fr:"Je n’ai plus de temps.", opts:["geen … meer","niet meer","nog geen","nog niet"], ans:"geen … meer", nl:"Ik heb geen tijd meer."},
+  {fr:"Je ne suis pas encore prêt.", opts:["nog niet","nog geen","niet meer","geen … meer"], ans:"nog niet", nl:"Ik ben nog niet klaar."},
+  {fr:"Je n’ai aucune idée.", opts:["geen enkel(e)","niemand","nergens","helemaal niet"], ans:"geen enkel(e)", nl:"Ik heb geen enkel idee."},
+  {fr:"Ce n’est pas du tout vrai.", opts:["helemaal niet","helemaal geen","bepaald niet","nooit"], ans:"helemaal niet", nl:"Dat is helemaal niet waar."},
+  {fr:"Nous n’avons plus de questions.", opts:["geen … meer","niet meer","nog niet","nergens"], ans:"geen … meer", nl:"We hebben geen vragen meer."},
+  {fr:"Il n’est plus ici.", opts:["niet meer","geen … meer","helemaal niet","nooit"], ans:"niet meer", nl:"Hij is hier niet meer."}
+];
+let ex4_i=0, ex4_score=0;
+const ex4_sentence = document.getElementById('ex4_sentence');
+const ex4_choices = document.getElementById('ex4_choices');
+const ex4_mark = document.getElementById('ex4_mark');
+const ex4_hint = document.getElementById('ex4_hint');
+const ex4_sc = document.getElementById('sc4');
+
+function ex4_render(){
+  const it = ex4_items[ex4_i];
+  ex4_sentence.textContent = it.fr;
+  ex4_choices.innerHTML='';
+  it.opts.forEach(op=>{
+    const b=document.createElement('button');
+    b.className='btn big';
+    b.textContent=op;
+    b.onclick=()=>ex4_choose(op);
+    ex4_choices.appendChild(b);
+  });
+  ex4_mark.textContent=''; ex4_hint.textContent='';
+}
+function ex4_choose(sel){
+  const it = ex4_items[ex4_i];
+  const ok = sel===it.ans;
+  ex4_mark.textContent = ok ? "✔️" : "✖️";
+  ex4_mark.className = ok ? "mark ok" : "mark ko";
+  ex4_hint.textContent = it.nl + (ok ? "" : "  — Révise la collocation.");
+  if(ok){ ex4_score++; ex4_sc.textContent=ex4_score; setTimeout(()=>speakText(it.nl),150); }
+  setTimeout(()=>{ ex4_i++; if(ex4_i>=ex4_items.length){ ex4_sentence.textContent="🎉 Terminé !"; ex4_choices.innerHTML=''; return; } ex4_render(); }, 1200);
+}
+function ex4_restart(){ ex4_i=0; ex4_score=0; ex4_sc.textContent=0; ex4_render(); }
+function ex4_speak(){ const it=ex4_items[ex4_i]; speakText(it.nl); }
+ex4_render();
+</script>
 </body>
 </html>
