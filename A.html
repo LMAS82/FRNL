@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Néerlandais – Exprimer son opinion (Corporate & Social)</title>
+<style>
+  :root{
+    --bg:#0b0f16; --panel:#121a26; --ink:#eaf0ff; --muted:#a8b4c6; --accent:#74b6ff;
+    --btn:#1e2a3b; --btnh:#28374f; --ok:#1fc77a; --warn:#ffb020;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:Arial,Helvetica,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1100px; margin:0 auto; padding:18px}
+  header{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px}
+  h1{margin:0; font-size:22px; color:var(--accent)}
+  a.back{background:var(--btn); padding:10px 14px; border-radius:10px; color:var(--ink); text-decoration:none}
+  .panel{background:var(--panel); border-radius:14px; padding:16px; box-shadow:0 14px 30px rgba(0,0,0,.45); margin-bottom:14px}
+  .controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+  select,button{background:var(--btn); color:var(--ink); border:0; border-radius:10px; padding:12px 14px; font-size:1rem; cursor:pointer}
+  button:hover,select:hover{background:var(--btnh)}
+  .focus-active .hide-in-focus{display:none}
+  .hud{display:flex; justify-content:space-between; align-items:center; gap:10px; color:var(--muted); font-size:.95rem; margin-top:8px}
+  .bigline{font-size:2.2rem; line-height:1.25; text-align:center; min-height:88px; margin:10px 0 6px}
+  .translation{font-size:1.2rem; color:var(--muted); text-align:center; display:none; min-height:26px}
+  .badge{font-size:.85rem; color:#cfe3ff}
+  .muted{color:var(--muted)}
+  .ok{color:var(--ok)}
+  .warn{color:var(--warn)}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px}
+  .tip{background:#0f1522; border:1px solid #1e2a3f; border-radius:12px; padding:12px}
+  @media (max-width:720px){
+    .bigline{font-size:1.6rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hide-in-focus">
+    <a class="back" href="index.html">⬅ Retour index</a>
+    <h1>🇳🇱 Exprimer son opinion – Corporate & Social (VR)</h1>
+  </header>
+
+  <!-- CONTROLES -->
+  <section class="panel">
+    <div class="controls">
+      <label for="sectionSel" class="badge">Section :</label>
+      <select id="sectionSel"></select>
+
+      <button onclick="prev()">⬅ Précédent</button>
+      <button onclick="next()">Suivant ➡</button>
+      <button onclick="toggleTr()">Traduction</button>
+      <button onclick="speak()">🔊 Écouter</button>
+      <button onclick="toggleFocus()">🎯 Focus</button>
+      <button onclick="shuffle()">🔀 Mélanger</button>
+      <button id="autoBtn" onclick="auto()">▶️ Auto</button>
+      <button id="pauseBtn" onclick="pauseAuto()">⏸ Pause</button>
+      <button onclick="restart()">↻ Recommencer</button>
+    </div>
+    <div class="hud">
+      <div>Phrase <span id="idx">1</span>/<span id="tot">—</span></div>
+      <div id="sectionName" class="badge"></div>
+      <div id="status" class="muted"></div>
+    </div>
+  </section>
+
+  <!-- AFFICHAGE PHRASE -->
+  <section class="panel">
+    <div id="nl" class="bigline">Chargement…</div>
+    <div id="fr" class="translation">Traduction</div>
+  </section>
+
+  <!-- CONSEILS RAPIDES -->
+  <section class="panel hide-in-focus">
+    <div class="grid">
+      <div class="tip">
+        <strong>Structures fréquentes</strong>
+        <div class="muted">Laten we + inf. · Ik stel voor dat + rejet · Volgens mij… · Ik denk dat… · Mijn indruk is dat… · Ik ben het (niet) eens met…</div>
+      </div>
+      <div class="tip">
+        <strong>Astuce VR</strong>
+        <div class="muted">Active le mode Focus pour n’afficher que la phrase. Utilise 🔊 et répète à voix haute.</div>
+      </div>
+      <div class="tip">
+        <strong>Répétition espacée</strong>
+        <div class="muted">Rejoue la même section plusieurs soirs de suite. Mélange (🔀) puis Auto ➜ Pause pour respirer.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ========= DONNÉES – Sections & Phrases =========
+   Format : { section:"Titre", items:[{nl:"", fr:""}, …] }
+*/
+const DATA = [
+  {
+    section: "1) Ouvrir une réunion / Introduire",
+    items: [
+      {nl:"Laten we beginnen met het overzicht van de cijfers van dit kwartaal.", fr:"Commençons par la vue d’ensemble des chiffres de ce trimestre."},
+      {nl:"Ik stel voor dat we eerst de interne auditresultaten bespreken.", fr:"Je propose de commencer par discuter des résultats de l’audit interne."},
+      {nl:"Mag ik even uw aandacht voor dit punt op de agenda?", fr:"Puis-je avoir votre attention pour ce point à l’ordre du jour ?"},
+      {nl:"Zullen we starten met de belangrijkste bevindingen?", fr:"Allons-nous commencer par les constatations principales ?"},
+      {nl:"Ik zou graag dit onderwerp introduceren voor verdere discussie.", fr:"J’aimerais introduire ce sujet pour une discussion plus approfondie."},
+      {nl:"Laten we eerst de prioriteiten van dit project op een rijtje zetten.", fr:"Mettons d’abord en ordre les priorités de ce projet."},
+      {nl:"Ik stel voor dat we de agenda stap voor stap doorlopen.", fr:"Je propose de parcourir l’agenda étape par étape."},
+      {nl:"Mag ik beginnen met een korte toelichting?", fr:"Puis-je commencer par une brève explication ?"}
+    ]
+  },
+  {
+    section: "2) Donner son avis / Analyser",
+    items: [
+      {nl:"Volgens mij is er een inconsistentie in deze rapportering.", fr:"Selon moi, il y a une incohérence dans ce rapport."},
+      {nl:"Ik denk dat we dit proces kunnen optimaliseren.", fr:"Je pense que nous pouvons optimiser ce processus."},
+      {nl:"Mijn indruk is dat de risico’s onderschat worden.", fr:"Mon impression est que les risques sont sous-estimés."},
+      {nl:"Naar mijn mening moeten we dit vanuit een ander perspectief bekijken.", fr:"À mon avis, nous devons examiner cela sous un autre angle."},
+      {nl:"Ik ben ervan overtuigd dat dit de juiste richting is.", fr:"Je suis convaincu que c’est la bonne direction."},
+      {nl:"Het lijkt me dat er nog te veel onzekerheden zijn.", fr:"Il me semble qu’il reste encore trop d’incertitudes."},
+      {nl:"Persoonlijk denk ik dat dit voorstel haalbaar is.", fr:"Personnellement, je pense que cette proposition est réalisable."},
+      {nl:"Ik vraag me af of dit in de praktijk wel werkt.", fr:"Je me demande si cela fonctionne vraiment en pratique."},
+      {nl:"Volgens mij moeten we meer naar de feiten kijken.", fr:"Selon moi, nous devons davantage regarder les faits."}
+    ]
+  },
+  {
+    section: "3) Commenter un travail / Résultats",
+    items: [
+      {nl:"De presentatie was duidelijk en gestructureerd.", fr:"La présentation était claire et structurée."},
+      {nl:"Er zijn enkele punten die verder uitgewerkt moeten worden.", fr:"Il y a quelques points qui doivent être approfondis."},
+      {nl:"De analyse biedt een goed overzicht van de situatie.", fr:"L’analyse offre une bonne vue d’ensemble de la situation."},
+      {nl:"Het verslag toont aan dat de resultaten beter zijn dan verwacht.", fr:"Le rapport montre que les résultats sont meilleurs que prévu."},
+      {nl:"Uw bijdrage was zeer waardevol voor dit project.", fr:"Votre contribution a été très précieuse pour ce projet."},
+      {nl:"Er ontbreken nog enkele details in dit document.", fr:"Il manque encore quelques détails dans ce document."},
+      {nl:"De conclusies zijn goed onderbouwd.", fr:"Les conclusions sont bien étayées."},
+      {nl:"Het zou nuttig zijn om dit verder te illustreren met voorbeelden.", fr:"Il serait utile d’illustrer cela davantage avec des exemples."}
+    ]
+  },
+  {
+    section: "4) Gérer un désaccord poliment",
+    items: [
+      {nl:"Ik ben het niet helemaal eens met dat standpunt.", fr:"Je ne suis pas tout à fait d’accord avec ce point de vue."},
+      {nl:"Ik zie het eerder vanuit een ander perspectief.", fr:"Je le vois plutôt d’un autre point de vue."},
+      {nl:"Misschien moeten we dit vanuit een ander standpunt bekijken.", fr:"Peut-être devrions-nous examiner cela sous un autre angle."},
+      {nl:"Ik begrijp uw redenering, maar ik denk daar anders over.", fr:"Je comprends votre raisonnement, mais j’ai une autre opinion."},
+      {nl:"Zou het kunnen dat we verschillende aannames gebruiken?", fr:"Se pourrait-il que nous utilisions des hypothèses différentes ?"},
+      {nl:"Mag ik een alternatief voorstellen dat het risico beperkt?", fr:"Puis-je proposer une alternative qui limite le risque ?"},
+      {nl:"Zullen we het even parkeren en later opnieuw bekijken?", fr:"Mettons cela en attente et revoyons-le plus tard ?"}
+    ]
+  },
+  {
+    section: "5) Demander des clarifications",
+    items: [
+      {nl:"Kunt u dat punt wat verder verduidelijken?", fr:"Pourriez-vous préciser un peu plus ce point ?"},
+      {nl:"Wat bedoelt u precies met deze opmerking?", fr:"Que voulez-vous dire exactement par cette remarque ?"},
+      {nl:"Kunt u een concreet voorbeeld geven?", fr:"Pouvez-vous donner un exemple concret ?"},
+      {nl:"Als ik het goed begrijp, zegt u dat…", fr:"Si je comprends bien, vous dites que…"},
+      {nl:"Mag ik vragen hoe dit in de praktijk toegepast wordt?", fr:"Puis-je demander comment cela est appliqué en pratique ?"},
+      {nl:"Kunt u dat laatste herhalen, alstublieft?", fr:"Pouvez-vous répéter la dernière partie, s’il vous plaît ?"},
+      {nl:"Waar baseren we deze aanname precies op?", fr:"Sur quoi basons-nous exactement cette hypothèse ?"}
+    ]
+  },
+  {
+    section: "6) Networking / Social pro",
+    items: [
+      {nl:"Aangenaam kennis te maken, ik heb al veel over u gehoord.", fr:"Enchanté de faire votre connaissance, j’ai déjà beaucoup entendu parler de vous."},
+      {nl:"Leuk u weer te zien op deze conferentie.", fr:"Ravi de vous revoir à cette conférence."},
+      {nl:"Hoe gaat het met uw team de laatste tijd?", fr:"Comment va votre équipe ces derniers temps ?"},
+      {nl:"Wat vond u van de presentatie van daarnet?", fr:"Qu’avez-vous pensé de la présentation à l’instant ?"},
+      {nl:"Ik zou graag contact houden na dit evenement.", fr:"J’aimerais rester en contact après cet événement."},
+      {nl:"Zullen we later vandaag even afspreken?", fr:"On se voit un moment plus tard aujourd’hui ?"},
+      {nl:"Mag ik u toevoegen op LinkedIn?", fr:"Puis-je vous ajouter sur LinkedIn ?"}
+    ]
+  },
+  {
+    section: "7) E-mails & écrits formels",
+    items: [
+      {nl:"Graag ontvang ik een bevestiging van uw deelname.", fr:"J’aimerais recevoir une confirmation de votre participation."},
+      {nl:"Ik zou willen vragen of u het rapport kunt opsturen.", fr:"Je voudrais vous demander si vous pouvez envoyer le rapport."},
+      {nl:"Bijgevoegd vindt u het overzicht van de resultaten.", fr:"Vous trouverez ci-joint le récapitulatif des résultats."},
+      {nl:"Ik kijk uit naar uw antwoord.", fr:"J’attends avec impatience votre réponse."},
+      {nl:"Met vriendelijke groet,", fr:"Cordialement,"},
+      {nl:"Kunt u tegen vrijdag feedback bezorgen?", fr:"Pourriez-vous fournir un retour pour vendredi ?"},
+      {nl:"Dank bij voorbaat voor uw medewerking.", fr:"Merci d’avance pour votre collaboration."}
+    ]
+  },
+  {
+    section: "8) À table / Social (donner son avis)",
+    items: [
+      {nl:"Volgens mij is dit het beste gerecht van de kaart.", fr:"Selon moi, c’est le meilleur plat de la carte."},
+      {nl:"Ik denk dat deze wijn goed bij de vis past.", fr:"Je pense que ce vin accompagne bien le poisson."},
+      {nl:"Persoonlijk vind ik het te zout.", fr:"Personnellement, je trouve que c’est trop salé."},
+      {nl:"Ik ben het ermee eens, maar laten we ook iets vegetarisch nemen.", fr:"Je suis d’accord, mais prenons aussi quelque chose de végétarien."},
+      {nl:"Het lijkt me leuk om iets nieuws te proberen.", fr:"Il me semble sympa d’essayer quelque chose de nouveau."},
+      {nl:"Zullen we het voorgerecht delen?", fr:"On partage l’entrée ?"},
+      {nl:"Ik stel voor dat we nog een koffie nemen.", fr:"Je propose qu’on prenne encore un café."},
+      {nl:"Misschien is het beter om de rekening te splitten.", fr:"C’est peut-être mieux de partager l’addition."}
+    ]
+  }
+];
+
+/* ========= LOGIQUE ========= */
+let flat = [];      // liste à afficher selon filtre
+let i = 0;          // index courant
+let autoTimer = null;
+let paused = false;
+
+const sectionSel = document.getElementById('sectionSel');
+const nl = document.getElementById('nl');
+const fr = document.getElementById('fr');
+const idx = document.getElementById('idx');
+const tot = document.getElementById('tot');
+const status = document.getElementById('status');
+const sectionName = document.getElementById('sectionName');
+
+// init menu sections
+function initMenu(){
+  sectionSel.innerHTML = "";
+  const allOpt = document.createElement('option');
+  allOpt.value = "ALL";
+  allOpt.textContent = "Toutes les sections";
+  sectionSel.appendChild(allOpt);
+
+  DATA.forEach((s, k)=>{
+    const opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = s.section;
+    sectionSel.appendChild(opt);
+  });
+  sectionSel.addEventListener('change', applyFilter);
+}
+function applyFilter(){
+  const v = sectionSel.value;
+  if(v === "ALL"){
+    flat = DATA.flatMap(s => s.items.map(x=>({...x, __sec:s.section})));
+  } else {
+    const s = DATA[Number(v)];
+    flat = s.items.map(x=>({...x, __sec:s.section}));
+  }
+  i = 0;
+  tot.textContent = flat.length;
+  sectionName.textContent = flat.length? flat[0].__sec : "";
+  render();
+}
+function render(){
+  if(flat.length === 0){ nl.textContent = "Aucune phrase."; fr.style.display="none"; return; }
+  const row = flat[i];
+  idx.textContent = (i+1);
+  nl.textContent = row.nl;
+  fr.textContent = row.fr;
+  fr.style.display = "none";
+  sectionName.textContent = row.__sec || "";
+  status.textContent = "";
+}
+function next(){
+  if(flat.length===0) return;
+  i = (i+1) % flat.length; render();
+}
+function prev(){
+  if(flat.length===0) return;
+  i = (i-1+flat.length) % flat.length; render();
+}
+function toggleTr(){
+  fr.style.display = (fr.style.display==="none") ? "block" : "none";
+}
+function speak(){
+  if(!('speechSynthesis' in window)) { status.textContent = "Synthèse vocale non prise en charge."; return; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const u = new SpeechSynthesisUtterance(flat[i].nl);
+  u.lang = 'nl-NL';
+  speechSynthesis.speak(u);
+}
+function shuffle(){
+  for(let j=flat.length-1;j>0;j--){
+    const r = Math.floor(Math.random()*(j+1));
+    [flat[j], flat[r]] = [flat[r], flat[j]];
+  }
+  i = 0; render(); status.textContent = "Mélangé.";
+}
+function auto(){
+  if(autoTimer) return;
+  paused = false;
+  document.getElementById('autoBtn').textContent = "▶️ Auto (en cours)";
+  status.textContent = "Mode Auto : écoute puis avance…";
+  autoTimer = setInterval(()=>{
+    if(paused || flat.length===0) return;
+    speak();
+    setTimeout(()=>{ if(!paused) next(); }, 2800);
+  }, 3200);
+}
+function pauseAuto(){
+  if(!autoTimer) return;
+  paused = !paused;
+  document.getElementById('pauseBtn').textContent = paused ? "▶️ Reprendre" : "⏸ Pause";
+  status.textContent = paused ? "Auto en pause." : "Auto repris.";
+}
+function restart(){
+  if(autoTimer){ clearInterval(autoTimer); autoTimer=null; }
+  document.getElementById('autoBtn').textContent = "▶️ Auto";
+  document.getElementById('pauseBtn').textContent = "⏸ Pause";
+  paused = false;
+  applyFilter();
+}
+function toggleFocus(){ document.body.classList.toggle('focus-active'); }
+
+// boot
+initMenu();
+applyFilter();
+</script>
+</body>
+</html>
