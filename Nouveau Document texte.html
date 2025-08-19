@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Foot du Lundi</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+  h1 { text-align: center; }
+  .players { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+  .player { text-align: center; cursor: pointer; }
+  .player img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #333; }
+  .player-name { margin-top: 5px; font-weight: bold; }
+  .date-section { margin-bottom: 30px; padding: 10px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+  .slots { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; justify-content: center; }
+  .slot { padding: 10px; width: 100px; height: 100px; text-align: center; background: #e0e0e0; border-radius: 5px; position: relative; cursor: pointer; }
+  .slot-number { font-weight: bold; margin-bottom: 5px; }
+  .slot img { width: 60px; height: 60px; border-radius: 50%; position: absolute; top: 30px; left: 50%; transform: translateX(-50%); }
+</style>
+</head>
+<body>
+<h1>Foot du Lundi</h1>
+
+<div class="players" id="players-container"></div>
+<div id="dates-container"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+  // Config Firebase à remplacer
+  const firebaseConfig = {
+    apiKey: "API_KEY",
+    authDomain: "PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://PROJECT_ID.firebaseio.com",
+    projectId: "PROJECT_ID",
+    storageBucket: "PROJECT_ID.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  const players = [
+    {name: "Alice", img: "https://i.pravatar.cc/60?img=1"},
+    {name: "Bob", img: "https://i.pravatar.cc/60?img=2"},
+    {name: "Charlie", img: "https://i.pravatar.cc/60?img=3"},
+    {name: "David", img: "https://i.pravatar.cc/60?img=4"}
+  ];
+
+  const playersContainer = document.getElementById('players-container');
+  let selectedPlayer = null;
+  players.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'player';
+    div.dataset.name = p.name;
+    div.innerHTML = `<img src="${p.img}" alt="${p.name}"><div class="player-name">${p.name}</div>`;
+    div.addEventListener('click', () => selectedPlayer = p);
+    playersContainer.appendChild(div);
+  });
+
+  const datesContainer = document.getElementById('dates-container');
+
+  function getNextMondays(count = 6) {
+    const dates = [];
+    let today = new Date();
+    while(today.getDay() !== 1) today.setDate(today.getDate() + 1);
+    for(let i=0; i<count; i++){
+      const d = new Date(today);
+      d.setDate(d.getDate() + i*7);
+      dates.push(d.toISOString().split('T')[0]);
+    }
+    return dates;
+  }
+
+  function createDateSection(date){
+    const section = document.createElement('div');
+    section.className = 'date-section';
+    const title = document.createElement('h2');
+    title.textContent = date;
+    section.appendChild(title);
+
+    const slotsDiv = document.createElement('div');
+    slotsDiv.className = 'slots';
+
+    for(let i=0; i<12; i++){
+      const slot = document.createElement('div');
+      slot.className = 'slot';
+      slot.dataset.index = i;
+
+      const numberDiv = document.createElement('div');
+      numberDiv.className = 'slot-number';
+      numberDiv.textContent = i+1;
+      slot.appendChild(numberDiv);
+
+      // Click pour inscrire le joueur
+      slot.addEventListener('click', async () => {
+        if(!selectedPlayer) return alert("Choisis un joueur en haut !");
+        const color = prompt("Couleur de la case (ex: red, #ff0000) :", "#4caf50");
+        await db.ref(`fdl/${date}/${i}`).set({name: selectedPlayer.name, color});
+      });
+
+      slotsDiv.appendChild(slot);
+    }
+
+    section.appendChild(slotsDiv);
+    datesContainer.appendChild(section);
+
+    // Sync avec Firebase
+    db.ref(`fdl/${date}`).on('value', snapshot => {
+      const data = snapshot.val() || {};
+      for(let i=0; i<12; i++){
+        const slot = slotsDiv.children[i];
+        slot.innerHTML = `<div class="slot-number">${i+1}</div>`;
+        if(data[i]){
+          const player = players.find(p => p.name === data[i].name);
+          slot.classList.add('taken');
+          slot.style.background = data[i].color || '#4caf50';
+          if(player) slot.innerHTML += `<img src="${player.img}" alt="${player.name}"><div class="player-name">${player.name}</div>`;
+        } else {
+          slot.classList.remove('taken');
+          slot.style.background = '#e0e0e0';
+        }
+      }
+    });
+  }
+
+  const dates = getNextMondays();
+  dates.forEach(createDateSection);
+
+</script>
+</body>
+</html>
