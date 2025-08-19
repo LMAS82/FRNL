@@ -2,130 +2,219 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Foot du Lundi</title>
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
-  h1 { text-align: center; }
-  .players { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-  .player { text-align: center; cursor: pointer; }
-  .player img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #333; }
-  .player-name { margin-top: 5px; font-weight: bold; }
-  .date-section { margin-bottom: 30px; padding: 10px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
-  .slots { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; justify-content: center; }
-  .slot { padding: 10px; width: 100px; height: 100px; text-align: center; background: #e0e0e0; border-radius: 5px; position: relative; cursor: pointer; }
-  .slot-number { font-weight: bold; margin-bottom: 5px; }
-  .slot img { width: 60px; height: 60px; border-radius: 50%; position: absolute; top: 30px; left: 50%; transform: translateX(-50%); }
+  body {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    background: #f4f4f4;
+  }
+
+  h2 {
+    margin-top: 30px;
+  }
+
+  .players {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .player {
+    width: 60px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .player img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #333;
+  }
+
+  .grids {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .grid {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #aaa;
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .grid-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .grid-cases {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .case {
+    background: #eee;
+    padding: 20px 0;
+    text-align: center;
+    border-radius: 6px;
+    position: relative;
+  }
+
+  .case-number {
+    font-size: 12px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-weight: bold;
+  }
+
+  .case .player-name {
+    margin-top: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .color-selector {
+    margin-top: 5px;
+    display: none;
+  }
+
+  .case.filled .color-selector {
+    display: block;
+  }
+
+  select {
+    width: 80px;
+  }
+
+  @media (max-width: 600px) {
+    .grid-cases {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .players {
+      justify-content: center;
+    }
+  }
 </style>
 </head>
 <body>
+
 <h1>Foot du Lundi</h1>
 
-<div class="players" id="players-container"></div>
-<div id="dates-container"></div>
+<h3>Joueurs disponibles</h3>
+<div class="players" id="playersList">
+  <div class="player" data-name="Alice"><img src="https://i.pravatar.cc/50?u=Alice"><div>Alice</div></div>
+  <div class="player" data-name="Bob"><img src="https://i.pravatar.cc/50?u=Bob"><div>Bob</div></div>
+  <div class="player" data-name="Charlie"><img src="https://i.pravatar.cc/50?u=Charlie"><div>Charlie</div></div>
+  <div class="player" data-name="David"><img src="https://i.pravatar.cc/50?u=David"><div>David</div></div>
+  <div class="player" data-name="Emma"><img src="https://i.pravatar.cc/50?u=Emma"><div>Emma</div></div>
+</div>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<div class="grids">
+  <div class="grid" data-date="Lundi 26 août">
+    <div class="grid-title">Lundi 26 août</div>
+    <div class="grid-cases">
+      <!-- 12 cases -->
+      <div class="case" data-index="1"><div class="case-number">1</div></div>
+      <div class="case" data-index="2"><div class="case-number">2</div></div>
+      <div class="case" data-index="3"><div class="case-number">3</div></div>
+      <div class="case" data-index="4"><div class="case-number">4</div></div>
+      <div class="case" data-index="5"><div class="case-number">5</div></div>
+      <div class="case" data-index="6"><div class="case-number">6</div></div>
+      <div class="case" data-index="7"><div class="case-number">7</div></div>
+      <div class="case" data-index="8"><div class="case-number">8</div></div>
+      <div class="case" data-index="9"><div class="case-number">9</div></div>
+      <div class="case" data-index="10"><div class="case-number">10</div></div>
+      <div class="case" data-index="11"><div class="case-number">11</div></div>
+      <div class="case" data-index="12"><div class="case-number">12</div></div>
+    </div>
+  </div>
+
+  <div class="grid" data-date="Lundi 2 septembre">
+    <div class="grid-title">Lundi 2 septembre</div>
+    <div class="grid-cases">
+      <!-- 12 cases -->
+      <div class="case" data-index="1"><div class="case-number">1</div></div>
+      <div class="case" data-index="2"><div class="case-number">2</div></div>
+      <div class="case" data-index="3"><div class="case-number">3</div></div>
+      <div class="case" data-index="4"><div class="case-number">4</div></div>
+      <div class="case" data-index="5"><div class="case-number">5</div></div>
+      <div class="case" data-index="6"><div class="case-number">6</div></div>
+      <div class="case" data-index="7"><div class="case-number">7</div></div>
+      <div class="case" data-index="8"><div class="case-number">8</div></div>
+      <div class="case" data-index="9"><div class="case-number">9</div></div>
+      <div class="case" data-index="10"><div class="case-number">10</div></div>
+      <div class="case" data-index="11"><div class="case-number">11</div></div>
+      <div class="case" data-index="12"><div class="case-number">12</div></div>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Config Firebase à remplacer
-  const firebaseConfig = {
-    apiKey: "API_KEY",
-    authDomain: "PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://PROJECT_ID.firebaseio.com",
-    projectId: "PROJECT_ID",
-    storageBucket: "PROJECT_ID.appspot.com",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+const players = document.querySelectorAll('.player');
+let selectedPlayer = null;
 
-  const players = [
-    {name: "Alice", img: "https://i.pravatar.cc/60?img=1"},
-    {name: "Bob", img: "https://i.pravatar.cc/60?img=2"},
-    {name: "Charlie", img: "https://i.pravatar.cc/60?img=3"},
-    {name: "David", img: "https://i.pravatar.cc/60?img=4"}
-  ];
-
-  const playersContainer = document.getElementById('players-container');
-  let selectedPlayer = null;
-  players.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'player';
-    div.dataset.name = p.name;
-    div.innerHTML = `<img src="${p.img}" alt="${p.name}"><div class="player-name">${p.name}</div>`;
-    div.addEventListener('click', () => selectedPlayer = p);
-    playersContainer.appendChild(div);
+// Cliquer sur un joueur pour le sélectionner
+players.forEach(player => {
+  player.addEventListener('click', () => {
+    selectedPlayer = player.dataset.name;
+    alert(selectedPlayer + " sélectionné. Cliquez sur une case pour placer.");
   });
+});
 
-  const datesContainer = document.getElementById('dates-container');
+// Cliquer sur une case pour placer un joueur
+const cases = document.querySelectorAll('.case');
+cases.forEach(c => {
+  c.addEventListener('click', () => {
+    if(selectedPlayer) {
+      if(!c.classList.contains('filled')) {
+        // Ajouter le nom
+        const nameDiv = document.createElement('div');
+        nameDiv.classList.add('player-name');
+        nameDiv.textContent = selectedPlayer;
+        c.appendChild(nameDiv);
 
-  function getNextMondays(count = 6) {
-    const dates = [];
-    let today = new Date();
-    while(today.getDay() !== 1) today.setDate(today.getDate() + 1);
-    for(let i=0; i<count; i++){
-      const d = new Date(today);
-      d.setDate(d.getDate() + i*7);
-      dates.push(d.toISOString().split('T')[0]);
-    }
-    return dates;
-  }
+        // Ajouter le select couleur
+        const select = document.createElement('select');
+        select.classList.add('color-selector');
+        select.innerHTML = '<option value="">Couleur</option><option value="bleu">Bleu</option><option value="rouge">Rouge</option>';
+        c.appendChild(select);
 
-  function createDateSection(date){
-    const section = document.createElement('div');
-    section.className = 'date-section';
-    const title = document.createElement('h2');
-    title.textContent = date;
-    section.appendChild(title);
-
-    const slotsDiv = document.createElement('div');
-    slotsDiv.className = 'slots';
-
-    for(let i=0; i<12; i++){
-      const slot = document.createElement('div');
-      slot.className = 'slot';
-      slot.dataset.index = i;
-
-      const numberDiv = document.createElement('div');
-      numberDiv.className = 'slot-number';
-      numberDiv.textContent = i+1;
-      slot.appendChild(numberDiv);
-
-      // Click pour inscrire le joueur
-      slot.addEventListener('click', async () => {
-        if(!selectedPlayer) return alert("Choisis un joueur en haut !");
-        const color = prompt("Couleur de la case (ex: red, #ff0000) :", "#4caf50");
-        await db.ref(`fdl/${date}/${i}`).set({name: selectedPlayer.name, color});
-      });
-
-      slotsDiv.appendChild(slot);
-    }
-
-    section.appendChild(slotsDiv);
-    datesContainer.appendChild(section);
-
-    // Sync avec Firebase
-    db.ref(`fdl/${date}`).on('value', snapshot => {
-      const data = snapshot.val() || {};
-      for(let i=0; i<12; i++){
-        const slot = slotsDiv.children[i];
-        slot.innerHTML = `<div class="slot-number">${i+1}</div>`;
-        if(data[i]){
-          const player = players.find(p => p.name === data[i].name);
-          slot.classList.add('taken');
-          slot.style.background = data[i].color || '#4caf50';
-          if(player) slot.innerHTML += `<img src="${player.img}" alt="${player.name}"><div class="player-name">${player.name}</div>`;
-        } else {
-          slot.classList.remove('taken');
-          slot.style.background = '#e0e0e0';
-        }
+        c.classList.add('filled');
+        selectedPlayer = null;
+      } else {
+        alert("Cette case est déjà remplie !");
       }
-    });
+    }
+  });
+});
+
+// Changer couleur via select
+document.addEventListener('change', (e) => {
+  if(e.target.tagName === 'SELECT') {
+    const parent = e.target.parentElement;
+    const color = e.target.value;
+    if(color === 'bleu') {
+      parent.style.background = '#add8e6';
+    } else if(color === 'rouge') {
+      parent.style.background = '#f08080';
+    } else {
+      parent.style.background = '#eee';
+    }
   }
-
-  const dates = getNextMondays();
-  dates.forEach(createDateSection);
-
+});
 </script>
+
 </body>
 </html>
