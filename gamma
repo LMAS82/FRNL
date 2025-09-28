@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Néerlandais – Fiche d’apprentissage</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f3f7fa;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+    }
+    h1, h2 {
+        text-align: center;
+        color: #004aad;
+    }
+    h2 {
+        margin-top: 40px;
+        border-bottom: 2px solid #004aad;
+        padding-bottom: 5px;
+    }
+    .example {
+        background: #e8f0fe;
+        border-left: 6px solid #004aad;
+        padding: 10px 15px;
+        margin: 15px 0;
+        border-radius: 6px;
+    }
+    .tip {
+        background: #fff3cd;
+        border-left: 6px solid #ffca2c;
+        padding: 10px 15px;
+        margin: 15px 0;
+        border-radius: 6px;
+    }
+    .diff {
+        background: #d1f7d6;
+        border-left: 6px solid #28a745;
+        padding: 10px 15px;
+        margin: 15px 0;
+        border-radius: 6px;
+    }
+    strong {
+        color: #004aad;
+    }
+</style>
+</head>
+<body>
+
+<h1>🇳🇱 Fiche d’apprentissage – Néerlandais</h1>
+
+<h2>1️⃣ « Je ne m’en souviens plus »</h2>
+<p><strong>Traduction littérale :</strong> <em>Ik kan het niet meer herinneren</em> ✅ (correct mais peu naturel)</p>
+<div class="example">
+    ➡️ <strong>Plus courant :</strong> <em>Ik kan er niet meer op komen</em><br>
+    (litt. : « Je n’arrive plus à y penser »)
+</div>
+<div class="diff">
+    <strong>Différence :</strong><br>
+    • <em>herinneren</em> → se souvenir en général.<br>
+    • <em>erop komen</em> → retrouver une info qui échappe momentanément.
+</div>
+
+<h2>2️⃣ « J’en ai marre, j’ai besoin de vacances »</h2>
+<p><strong>En néerlandais :</strong></p>
+<div class="example">
+    • J’en ai marre : <strong>Ik ben het beu</strong> (⚠️ <em>zijn</em>, pas <em>hebben</em>)<br>
+    • J’ai besoin de vacances : <strong>Ik heb vakantie nodig</strong><br><br>
+    ✅ Phrase complète : <strong>Ik ben het beu, ik heb vakantie nodig.</strong>
+</div>
+<div class="tip">
+    💡 En français on dit « avoir marre » mais en néerlandais on utilise <strong>être</strong> (zijn).
+</div>
+
+<h2>3️⃣ « J’ai chaud »</h2>
+<div class="example">
+    ❌ Pas : Ik ben warm<br>
+    ✅ Mais : <strong>Ik heb het warm</strong>
+</div>
+
+<h2>4️⃣ Accord des adjectifs</h2>
+<p>Deux types d’adjectifs :</p>
+
+<div class="diff">
+    <strong>1. Attribut</strong> (avec un verbe d’état : <em>zijn, lijken, schijnen…</em>)<br>
+    ➡️ Toujours invariable : <br>
+    <em>Het meisje is klein</em> (La fille est petite)
+</div>
+
+<div class="diff">
+    <strong>2. Épithète</strong> (placé avant un nom)<br>
+    ➡️ En général, on ajoute <strong>-e</strong> :<br>
+    <em>Het kleine meisje</em> (La petite fille)
+</div>
+
+<div class="tip">
+    📌 <strong>Règle de base pour l’épithète</strong><br>
+    On ajoute toujours -e, SAUF si les 3 conditions <strong>NIS</strong> sont réunies :<br>
+    • <strong>N</strong> = Nom neutre (het-woord)<br>
+    • <strong>I</strong> = Indéterminé (een/geen/pas d’article)<br>
+    • <strong>S</strong> = Singulier<br><br>
+    ➡️ Dans ce cas, <strong>pas de -e</strong>.<br>
+    Exemple : <em>Een klein meisje</em>
+</div>
+
+</body>
+</html>
