@@ -426,6 +426,265 @@ footer {
   .divider { padding:0 1rem; }
   .search-wrap { padding:0 1rem; }
 }
+
+/* ══════════════════════════════════════
+   SECTION CEB — Examens téléchargeables
+══════════════════════════════════════ */
+.ceb-section {
+  position:relative; z-index:1;
+  padding:5rem 0 7rem;
+  border-top:1px solid var(--border);
+}
+.ceb-section::before {
+  content:'';
+  position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,.05) 0%, transparent 70%);
+}
+.ceb-inner { max-width:1160px; margin:0 auto; padding:0 2.5rem; }
+
+.ceb-header { margin-bottom:3rem; }
+.ceb-eyebrow {
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:'DM Mono',monospace; font-size:.65rem;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:1rem;
+}
+.ceb-eyebrow::before {
+  content:''; width:24px; height:1px; background:var(--gold);
+}
+.ceb-title {
+  font-family:'Playfair Display',serif; font-weight:900;
+  font-size:clamp(2rem,5vw,3.5rem); line-height:1;
+  color:var(--text); margin-bottom:.75rem;
+}
+.ceb-title em { font-style:italic; color:var(--gold); }
+.ceb-desc {
+  font-size:.9rem; color:var(--muted); line-height:1.75;
+  max-width:560px;
+}
+
+/* Année tabs */
+.ceb-years {
+  display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:2.5rem;
+}
+.ceb-year-btn {
+  padding:.4rem 1rem; border-radius:50px;
+  border:1px solid var(--border); background:transparent;
+  color:var(--muted); font-family:'DM Mono',monospace;
+  font-size:.68rem; letter-spacing:.1em; cursor:pointer;
+  transition:all .18s; text-transform:uppercase;
+}
+.ceb-year-btn:hover { border-color:var(--border2); color:var(--gold); }
+.ceb-year-btn.active {
+  background:rgba(201,168,76,.12); border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* Grille des examens */
+.ceb-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+  gap:1rem;
+}
+
+/* Carte examen */
+.ceb-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.5rem;
+  display:flex; flex-direction:column; gap:1rem;
+  transition:all .25s;
+  position:relative; overflow:hidden;
+}
+.ceb-card::before {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0; width:4px;
+  background:var(--card-ac, var(--gold));
+  opacity:.5; transition:opacity .2s;
+}
+.ceb-card:hover {
+  border-color:rgba(201,168,76,.35);
+  box-shadow:0 8px 40px rgba(0,0,0,.4);
+  transform:translateY(-2px);
+}
+.ceb-card:hover::before { opacity:1; }
+
+.ceb-card-top {
+  display:flex; align-items:flex-start;
+  justify-content:space-between; gap:1rem;
+}
+.ceb-card-icon {
+  width:44px; height:44px; border-radius:10px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem;
+  background:rgba(201,168,76,.08); border:1px solid rgba(201,168,76,.18);
+}
+.ceb-card-badge {
+  font-family:'DM Mono',monospace; font-size:.6rem;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:.2rem .55rem; border-radius:4px;
+  background:rgba(201,168,76,.1); color:var(--gold);
+  border:1px solid rgba(201,168,76,.2);
+  white-space:nowrap;
+}
+.ceb-card-badge.new {
+  background:rgba(62,207,142,.1); color:#3ECF8E;
+  border-color:rgba(62,207,142,.25);
+}
+.ceb-card-badge.mat {
+  background:rgba(91,159,232,.1); color:#5B9FE8;
+  border-color:rgba(91,159,232,.25);
+}
+.ceb-card-badge.fr {
+  background:rgba(167,139,250,.1); color:#A78BFA;
+  border-color:rgba(167,139,250,.25);
+}
+
+.ceb-card-body { flex:1; }
+.ceb-card-year {
+  font-family:'DM Mono',monospace; font-size:.62rem;
+  letter-spacing:.12em; color:var(--muted); margin-bottom:.3rem;
+  text-transform:uppercase;
+}
+.ceb-card-name {
+  font-family:'Playfair Display',serif; font-size:1rem;
+  font-weight:700; color:var(--text); line-height:1.3;
+  margin-bottom:.35rem;
+}
+.ceb-card-meta {
+  font-size:.78rem; color:var(--muted); line-height:1.55;
+}
+.ceb-card-tags {
+  display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.6rem;
+}
+.ceb-tag {
+  font-family:'DM Mono',monospace; font-size:.6rem;
+  letter-spacing:.08em; padding:.18rem .5rem; border-radius:3px;
+  background:rgba(255,255,255,.04); color:var(--muted);
+  border:1px solid rgba(255,255,255,.07);
+}
+
+/* Boutons d'action */
+.ceb-card-actions {
+  display:flex; gap:.5rem; padding-top:1rem;
+  border-top:1px solid var(--border);
+}
+.ceb-btn-dl {
+  flex:1; display:flex; align-items:center; justify-content:center;
+  gap:.5rem; padding:.6rem 1rem; border-radius:8px;
+  background:var(--gold); color:var(--deep);
+  font-size:.75rem; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase;
+  text-decoration:none; transition:all .2s;
+  font-family:'DM Sans',sans-serif;
+  cursor:pointer; border:none;
+}
+.ceb-btn-dl:hover { background:var(--gold-l); transform:translateY(-1px); }
+.ceb-btn-dl svg { width:13px; height:13px; flex-shrink:0; }
+
+.ceb-btn-view {
+  display:flex; align-items:center; justify-content:center;
+  gap:.4rem; padding:.6rem .9rem; border-radius:8px;
+  border:1px solid var(--border); background:transparent;
+  color:var(--muted); font-size:.75rem; font-weight:600;
+  letter-spacing:.06em; text-transform:uppercase;
+  text-decoration:none; transition:all .2s;
+  font-family:'DM Sans',sans-serif;
+}
+.ceb-btn-view:hover { border-color:var(--border2); color:var(--gold); }
+
+/* État vide CEB */
+.ceb-empty {
+  grid-column:1/-1;
+  text-align:center; padding:4rem 2rem;
+  color:var(--muted);
+}
+.ceb-empty-icon { font-size:2.5rem; opacity:.3; margin-bottom:.75rem; }
+.ceb-empty-txt { font-size:.85rem; line-height:1.7; }
+
+/* Compteur */
+.ceb-count {
+  font-family:'DM Mono',monospace; font-size:.65rem;
+  letter-spacing:.12em; color:var(--muted); text-transform:uppercase;
+  margin-bottom:1.5rem;
+}
+.ceb-count span { color:var(--gold); }
+
+/* Ajouter examen btn */
+.ceb-add-row {
+  margin-top:2rem; display:flex; justify-content:center;
+}
+.ceb-add-btn {
+  display:inline-flex; align-items:center; gap:.55rem;
+  padding:.65rem 1.4rem; border-radius:8px;
+  border:1px dashed var(--border2); background:transparent;
+  color:var(--gold); font-size:.78rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase;
+  cursor:pointer; transition:all .2s; font-family:'DM Sans',sans-serif;
+}
+.ceb-add-btn:hover { background:rgba(201,168,76,.07); border-style:solid; }
+
+/* Instruction notice */
+.ceb-notice {
+  margin-top:2.5rem; padding:1.25rem 1.5rem;
+  background:rgba(201,168,76,.04); border:1px solid rgba(201,168,76,.14);
+  border-radius:12px; display:flex; gap:1rem; align-items:flex-start;
+}
+.ceb-notice-icon { font-size:1.1rem; flex-shrink:0; margin-top:.1rem; }
+.ceb-notice-text { font-size:.8rem; color:var(--muted); line-height:1.7; }
+.ceb-notice-text strong { color:var(--gold); font-weight:600; }
+.ceb-notice-text code {
+  font-family:'DM Mono',monospace; font-size:.75rem;
+  background:rgba(255,255,255,.06); padding:.1rem .4rem;
+  border-radius:4px; color:var(--text);
+}
+
+/* Modal CEB */
+.ceb-modal-overlay {
+  position:fixed; inset:0; background:rgba(10,14,26,.88);
+  backdrop-filter:blur(10px); z-index:600;
+  display:none; align-items:center; justify-content:center; padding:1rem;
+}
+.ceb-modal-overlay.open { display:flex; }
+.ceb-modal {
+  background:var(--card); border:1px solid var(--border2);
+  border-radius:20px; padding:2.5rem; width:100%; max-width:500px;
+  position:relative; animation:modalIn .25s ease both;
+  box-shadow:0 30px 80px rgba(0,0,0,.65);
+}
+
+@media(max-width:640px) {
+  .ceb-inner { padding:0 1rem; }
+  .ceb-grid { grid-template-columns:1fr; }
+  .ceb-card-actions { flex-direction:column; }
+}
+
+/* Correctifs dans les cartes CEB */
+.ceb-correctifs {
+  padding:.75rem 0 0;
+  border-top:1px solid var(--border);
+}
+.ceb-correctifs-label {
+  font-family:'DM Mono',monospace; font-size:.58rem;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:.5rem;
+}
+.ceb-correctifs-btns { display:flex; flex-direction:column; gap:.35rem; }
+.ceb-btn-corrige {
+  display:flex; align-items:center; gap:.45rem;
+  padding:.5rem .85rem; border-radius:7px;
+  border:1px solid rgba(62,207,142,.22);
+  background:rgba(62,207,142,.05);
+  color:#3ECF8E; font-size:.72rem; font-weight:600;
+  text-decoration:none; transition:all .18s;
+  font-family:'DM Sans',sans-serif;
+}
+.ceb-btn-corrige:hover { background:rgba(62,207,142,.12); border-color:rgba(62,207,142,.45); }
+.ceb-card-badge.corrige-badge {
+  background:rgba(62,207,142,.1); color:#3ECF8E;
+  border-color:rgba(62,207,142,.25);
+}
 </style>
 </head>
 <body>
@@ -435,6 +694,7 @@ footer {
   <div class="nav-logo">Académie · Table des Matières</div>
   <div class="nav-right">
     <span class="nav-year">6ème Primaire · 2025–2026</span>
+    <a href="#ceb-examens" style="display:flex;align-items:center;gap:.45rem;padding:.38rem .9rem;border-radius:6px;border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.08);color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,.16)'" onmouseout="this.style.background='rgba(201,168,76,.08)'">🎓 Examens CEB</a>
     <button class="nav-add-btn" onclick="openModal('subject')">+ Ajouter</button>
   </div>
 </nav>
@@ -488,7 +748,46 @@ footer {
     <p class="empty-msg">Aucune matière pour l'instant.<br>Clique sur <strong style="color:var(--gold)">+ Ajouter</strong> pour créer ta première matière !</p>
   </div>
 
+  <!-- ══ NAV link CEB (scroll anchor) ══ -->
+
 </div><!-- /page -->
+
+<!-- ══ CEB SECTION ══ -->
+<section class="ceb-section" id="ceb-examens">
+  <div class="ceb-inner">
+
+    <div class="ceb-header">
+      <div class="ceb-eyebrow">Ressources officielles</div>
+      <h2 class="ceb-title">Examens <em>CEB</em></h2>
+      <p class="ceb-desc">Télécharge les examens CEB des années précédentes en PDF. Entraîne-toi dans les mêmes conditions que le vrai examen !</p>
+    </div>
+
+    <!-- Filtres par année -->
+    <div class="ceb-years" id="ceb-year-filters"></div>
+
+    <!-- Compteur -->
+    <div class="ceb-count" id="ceb-count"></div>
+
+    <!-- Grille des examens -->
+    <div class="ceb-grid" id="ceb-grid"></div>
+
+    <!-- Notice GitHub -->
+    <div class="ceb-notice">
+      <div class="ceb-notice-icon">💡</div>
+      <div class="ceb-notice-text">
+        <strong>Comment ajouter un PDF ?</strong> Place le fichier dans le dossier <code>ceb/</code> de ton repo GitHub,
+        puis ajoute une entrée dans le tableau <code>cebExams</code> dans le JavaScript de cette page.
+        Le bouton <strong>Télécharger</strong> utilisera l'attribut <code>download</code> pour sauvegarder le PDF directement.
+      </div>
+    </div>
+
+    <!-- Bouton ajouter -->
+    <div class="ceb-add-row">
+      <button class="ceb-add-btn" onclick="openCebModal()">＋ Ajouter un examen</button>
+    </div>
+
+  </div>
+</section>
 
 <!-- ══ FOOTER ══ -->
 <footer>
@@ -497,6 +796,46 @@ footer {
 
 <!-- ══ BACK TOP ══ -->
 <div class="back-top" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<!-- ══ CEB ADD MODAL ══ -->
+<div class="ceb-modal-overlay" id="ceb-modal">
+  <div class="ceb-modal">
+    <button class="modal-close" onclick="closeCebModal()">✕</button>
+    <div class="modal-title">Ajouter un Examen CEB</div>
+    <p class="modal-sub">Remplis les infos de l'examen. Place d'abord le PDF dans le dossier <code style="font-family:'DM Mono',monospace;font-size:.8rem;background:rgba(255,255,255,.06);padding:.1rem .35rem;border-radius:3px;">ceb/</code> de ton repo.</p>
+    <div class="field">
+      <label>Titre de l'examen</label>
+      <input type="text" id="ceb-name" placeholder="Ex : CEB 2023 — Français">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Année</label>
+        <input type="text" id="ceb-year" placeholder="Ex : 2023" maxlength="4">
+      </div>
+      <div class="field">
+        <label>Matière</label>
+        <select id="ceb-subject">
+          <option value="Complet">📋 Examen complet</option>
+          <option value="Français">📖 Français</option>
+          <option value="Mathématiques">🔢 Mathématiques</option>
+          <option value="Éveil">🌍 Éveil</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Chemin vers le PDF (dans ton repo)</label>
+      <input type="text" id="ceb-url" placeholder="Ex : ceb/ceb-2023-francais.pdf">
+    </div>
+    <div class="field">
+      <label>Description courte (optionnel)</label>
+      <input type="text" id="ceb-desc" placeholder="Ex : Lecture, écriture, dictée" maxlength="80">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeCebModal()">Annuler</button>
+      <button class="btn-confirm" onclick="addCebExam()">Ajouter l'examen</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════
   MODALS
@@ -925,12 +1264,219 @@ function doSearch(q) {
   }
 }
 
+/* ═══════════════════════════════════════
+   CEB EXAMENS — Données & Rendu
+═══════════════════════════════════════ */
+
+// ── DONNÉES : ajoute tes PDFs ici ──
+// Pour chaque examen : { id, year, name, subject, url, desc, tags, isNew }
+// url = chemin relatif vers le PDF dans ton repo GitHub
+// ex : 'ceb/ceb-2023-francais.pdf'
+let cebExams = [
+
+  // 2025
+  { id:'ceb-2025', year:'2025', name:'CEB 2025 — Questionnaires complets', subject:'Complet',
+    url:'ceb/questionnaires-ceb-2025.pdf', desc:'Ressource 188 — questionnaires officiels CEB 2025',
+    tags:['Français','Maths','Éveil'], isNew:true,
+    correctifs:[] },
+
+  // 2024
+  { id:'ceb-2024', year:'2024', name:'CEB 2024 — Questionnaires complets', subject:'Complet',
+    url:'ceb/questionnaires-ceb-2024.pdf', desc:'Questionnaires officiels CEB 2024',
+    tags:['Français','Maths','Éveil'], isNew:false,
+    correctifs:[] },
+
+  // 2023
+  { id:'ceb-2023', year:'2023', name:'CEB 2023 — Questionnaires complets', subject:'Complet',
+    url:'ceb/questionnaires-ceb-2023.pdf', desc:'Questionnaires officiels CEB 2023',
+    tags:['Français','Maths','Éveil'], isNew:false,
+    correctifs:[
+      { label:'Corrigé — Solides & Figures', url:'ceb/ceb2023solidesetfigures_corrige.pdf' }
+    ] },
+
+  // 2022
+  { id:'ceb-2022', year:'2022', name:'CEB 2022 — Questionnaires complets', subject:'Complet',
+    url:'ceb/questionnaires-ceb-2022.pdf', desc:'Questionnaires officiels CEB 2022',
+    tags:['Français','Maths','Éveil'], isNew:false,
+    correctifs:[
+      { label:'Corrigé — Grandeurs',         url:'ceb/ceb2022grandeurs_corrige.pdf' },
+      { label:'Corrigé — Solides & Figures', url:'ceb/ceb2022solidesetfigures_corrige.pdf' }
+    ] },
+
+  // 2021
+  { id:'ceb-2021', year:'2021', name:'CEB 2021 — Questionnaires complets', subject:'Complet',
+    url:'ceb/questionnaires-ceb-2021.pdf', desc:'Questionnaires officiels CEB 2021',
+    tags:['Français','Maths','Éveil'], isNew:false,
+    correctifs:[] },
+
+  // 2020
+  { id:'ceb-2020', year:'2020', name:'CEB 2020 — Correctifs Mathématiques', subject:'Mathématiques',
+    url:'ceb/ceb2020grandeurs_corrige.pdf', desc:'Corrigés maths disponibles (pas de questionnaire PDF)',
+    tags:['Grandeurs','Solides & Figures'], isNew:false,
+    correctifs:[
+      { label:'Corrigé — Grandeurs',         url:'ceb/ceb2020grandeurs_corrige.pdf' },
+      { label:'Corrigé — Solides & Figures', url:'ceb/ceb2020solidesetfigures_corrige.pdf' }
+    ] },
+
+  // 2019
+  { id:'ceb-2019', year:'2019', name:'CEB 2019 — Questionnaires complets', subject:'Complet',
+    url:'ceb/questionnaires-ceb-2019.pdf', desc:'Questionnaires officiels CEB 2019',
+    tags:['Français','Maths','Éveil'], isNew:false,
+    correctifs:[
+      { label:'Corrigé — Grandeurs',             url:'ceb/ceb2019grandeurs_corrige.pdf' },
+      { label:'Corrigé — Nombres & Opérations', url:'ceb/ceb2019nombresetoperations_corrige.pdf' }
+    ] },
+
+  // 2018
+  { id:'ceb-2018', year:'2018', name:'CEB 2018 — Correctifs Mathématiques', subject:'Mathématiques',
+    url:'ceb/ceb2018grandeurs_corrige.pdf', desc:'Corrigés maths disponibles (pas de questionnaire PDF)',
+    tags:['Grandeurs','Nombres & Opérations'], isNew:false,
+    correctifs:[
+      { label:'Corrigé — Grandeurs',             url:'ceb/ceb2018grandeurs_corrige.pdf' },
+      { label:'Corrigé — Nombres & Opérations', url:'ceb/ceb2018nombresetoperations_corrige.pdf' }
+    ] },
+
+  // 2013
+  { id:'ceb-2013', year:'2013', name:'CEB 2013 — Questionnaires VA2', subject:'Complet',
+    url:'ceb/questionnaires-va2-ceb-2013.pdf', desc:'Version VA2 des questionnaires officiels CEB 2013',
+    tags:['Français','Maths','Éveil'], isNew:false,
+    correctifs:[] },
+
+];
+
+// Filtre actif
+let cebActiveYear = 'Tous';
+
+// Icônes et couleurs par matière
+const cebSubjectConfig = {
+  'Complet':        { icon:'📋', badge:'Complet',   cls:'',    ac:'#C9A84C' },
+  'Français':       { icon:'📖', badge:'Français',  cls:'fr',  ac:'#A78BFA' },
+  'Mathématiques':  { icon:'🔢', badge:'Maths',     cls:'mat', ac:'#3ECF8E' },
+  'Éveil':          { icon:'🌍', badge:'Éveil',     cls:'',    ac:'#E8A44C' },
+};
+
+function getCebYears() {
+  const years = [...new Set(cebExams.map(e => e.year))].sort((a,b)=>b-a);
+  return ['Tous', ...years];
+}
+
+function renderCebYearFilters() {
+  const el = document.getElementById('ceb-year-filters');
+  el.innerHTML = getCebYears().map(y =>
+    `<button class="ceb-year-btn${cebActiveYear===y?' active':''}" onclick="filterCebYear('${y}')">${y}</button>`
+  ).join('');
+}
+
+function filterCebYear(year) {
+  cebActiveYear = year;
+  renderCebYearFilters();
+  renderCebGrid();
+}
+
+function renderCebGrid() {
+  const grid = document.getElementById('ceb-grid');
+  const countEl = document.getElementById('ceb-count');
+
+  const filtered = cebActiveYear === 'Tous'
+    ? cebExams
+    : cebExams.filter(e => e.year === cebActiveYear);
+
+  countEl.innerHTML = `<span>${filtered.length}</span> examen${filtered.length!==1?'s':''} disponible${filtered.length!==1?'s':''}`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="ceb-empty">
+      <div class="ceb-empty-icon">📭</div>
+      <div class="ceb-empty-txt">Aucun examen pour cette année.<br>Ajoute des PDFs dans ton repo !</div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(exam => {
+    const cfg = cebSubjectConfig[exam.subject] || { icon:'📄', badge:exam.subject, cls:'', ac:'#C9A84C' };
+    const tags = (exam.tags||[]).map(t=>`<span class="ceb-tag">${t}</span>`).join('');
+    const newBadge = exam.isNew ? `<span class="ceb-card-badge new">Nouveau</span>` : '';
+    return `
+    <div class="ceb-card" style="--card-ac:${cfg.ac}">
+      <div class="ceb-card-top">
+        <div class="ceb-card-icon">${cfg.icon}</div>
+        <div style="display:flex;gap:.35rem;flex-wrap:wrap;justify-content:flex-end">
+          ${exam.isNew ? '<span class=\"ceb-card-badge new\">Nouveau</span>' : ''}
+          <span class="ceb-card-badge ${cfg.cls}">${cfg.badge}</span>
+          ${(exam.correctifs&&exam.correctifs.length) ? '<span class=\"ceb-card-badge corrige-badge\">Corrigé ✓</span>' : ''}
+        </div>
+      </div>
+      <div class="ceb-card-body">
+        <div class="ceb-card-year">CEB · ${exam.year}</div>
+        <div class="ceb-card-name">${exam.name}</div>
+        <div class="ceb-card-meta">${exam.desc||''}</div>
+        ${tags ? `<div class="ceb-card-tags">${tags}</div>` : ''}
+      </div>
+      ${(exam.correctifs&&exam.correctifs.length) ? `
+      <div class="ceb-correctifs">
+        <div class="ceb-correctifs-label">Correctifs disponibles</div>
+        <div class="ceb-correctifs-btns">
+          ${exam.correctifs.map(c=>`<a class="ceb-btn-corrige" href="${c.url}" download="${c.url.split('/').pop()}">✓ ${c.label}</a>`).join('')}
+        </div>
+      </div>` : ''}
+      <div class="ceb-card-actions">
+        <a class="ceb-btn-dl" href="${exam.url}" download="${exam.url.split('/').pop()}">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 13h12v1.5H2z"/></svg>
+          Télécharger
+        </a>
+        <a class="ceb-btn-view" href="${exam.url}" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v1.5H3.5v9h9V11H14v5H2V2zm7 0h5v5h-1.5V4.06l-6.22 6.22-1.06-1.06L15.44 3H10V2z"/></svg>
+          Voir
+        </a>
+      </div>
+      ${(exam.isNew||exam.correctifs&&exam.correctifs.length) ? `<div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.5rem;">${exam.isNew?'<span class=\"ceb-card-badge new\">Nouveau</span>':''}${(exam.correctifs&&exam.correctifs.length)?'<span class=\"ceb-card-badge corrige-badge\">+ Corrigé</span>':''}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function openCebModal() {
+  document.getElementById('ceb-name').value = '';
+  document.getElementById('ceb-year').value = '';
+  document.getElementById('ceb-url').value = '';
+  document.getElementById('ceb-desc').value = '';
+  document.getElementById('ceb-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('ceb-name').focus(), 50);
+}
+function closeCebModal() {
+  document.getElementById('ceb-modal').classList.remove('open');
+}
+document.getElementById('ceb-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('ceb-modal')) closeCebModal();
+});
+
+function addCebExam() {
+  const name    = document.getElementById('ceb-name').value.trim();
+  const year    = document.getElementById('ceb-year').value.trim();
+  const subject = document.getElementById('ceb-subject').value;
+  const url     = document.getElementById('ceb-url').value.trim();
+  const desc    = document.getElementById('ceb-desc').value.trim();
+  if (!name || !year || !url) { alert('Remplis au moins le titre, l\'année et le chemin du PDF.'); return; }
+  cebExams.unshift({
+    id: 'ceb-' + Date.now(),
+    year, name, subject, url, desc,
+    tags:[], isNew:true
+  });
+  closeCebModal();
+  cebActiveYear = 'Tous';
+  renderCebYearFilters();
+  renderCebGrid();
+}
+
+// Init CEB
+renderCebYearFilters();
+renderCebGrid();
+
 /* ─────────────────────────────
    KEYBOARD SHORTCUTS
 ───────────────────────────── */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.querySelectorAll('.overlay.open').forEach(o => o.classList.remove('open'));
+    closeCebModal();
   }
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
     e.preventDefault();
