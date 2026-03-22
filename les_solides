@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LES SOLIDES — Académie de Géométrie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8CC7A;
+    --deep: #0A0E1A;
+    --navy: #111827;
+    --card: #161D2E;
+    --border: rgba(201,168,76,0.25);
+    --text: #E8E4D9;
+    --muted: #8B8577;
+    --green: #3ECF8E;
+    --blue: #5B9FE8;
+    --red: #E8556A;
+    --purple: #A78BFA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--deep);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* STARS BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 25%, rgba(201,168,76,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 60% 15%, rgba(201,168,76,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 55%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 30%, rgba(201,168,76,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 85%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 48% 90%, rgba(201,168,76,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 72% 80%, rgba(255,255,255,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* SECTIONS */
+  section {
+    display: none;
+    min-height: 100vh;
+    padding: 80px 2rem 4rem;
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  section.active { display: block; }
+
+  /* HERO */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 120px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    animation: fadeDown 0.8s ease forwards;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    animation: fadeUp 0.9s 0.2s ease both;
+    margin-bottom: 1.5rem;
+  }
+
+  h1.hero-title span { color: var(--gold); }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    animation: fadeUp 0.9s 0.4s ease both;
+    margin-bottom: 3rem;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.9s 0.6s ease both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(201,168,76,0.35);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--border);
+  }
+
+  .btn-outline:hover {
+    background: rgba(201,168,76,0.08);
+    transform: translateY(-2px);
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 3rem;
+    margin-top: 5rem;
+    justify-content: center;
+    animation: fadeUp 0.9s 0.8s ease both;
+  }
+
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  /* SECTION HEADERS */
+  .section-header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+  }
+
+  .section-desc {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s;
+  }
+
+  .card:hover {
+    border-color: rgba(201,168,76,0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  /* THEORY GRID */
+  .theory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .solid-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .solid-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent, var(--gold));
+  }
+
+  .solid-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.5);
+    border-color: var(--accent, var(--gold));
+  }
+
+  .solid-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    display: block;
+    filter: drop-shadow(0 4px 12px rgba(201,168,76,0.3));
+  }
+
+  .solid-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .solid-cat {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 1rem;
+    color: var(--accent, var(--gold));
+  }
+
+  .solid-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+
+  .solid-props {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .solid-props li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    opacity: 0.85;
+  }
+
+  .solid-props li::before {
+    content: '▸';
+    color: var(--accent, var(--gold));
+    font-size: 0.7rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  /* 3D SVG SHAPES */
+  .shape-svg {
+    width: 80px; height: 80px;
+    margin-bottom: 1rem;
+  }
+
+  /* CLASSIFICATION DIAGRAM */
+  .diagram {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .diagram-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tree-root {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--deep);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tree-line {
+    width: 2px;
+    height: 30px;
+    background: var(--border);
+  }
+
+  .tree-branches {
+    display: flex;
+    gap: 4rem;
+    position: relative;
+  }
+
+  .tree-branches::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: var(--border);
+  }
+
+  .tree-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .tree-node {
+    border: 2px solid var(--accent, var(--gold));
+    color: var(--accent, var(--gold));
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .tree-children {
+    display: flex;
+    gap: 1.5rem;
+    position: relative;
+    margin-top: 0;
+  }
+
+  .tree-children::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: var(--border);
+  }
+
+  .tree-leaf {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* PRACTICE */
+  .practice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .practice-grid { grid-template-columns: 1fr; }
+  }
+
+  .quiz-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+  }
+
+  .quiz-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .quiz-card p.hint {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    width: 100%;
+  }
+
+  .choice:hover {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .choice.correct {
+    border-color: var(--green);
+    background: rgba(62,207,142,0.1);
+    color: var(--green);
+  }
+
+  .choice.wrong {
+    border-color: var(--red);
+    background: rgba(232,85,106,0.1);
+    color: var(--red);
+  }
+
+  .choice-letter {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+
+  .feedback {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: none;
+  }
+
+  .feedback.show { display: block; }
+  .feedback.ok { background: rgba(62,207,142,0.1); color: var(--green); border: 1px solid rgba(62,207,142,0.3); }
+  .feedback.nope { background: rgba(232,85,106,0.1); color: var(--red); border: 1px solid rgba(232,85,106,0.3); }
+
+  /* EXERCISES */
+  .exercise-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .ex-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .ex-q {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .ex-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .ex-options { grid-template-columns: 1fr; }
+  }
+
+  .ex-opt {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .ex-opt:hover:not(:disabled) {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .ex-opt.correct { border-color: var(--green); background: rgba(62,207,142,0.1); color: var(--green); }
+  .ex-opt.wrong { border-color: var(--red); background: rgba(232,85,106,0.1); color: var(--red); }
+  .ex-opt:disabled { cursor: default; }
+
+  .ex-feedback {
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    display: none;
+  }
+  .ex-feedback.show { display: block; }
+  .ex-feedback.ok { background: rgba(62,207,142,0.1); color: var(--green); border: 1px solid rgba(62,207,142,0.3); }
+  .ex-feedback.nope { background: rgba(232,85,106,0.1); color: var(--red); border: 1px solid rgba(232,85,106,0.3); }
+
+  /* EXAM */
+  .exam-intro {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .exam-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .exam-intro p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .exam-rules {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .rule {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .rule-icon {
+    width: 28px; height: 28px;
+    background: rgba(201,168,76,0.1);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  #exam-questions { display: none; }
+
+  .exam-q {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .exam-q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .exam-q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .exam-q-pts {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+  }
+
+  .exam-q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+
+  .exam-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .exam-opt {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    transition: all 0.2s;
+    width: 100%;
+  }
+
+  .exam-opt:hover {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .exam-opt.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+  }
+
+  .exam-opt-letter {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem;
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  .exam-submit-area {
+    text-align: center;
+    padding: 2rem 0;
+    display: none;
+  }
+
+  /* RESULTS */
+  .result-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    display: none;
+  }
+
+  .score-ring {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 4px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    position: relative;
+    background: radial-gradient(circle, rgba(201,168,76,0.08), transparent);
+  }
+
+  .score-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .score-denom {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .result-msg {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 450px;
+    margin: 0 auto 2rem;
+  }
+
+  .result-details {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .result-stat {
+    text-align: center;
+  }
+
+  .result-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  .result-stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .mention {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-container {
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* SCROLL TO TOP */
+  .back-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 44px; height: 44px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--gold);
+    font-size: 1rem;
+    transition: all 0.2s;
+    z-index: 50;
+  }
+
+  .back-top:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .theory-grid { grid-template-columns: 1fr; }
+    .stats-row { gap: 1.5rem; }
+    h1.hero-title { font-size: 3rem; }
+    .tree-branches { gap: 1.5rem; }
+    .tree-node { font-size: 0.78rem; padding: 0.5rem 0.8rem; }
+    .tree-leaf { font-size: 0.72rem; }
+    nav { padding: 0 1rem; }
+    .nav-logo { display: none; }
+  }
+
+  /* SEPARATOR */
+  .sep {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 1.5rem 0;
+  }
+
+  /* TOOLTIP */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltip .tip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--navy);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    display: none;
+    z-index: 10;
+    margin-bottom: 6px;
+  }
+
+  .tooltip:hover .tip { display: block; }
+
+  /* BADGE SCORE */
+  .score-badge {
+    position: fixed;
+    top: 70px;
+    right: 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 0.35rem 0.85rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    z-index: 90;
+    display: none;
+    letter-spacing: 0.08em;
+  }
+
+  .score-badge.visible { display: block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Académie · Géométrie</div>
+  <ul class="nav-links">
+    <li><a onclick="showSection('home')" id="nav-home" class="active">Accueil</a></li>
+    <li><a onclick="showSection('theory')" id="nav-theory">Théorie</a></li>
+    <li><a onclick="showSection('practice')" id="nav-practice">Pratique</a></li>
+    <li><a onclick="showSection('exercises')" id="nav-exercises">Exercices</a></li>
+    <li><a onclick="showSection('exam')" id="nav-exam">Examen</a></li>
+  </ul>
+</nav>
+
+<div class="score-badge" id="score-badge">Score: <span id="badge-score">0</span></div>
+
+<!-- HOME -->
+<section id="home" class="active hero">
+  <div class="hero-badge">6ème Primaire · Géométrie Spatiale</div>
+  <h1 class="hero-title">Les <span>Solides</span><br>Géométriques</h1>
+  <p class="hero-sub">Maîtrisez la classification des solides, de la théorie fondamentale jusqu'à l'examen final. Un parcours d'excellence en quatre étapes.</p>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="showSection('theory')">▶ Commencer</button>
+    <button class="btn btn-outline" onclick="showSection('exam')">→ Aller à l'examen</button>
+  </div>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Solides étudiés</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24</div>
+      <div class="stat-label">Exercices</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">20</div>
+      <div class="stat-label">Points à l'examen</div>
+    </div>
+  </div>
+</section>
+
+<!-- THEORY -->
+<section id="theory">
+  <div class="section-header">
+    <span class="section-tag">Chapitre I</span>
+    <h2 class="section-title">La Théorie</h2>
+    <p class="section-desc">Comprends la classification complète des solides géométriques, leurs propriétés et leurs caractéristiques essentielles.</p>
+  </div>
+
+  <!-- DIAGRAM -->
+  <div class="diagram">
+    <div class="diagram-title">◆ Classification des Solides</div>
+    <div class="tree">
+      <div class="tree-root">LES SOLIDES</div>
+      <div class="tree-line"></div>
+      <div class="tree-branches">
+        <div class="tree-branch">
+          <div class="tree-line" style="background:var(--border)"></div>
+          <div class="tree-node" style="--accent:#3ECF8E">POLYÈDRES</div>
+          <div class="tree-line"></div>
+          <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+              <div class="tree-line"></div>
+              <div class="tree-leaf" style="border-color:rgba(62,207,142,0.4); color:var(--green)">PRISME</div>
+              <div class="tree-line"></div>
+              <div class="tree-leaf" style="border-color:rgba(62,207,142,0.3)">Parallélépipède</div>
+              <div class="tree-line"></div>
+              <div class="tree-leaf" style="border-color:rgba(62,207,142,0.3)">Cube</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+              <div class="tree-line"></div>
+              <div class="tree-leaf" style="border-color:rgba(62,207,142,0.4); color:var(--green)">PYRAMIDE</div>
+              <div class="tree-line"></div>
+              <div class="tree-leaf" style="border-color:rgba(62,207,142,0.3)">Tétraède</div>
+            </div>
+          </div>
+        </div>
+        <div class="tree-branch">
+          <div class="tree-line"></div>
+          <div class="tree-node" style="--accent:#5B9FE8">NON-POLYÈDRES</div>
+          <div class="tree-line"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+            <div class="tree-leaf" style="border-color:rgba(91,159,232,0.4); color:var(--blue)">SOLIDES DE RÉVOLUTION</div>
+            <div class="tree-line"></div>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center">
+              <div class="tree-leaf" style="border-color:rgba(91,159,232,0.3)">Boule</div>
+              <div class="tree-leaf" style="border-color:rgba(91,159,232,0.3)">Cône</div>
+              <div class="tree-leaf" style="border-color:rgba(91,159,232,0.3)">Cylindre</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY DEFINITIONS -->
+  <div class="card" style="margin-bottom:2rem;">
+    <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--gold); margin-bottom:1.25rem;">📖 Définitions fondamentales</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.25rem;">
+      <div style="padding:1rem; background:rgba(62,207,142,0.05); border:1px solid rgba(62,207,142,0.2); border-radius:10px;">
+        <div style="font-weight:600; color:var(--green); margin-bottom:0.5rem; font-size:0.9rem;">🔺 Polyèdre</div>
+        <p style="font-size:0.85rem; color:var(--muted); line-height:1.6;">Solide dont <strong style="color:var(--text)">toutes les faces sont des polygones plats</strong> (triangles, carrés, rectangles…). Il n'a aucune surface courbe.</p>
+      </div>
+      <div style="padding:1rem; background:rgba(91,159,232,0.05); border:1px solid rgba(91,159,232,0.2); border-radius:10px;">
+        <div style="font-weight:600; color:var(--blue); margin-bottom:0.5rem; font-size:0.9rem;">⭕ Non-polyèdre</div>
+        <p style="font-size:0.85rem; color:var(--muted); line-height:1.6;">Solide qui possède au moins <strong style="color:var(--text)">une surface courbe</strong>. Les solides de révolution sont obtenus en faisant tourner une figure autour d'un axe.</p>
+      </div>
+      <div style="padding:1rem; background:rgba(167,139,250,0.05); border:1px solid rgba(167,139,250,0.2); border-radius:10px;">
+        <div style="font-weight:600; color:var(--purple); margin-bottom:0.5rem; font-size:0.9rem;">📐 Face</div>
+        <p style="font-size:0.85rem; color:var(--muted); line-height:1.6;">Surface plane (ou courbe) qui délimite un solide. Un cube a <strong style="color:var(--text)">6 faces</strong> carrées.</p>
+      </div>
+      <div style="padding:1rem; background:rgba(201,168,76,0.05); border:1px solid rgba(201,168,76,0.2); border-radius:10px;">
+        <div style="font-weight:600; color:var(--gold); margin-bottom:0.5rem; font-size:0.9rem;">⬤ Arête & Sommet</div>
+        <p style="font-size:0.85rem; color:var(--muted); line-height:1.6;"><strong style="color:var(--text)">Arête</strong> = segment où deux faces se rejoignent. <strong style="color:var(--text)">Sommet</strong> = point où plusieurs arêtes se rencontrent.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLIDS GRID -->
+  <div class="theory-grid">
+
+    <!-- PRISME -->
+    <div class="solid-card" style="--accent:#3ECF8E">
+      <span class="solid-icon">
+        <!-- Deux prismes côte à côte comme dans le document : prisme triangulaire + prisme pentagonal -->
+        <svg viewBox="0 0 160 80" width="140" height="70">
+          <!-- PRISME TRIANGULAIRE (gauche) -->
+          <!-- Face avant : triangle -->
+          <polygon points="10,65 38,65 24,38" fill="rgba(62,207,142,0.13)" stroke="#3ECF8E" stroke-width="1.5"/>
+          <!-- Face arrière : triangle (décalé vers droite/haut) -->
+          <polygon points="25,55 53,55 39,28" fill="rgba(62,207,142,0.07)" stroke="#3ECF8E" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Arêtes latérales reliant les deux triangles -->
+          <line x1="10" y1="65" x2="25" y2="55" stroke="#3ECF8E" stroke-width="1.5"/>
+          <line x1="38" y1="65" x2="53" y2="55" stroke="#3ECF8E" stroke-width="1.5"/>
+          <line x1="24" y1="38" x2="39" y2="28" stroke="#3ECF8E" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Face du bas visible -->
+          <polygon points="10,65 38,65 53,55 25,55" fill="rgba(62,207,142,0.09)" stroke="#3ECF8E" stroke-width="1.5"/>
+
+          <!-- PRISME PENTAGONAL (droite) -->
+          <!-- Face avant : pentagone -->
+          <polygon points="80,65 107,65 115,50 97,35 76,50" fill="rgba(62,207,142,0.13)" stroke="#3ECF8E" stroke-width="1.5"/>
+          <!-- Face arrière : pentagone (décalé) -->
+          <polygon points="93,58 120,58 128,43 110,28 89,43" fill="rgba(62,207,142,0.07)" stroke="#3ECF8E" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Arêtes latérales -->
+          <line x1="80" y1="65" x2="93" y2="58" stroke="#3ECF8E" stroke-width="1.5"/>
+          <line x1="107" y1="65" x2="120" y2="58" stroke="#3ECF8E" stroke-width="1.5"/>
+          <line x1="115" y1="50" x2="128" y2="43" stroke="#3ECF8E" stroke-width="1.5"/>
+          <line x1="97" y1="35" x2="110" y2="28" stroke="#3ECF8E" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="76" y1="50" x2="89" y2="43" stroke="#3ECF8E" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Face du bas visible -->
+          <polygon points="80,65 107,65 120,58 93,58" fill="rgba(62,207,142,0.09)" stroke="#3ECF8E" stroke-width="1.5"/>
+        </svg>
+      </span>
+      <div class="solid-cat">Polyèdre</div>
+      <div class="solid-name">Le Prisme</div>
+      <p class="solid-desc">Un prisme possède deux faces identiques et parallèles (les bases) reliées par des parallélogrammes ou des rectangles.</p>
+      <ul class="solid-props">
+        <li>Deux faces parallèles et isométriques (mêmes dimensions)</li>
+        <li>Les faces latérales sont des parallélogrammes (ou des rectangles)</li>
+        <li>Le nombre de faces dépend de la base (triangulaire = 5 faces)</li>
+      </ul>
+    </div>
+
+    <!-- PARALLÉLÉPIPÈDE -->
+    <div class="solid-card" style="--accent:#3ECF8E">
+      <span class="solid-icon">
+        <svg viewBox="0 0 80 70" width="70" height="65">
+          <polygon points="10,50 50,50 50,20 10,20" fill="rgba(62,207,142,0.1)" stroke="#3ECF8E" stroke-width="1.5"/>
+          <polygon points="50,20 70,10 70,40 50,50" fill="rgba(62,207,142,0.12)" stroke="#3ECF8E" stroke-width="1.5"/>
+          <polygon points="10,20 50,20 70,10 30,10" fill="rgba(62,207,142,0.08)" stroke="#3ECF8E" stroke-width="1.5"/>
+          <line x1="10" y1="50" x2="30" y2="40" stroke="#3ECF8E" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="30" y1="40" x2="70" y2="40" stroke="#3ECF8E" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="30" y1="40" x2="30" y2="10" stroke="#3ECF8E" stroke-width="1" stroke-dasharray="3,3"/>
+        </svg>
+      </span>
+      <div class="solid-cat">Polyèdre · Prisme</div>
+      <div class="solid-name">Parallélépipède Rectangle</div>
+      <p class="solid-desc">Un prisme particulier dont toutes les faces sont des rectangles. C'est la forme d'une brique ou d'une boîte.</p>
+      <ul class="solid-props">
+        <li>6 faces rectangulaires</li>
+        <li>12 arêtes et 8 sommets</li>
+        <li>Toutes les arêtes se rencontrent à angle droit (90°)</li>
+      </ul>
+    </div>
+
+    <!-- CUBE -->
+    <div class="solid-card" style="--accent:#C9A84C">
+      <span class="solid-icon">
+        <svg viewBox="0 0 80 70" width="70" height="65">
+          <polygon points="10,55 50,55 50,20 10,20" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1.5"/>
+          <polygon points="50,20 70,5 70,40 50,55" fill="rgba(201,168,76,0.12)" stroke="#C9A84C" stroke-width="1.5"/>
+          <polygon points="10,20 50,20 70,5 30,5" fill="rgba(201,168,76,0.08)" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="10" y1="55" x2="30" y2="40" stroke="#C9A84C" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="30" y1="40" x2="70" y2="40" stroke="#C9A84C" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="30" y1="40" x2="30" y2="5" stroke="#C9A84C" stroke-width="1" stroke-dasharray="3,3"/>
+        </svg>
+      </span>
+      <div class="solid-cat">Polyèdre · Prisme</div>
+      <div class="solid-name">Le Cube</div>
+      <p class="solid-desc">Un parallélépipède rectangle spécial où toutes les faces sont des <strong style="color:var(--gold)">carrés identiques</strong>.</p>
+      <ul class="solid-props">
+        <li>6 faces carrées (toutes identiques)</li>
+        <li>12 arêtes de longueur égale</li>
+        <li>8 sommets</li>
+      </ul>
+    </div>
+
+    <!-- PYRAMIDE -->
+    <div class="solid-card" style="--accent:#A78BFA">
+      <span class="solid-icon">
+        <svg viewBox="0 0 80 75" width="70" height="70">
+          <polygon points="40,5 65,60 15,60" fill="rgba(167,139,250,0.1)" stroke="#A78BFA" stroke-width="1.5"/>
+          <polygon points="40,5 65,60 70,45" fill="rgba(167,139,250,0.12)" stroke="#A78BFA" stroke-width="1.5"/>
+          <polygon points="15,60 65,60 70,45 20,45" fill="rgba(167,139,250,0.08)" stroke="#A78BFA" stroke-width="1.5"/>
+          <line x1="40" y1="5" x2="20" y2="45" stroke="#A78BFA" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="20" y1="45" x2="15" y2="60" stroke="#A78BFA" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="20" y1="45" x2="70" y2="45" stroke="#A78BFA" stroke-width="1" stroke-dasharray="3,3"/>
+        </svg>
+      </span>
+      <div class="solid-cat">Polyèdre</div>
+      <div class="solid-name">La Pyramide</div>
+      <p class="solid-desc">Une pyramide a une base polygonale reliée à un unique sommet (apex) par des faces triangulaires.</p>
+      <ul class="solid-props">
+        <li>1 face de base (polygone quelconque)</li>
+        <li>Faces latérales triangulaires convergeant vers un sommet</li>
+        <li>Nombre de faces = nombre de côtés de la base + 1</li>
+      </ul>
+    </div>
+
+    <!-- TÉTRAÈDE -->
+    <div class="solid-card" style="--accent:#A78BFA">
+      <span class="solid-icon">
+        <svg viewBox="0 0 80 75" width="70" height="70">
+          <polygon points="40,5 70,65 10,65" fill="rgba(167,139,250,0.1)" stroke="#A78BFA" stroke-width="1.5"/>
+          <polygon points="40,5 70,65 55,40" fill="rgba(167,139,250,0.12)" stroke="#A78BFA" stroke-width="1.5"/>
+          <polygon points="40,5 10,65 55,40" fill="rgba(167,139,250,0.06)" stroke="#A78BFA" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="10" y1="65" x2="55" y2="40" stroke="#A78BFA" stroke-width="1" stroke-dasharray="3,3"/>
+        </svg>
+      </span>
+      <div class="solid-cat">Polyèdre · Pyramide</div>
+      <div class="solid-name">Le Tétraèdre</div>
+      <p class="solid-desc">Un cas spécial de pyramide : <strong style="color:var(--purple)">4 faces triangulaires</strong> égales. C'est le polyèdre avec le moins de faces possible.</p>
+      <ul class="solid-props">
+        <li>4 faces triangulaires</li>
+        <li>6 arêtes et 4 sommets</li>
+        <li>Pyramide à base triangulaire</li>
+      </ul>
+    </div>
+
+    <!-- BOULE -->
+    <div class="solid-card" style="--accent:#5B9FE8">
+      <span class="solid-icon">
+        <svg viewBox="0 0 80 80" width="70" height="70">
+          <circle cx="40" cy="40" r="30" fill="rgba(91,159,232,0.08)" stroke="#5B9FE8" stroke-width="1.5"/>
+          <ellipse cx="40" cy="40" rx="30" ry="10" fill="none" stroke="#5B9FE8" stroke-width="1" stroke-dasharray="4,3"/>
+          <ellipse cx="40" cy="40" rx="10" ry="30" fill="none" stroke="#5B9FE8" stroke-width="1" stroke-dasharray="4,3"/>
+        </svg>
+      </span>
+      <div class="solid-cat">Non-Polyèdre · Solide de Révolution</div>
+      <div class="solid-name">La Boule (Sphère)</div>
+      <p class="solid-desc">Tous les points de la surface sont à égale distance du centre. Obtenue en faisant tourner un demi-cercle autour de son diamètre.</p>
+      <ul class="solid-props">
+        <li>Surface entièrement courbe</li>
+        <li>Aucune face plate, aucun sommet, aucune arête</li>
+        <li>Symétrique dans toutes les directions</li>
+      </ul>
+    </div>
+
+    <!-- CÔNE -->
+    <div class="solid-card" style="--accent:#5B9FE8">
+      <span class="solid-icon">
+        <svg viewBox="0 0 80 80" width="70" height="70">
+          <polygon points="40,8 65,65 15,65" fill="rgba(91,159,232,0.1)" stroke="#5B9FE8" stroke-width="1.5"/>
+          <ellipse cx="40" cy="65" rx="25" ry="7" fill="rgba(91,159,232,0.08)" stroke="#5B9FE8" stroke-width="1.5"/>
+          <line x1="40" y1="8" x2="15" y2="65" stroke="#5B9FE8" stroke-width="1.5"/>
+        </svg>
+      </span>
+      <div class="solid-cat">Non-Polyèdre · Solide de Révolution</div>
+      <div class="solid-name">Le Cône</div>
+      <p class="solid-desc">Un solide avec une base circulaire et une surface latérale courbe qui converge vers un sommet unique (apex).</p>
+      <ul class="solid-props">
+        <li>1 face de base circulaire (plate)</li>
+        <li>1 surface latérale courbe</li>
+        <li>1 sommet (apex) et 1 arête circulaire</li>
+      </ul>
+    </div>
+
+    <!-- CYLINDRE -->
+    <div class="solid-card" style="--accent:#5B9FE8">
+      <span class="solid-icon">
+        <svg viewBox="0 0 80 80" width="70" height="70">
+          <rect x="15" y="25" width="50" height="40" fill="rgba(91,159,232,0.08)" stroke="#5B9FE8" stroke-width="1.5"/>
+          <ellipse cx="40" cy="25" rx="25" ry="8" fill="rgba(91,159,232,0.12)" stroke="#5B9FE8" stroke-width="1.5"/>
+          <ellipse cx="40" cy="65" rx="25" ry="8" fill="rgba(91,159,232,0.08)" stroke="#5B9FE8" stroke-width="1.5"/>
+        </svg>
+      </span>
+      <div class="solid-cat">Non-Polyèdre · Solide de Révolution</div>
+      <div class="solid-name">Le Cylindre</div>
+      <p class="solid-desc">Un solide avec deux bases circulaires parallèles et identiques, reliées par une surface latérale courbe.</p>
+      <ul class="solid-props">
+        <li>2 faces de base circulaires identiques et parallèles</li>
+        <li>1 surface latérale courbe</li>
+        <li>Aucun sommet, 2 arêtes circulaires</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:2.5rem;">
+    <button class="btn btn-primary" onclick="showSection('practice')">Passer à la Pratique →</button>
+  </div>
+</section>
+
+<!-- PRACTICE -->
+<section id="practice">
+  <div class="section-header">
+    <span class="section-tag">Chapitre II</span>
+    <h2 class="section-title">La Pratique</h2>
+    <p class="section-desc">Identifie les solides et teste tes connaissances avec des questions guidées. Lis bien chaque description !</p>
+  </div>
+
+  <div class="practice-grid">
+
+    <!-- Q1 -->
+    <div class="quiz-card" id="pq1">
+      <h3>Question 1</h3>
+      <p class="hint">Ce solide a <strong>6 faces</strong>, toutes des <strong>carrés identiques</strong>. De quel solide s'agit-il ?</p>
+      <div class="choices">
+        <button class="choice" onclick="checkPractice('pq1',this,'wrong','Un parallélépipède a 6 faces rectangulaires, mais pas forcément carrées.')">
+          <span class="choice-letter">A</span> Parallélépipède rectangle
+        </button>
+        <button class="choice" onclick="checkPractice('pq1',this,'correct','Bravo ! Le cube a 6 faces carrées identiques, 12 arêtes égales et 8 sommets.')">
+          <span class="choice-letter">B</span> Cube
+        </button>
+        <button class="choice" onclick="checkPractice('pq1',this,'wrong','La pyramide a une base et des faces triangulaires — pas 6 faces carrées.')">
+          <span class="choice-letter">C</span> Pyramide
+        </button>
+        <button class="choice" onclick="checkPractice('pq1',this,'wrong','Le cylindre est un non-polyèdre avec des bases circulaires.')">
+          <span class="choice-letter">D</span> Cylindre
+        </button>
+      </div>
+      <div class="feedback" id="pq1-fb"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-card" id="pq2">
+      <h3>Question 2</h3>
+      <p class="hint">Je suis un <strong>non-polyèdre</strong>. J'ai une surface entièrement courbe, <strong>aucune face plate</strong>, aucun sommet. Qui suis-je ?</p>
+      <div class="choices">
+        <button class="choice" onclick="checkPractice('pq2',this,'wrong','Le cône a une face plate circulaire et un sommet.')">
+          <span class="choice-letter">A</span> Cône
+        </button>
+        <button class="choice" onclick="checkPractice('pq2',this,'wrong','Le cylindre a deux faces plates circulaires.')">
+          <span class="choice-letter">B</span> Cylindre
+        </button>
+        <button class="choice" onclick="checkPractice('pq2',this,'correct','Parfait ! La boule (sphère) est entièrement courbe, sans face plate ni sommet.')">
+          <span class="choice-letter">C</span> Boule (Sphère)
+        </button>
+        <button class="choice" onclick="checkPractice('pq2',this,'wrong','Le tétraèdre est un polyèdre avec 4 faces triangulaires plates.')">
+          <span class="choice-letter">D</span> Tétraèdre
+        </button>
+      </div>
+      <div class="feedback" id="pq2-fb"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-card" id="pq3">
+      <h3>Question 3</h3>
+      <p class="hint">J'ai <strong>4 faces triangulaires</strong>. Je suis un type de pyramide particulier. Mon nom vient du grec "quatre faces".</p>
+      <div class="choices">
+        <button class="choice" onclick="checkPractice('pq3',this,'wrong','Le prisme a deux bases parallèles, pas 4 faces triangulaires.')">
+          <span class="choice-letter">A</span> Prisme triangulaire
+        </button>
+        <button class="choice" onclick="checkPractice('pq3',this,'correct','Excellent ! Tétraèdre vient du grec tetra (quatre) + edra (faces). 4 faces triangulaires, 4 sommets, 6 arêtes.')">
+          <span class="choice-letter">B</span> Tétraèdre
+        </button>
+        <button class="choice" onclick="checkPractice('pq3',this,'wrong','Le cube a 6 faces carrées.')">
+          <span class="choice-letter">C</span> Cube
+        </button>
+        <button class="choice" onclick="checkPractice('pq3',this,'wrong','Le cône est un non-polyèdre avec une base circulaire.')">
+          <span class="choice-letter">D</span> Cône
+        </button>
+      </div>
+      <div class="feedback" id="pq3-fb"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-card" id="pq4">
+      <h3>Question 4</h3>
+      <p class="hint">Lequel de ces solides est un <strong>polyèdre</strong> ?</p>
+      <div class="choices">
+        <button class="choice" onclick="checkPractice('pq4',this,'wrong','La boule est un non-polyèdre : surface entièrement courbe.')">
+          <span class="choice-letter">A</span> Boule
+        </button>
+        <button class="choice" onclick="checkPractice('pq4',this,'wrong','Le cône est un non-polyèdre : il a une surface courbe.')">
+          <span class="choice-letter">B</span> Cône
+        </button>
+        <button class="choice" onclick="checkPractice('pq4',this,'wrong','Le cylindre est un non-polyèdre : surface latérale courbe.')">
+          <span class="choice-letter">C</span> Cylindre
+        </button>
+        <button class="choice" onclick="checkPractice('pq4',this,'correct','Correct ! La pyramide est un polyèdre car toutes ses faces sont des polygones plats.')">
+          <span class="choice-letter">D</span> Pyramide
+        </button>
+      </div>
+      <div class="feedback" id="pq4-fb"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-card" id="pq5">
+      <h3>Question 5</h3>
+      <p class="hint">Un solide de révolution est obtenu en faisant tourner une figure autour d'un axe. Lequel <strong>n'est PAS</strong> un solide de révolution ?</p>
+      <div class="choices">
+        <button class="choice" onclick="checkPractice('pq5',this,'wrong','Le cylindre est bien un solide de révolution : demi-rectangle tournant.')">
+          <span class="choice-letter">A</span> Cylindre
+        </button>
+        <button class="choice" onclick="checkPractice('pq5',this,'correct','Exact ! Le cube est un polyèdre, pas un solide de révolution.')">
+          <span class="choice-letter">B</span> Cube
+        </button>
+        <button class="choice" onclick="checkPractice('pq5',this,'wrong','Le cône est un solide de révolution : triangle rectangle tournant.')">
+          <span class="choice-letter">C</span> Cône
+        </button>
+        <button class="choice" onclick="checkPractice('pq5',this,'wrong','La boule est un solide de révolution : demi-cercle tournant.')">
+          <span class="choice-letter">D</span> Boule
+        </button>
+      </div>
+      <div class="feedback" id="pq5-fb"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-card" id="pq6">
+      <h3>Question 6</h3>
+      <p class="hint">Combien de faces a un <strong>parallélépipède rectangle</strong> ?</p>
+      <div class="choices">
+        <button class="choice" onclick="checkPractice('pq6',this,'wrong','4 faces, c'est le tétraèdre.')">
+          <span class="choice-letter">A</span> 4 faces
+        </button>
+        <button class="choice" onclick="checkPractice('pq6',this,'wrong','5 faces, c'est une pyramide à base carrée.')">
+          <span class="choice-letter">B</span> 5 faces
+        </button>
+        <button class="choice" onclick="checkPractice('pq6',this,'correct','Parfait ! 6 faces rectangulaires, 12 arêtes, 8 sommets.')">
+          <span class="choice-letter">C</span> 6 faces
+        </button>
+        <button class="choice" onclick="checkPractice('pq6',this,'wrong','8 faces, c'est trop pour un parallélépipède.')">
+          <span class="choice-letter">D</span> 8 faces
+        </button>
+      </div>
+      <div class="feedback" id="pq6-fb"></div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:2.5rem;">
+    <button class="btn btn-primary" onclick="showSection('exercises')">Aller aux Exercices →</button>
+  </div>
+</section>
+
+<!-- EXERCISES -->
+<section id="exercises">
+  <div class="section-header">
+    <span class="section-tag">Chapitre III</span>
+    <h2 class="section-title">Les Exercices</h2>
+    <p class="section-desc">Une série complète d'exercices variés pour consolider toutes tes connaissances avant l'examen final.</p>
+  </div>
+
+  <div id="ex-score-bar" style="background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1rem 1.5rem; margin-bottom:2rem; display:flex; align-items:center; justify-content:space-between;">
+    <span style="font-size:0.85rem; color:var(--muted);">Exercices réussis</span>
+    <span style="font-family:'DM Mono',monospace; font-size:0.9rem; color:var(--gold);" id="ex-counter">0 / 18</span>
+  </div>
+
+  <!-- EX 1-18 generated by JS -->
+  <div id="exercises-container"></div>
+
+  <div style="text-align:center; margin-top:2.5rem;">
+    <button class="btn btn-primary" onclick="showSection('exam')">Aller à l'Examen Final →</button>
+  </div>
+</section>
+
+<!-- EXAM -->
+<section id="exam">
+  <div class="section-header">
+    <span class="section-tag">Évaluation Finale</span>
+    <h2 class="section-title">L'Examen</h2>
+    <p class="section-desc">20 questions · 20 points · Une seule chance de briller.</p>
+  </div>
+
+  <div class="exam-intro" id="exam-intro">
+    <h2>📋 Examen Final — Les Solides</h2>
+    <p>Cet examen comprend <strong style="color:var(--gold)">20 questions</strong> portant sur l'ensemble de la matière. Chaque bonne réponse vaut <strong style="color:var(--gold)">1 point</strong>. Lis chaque question attentivement.</p>
+    <div class="exam-rules">
+      <div class="rule"><div class="rule-icon">📝</div> 20 questions</div>
+      <div class="rule"><div class="rule-icon">⭐</div> 1 point / question</div>
+      <div class="rule"><div class="rule-icon">🎯</div> Score sur /20</div>
+      <div class="rule"><div class="rule-icon">⏱️</div> Sans limite de temps</div>
+    </div>
+    <button class="btn btn-primary" onclick="startExam()">Commencer l'Examen</button>
+  </div>
+
+  <div id="exam-questions"></div>
+  <div class="exam-submit-area" id="exam-submit">
+    <button class="btn btn-primary" style="font-size:1rem; padding:1rem 3rem;" onclick="submitExam()">📊 Soumettre l'Examen</button>
+  </div>
+  <div class="result-box" id="result-box"></div>
+</section>
+
+<div class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+// ==================== NAVIGATION ====================
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ==================== PRACTICE ====================
+function checkPractice(qid, btn, result, msg) {
+  const card = document.getElementById(qid);
+  const fb = document.getElementById(qid + '-fb');
+  const btns = card.querySelectorAll('.choice');
+  btns.forEach(b => b.disabled = true);
+  if (result === 'correct') {
+    btn.classList.add('correct');
+    fb.textContent = '✓ ' + msg;
+    fb.className = 'feedback show ok';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = '✗ ' + msg;
+    fb.className = 'feedback show nope';
+  }
+}
+
+// ==================== EXERCISES ====================
+const exercisesData = [
+  { q: "Quel solide a exactement 4 faces, toutes triangulaires ?", opts: ["Pyramide à base carrée","Tétraèdre","Prisme triangulaire","Cône"], ans: 1, exp: "Le tétraèdre a exactement 4 faces triangulaires — c'est la pyramide minimale !" },
+  { q: "Un prisme triangulaire possède combien de faces ?", opts: ["3","4","5","6"], ans: 2, exp: "Prisme triangulaire = 2 triangles (bases) + 3 rectangles (côtés) = 5 faces." },
+  { q: "Parmi ces solides, lequel est un non-polyèdre ?", opts: ["Cube","Pyramide","Tétraèdre","Cylindre"], ans: 3, exp: "Le cylindre est un non-polyèdre : il possède une surface latérale courbe." },
+  { q: "Le cube est un cas particulier de quel solide ?", opts: ["Pyramide","Prisme","Tétraèdre","Cône"], ans: 1, exp: "Le cube est un parallélépipède rectangle dont toutes les arêtes sont égales." },
+  { q: "Quelle est la différence entre un cube et un parallélépipède rectangle ?", opts: ["Le cube a moins de faces","Dans le cube, toutes les faces sont carrées","Le parallélépipède n'a pas de sommets","Le cube est un non-polyèdre"], ans: 1, exp: "Dans un cube, les 6 faces sont des carrés identiques. Un parallélépipède a des rectangles." },
+  { q: "Combien de sommets possède un cube ?", opts: ["4","6","8","12"], ans: 2, exp: "Le cube a 8 sommets, 12 arêtes et 6 faces." },
+  { q: "La boule est obtenue en faisant tourner quelle figure ?", opts: ["Un triangle","Un rectangle","Un demi-cercle","Un trapèze"], ans: 2, exp: "La boule (sphère) est obtenue par rotation d'un demi-cercle autour de son diamètre." },
+  { q: "Un cône possède combien de faces plates ?", opts: ["0","1","2","3"], ans: 1, exp: "Le cône a 1 face plate circulaire (la base) et 1 surface courbe latérale." },
+  { q: "Quel solide possède deux faces circulaires identiques et parallèles ?", opts: ["Cône","Boule","Cylindre","Prisme"], ans: 2, exp: "Le cylindre a 2 bases circulaires identiques reliées par une surface courbe." },
+  { q: "Les solides de révolution appartiennent à quelle catégorie ?", opts: ["Polyèdres","Non-polyèdres","Prismes","Pyramides"], ans: 1, exp: "Les solides de révolution (boule, cône, cylindre) sont tous des non-polyèdres." },
+  { q: "Combien d'arêtes possède un tétraèdre ?", opts: ["4","5","6","8"], ans: 2, exp: "Le tétraèdre a 4 sommets, 6 arêtes et 4 faces — vérifiable avec la formule d'Euler !" },
+  { q: "Quelle est la caractéristique principale d'un prisme ?", opts: ["4 faces triangulaires","Deux faces parallèles et isométriques","Une base et un sommet","Surface entièrement courbe"], ans: 1, exp: "Un prisme a deux bases parallèles et isométriques reliées par des parallélogrammes." },
+  { q: "La pyramide à base carrée possède combien de faces en tout ?", opts: ["4","5","6","8"], ans: 1, exp: "1 base carrée + 4 faces triangulaires = 5 faces au total." },
+  { q: "Quel solide n'a aucun sommet ?", opts: ["Cube","Pyramide","Boule","Tétraèdre"], ans: 2, exp: "La boule n'a ni sommet, ni arête, ni face plate — juste une surface courbe continue." },
+  { q: "Le parallélépipède rectangle est un cas particulier de quel solide ?", opts: ["Pyramide","Tétraèdre","Prisme","Cône"], ans: 2, exp: "Le parallélépipède est un prisme dont toutes les faces sont des rectangles." },
+  { q: "Combien d'arêtes possède un parallélépipède rectangle ?", opts: ["6","8","10","12"], ans: 3, exp: "Le parallélépipède rectangle a 12 arêtes, 8 sommets et 6 faces." },
+  { q: "Lequel n'est PAS un polyèdre ?", opts: ["Cube","Cône","Pyramide","Prisme"], ans: 1, exp: "Le cône est un non-polyèdre car il possède une surface courbe." },
+  { q: "Une pyramide dont la base est un pentagone possède combien de faces ?", opts: ["4","5","6","7"], ans: 2, exp: "Base pentagonale (5 côtés) + 5 faces triangulaires = 6 faces. Formule : n+1 où n = nombre de côtés." },
+];
+
+let exScores = new Array(exercisesData.length).fill(false);
+
+function buildExercises() {
+  const c = document.getElementById('exercises-container');
+  c.innerHTML = '';
+  exercisesData.forEach((ex, i) => {
+    const letters = ['A','B','C','D'];
+    const opts = ex.opts.map((o, j) => `
+      <button class="ex-opt" id="ex${i}-opt${j}" onclick="checkEx(${i},${j})">
+        <span style="min-width:22px;height:22px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-family:'DM Mono',monospace;">${letters[j]}</span>
+        ${o}
+      </button>`).join('');
+    c.innerHTML += `
+      <div class="exercise-block" id="exblock${i}">
+        <div class="ex-num">Exercice ${i+1} / ${exercisesData.length}</div>
+        <div class="ex-q">${ex.q}</div>
+        <div class="ex-options">${opts}</div>
+        <div class="ex-feedback" id="ex${i}-fb"></div>
+      </div>`;
+  });
+}
+
+function checkEx(qi, chosen) {
+  const ex = exercisesData[qi];
+  const fb = document.getElementById(`ex${qi}-fb`);
+  const opts = document.querySelectorAll(`[id^="ex${qi}-opt"]`);
+  opts.forEach(o => o.disabled = true);
+  const correct = ex.ans;
+  opts[correct].classList.add('correct');
+  if (chosen !== correct) {
+    opts[chosen].classList.add('wrong');
+    fb.textContent = `✗ Mauvaise réponse. ${ex.exp}`;
+    fb.className = 'ex-feedback show nope';
+  } else {
+    fb.textContent = `✓ Bravo ! ${ex.exp}`;
+    fb.className = 'ex-feedback show ok';
+    if (!exScores[qi]) {
+      exScores[qi] = true;
+      updateExCounter();
+    }
+  }
+}
+
+function updateExCounter() {
+  const done = exScores.filter(Boolean).length;
+  document.getElementById('ex-counter').textContent = `${done} / ${exercisesData.length}`;
+}
+
+buildExercises();
+
+// ==================== EXAM ====================
+const examQuestions = [
+  { q: "Quel solide possède 6 faces carrées ?", opts: ["Parallélépipède rectangle","Cube","Prisme carré","Pyramide carrée"], ans: 1 },
+  { q: "La boule (sphère) est un…", opts: ["Polyèdre","Non-polyèdre","Prisme","Tétraèdre"], ans: 1 },
+  { q: "Combien de faces triangulaires a un tétraèdre ?", opts: ["2","3","4","5"], ans: 2 },
+  { q: "Le cylindre appartient à quelle famille ?", opts: ["Polyèdres","Prismes","Solides de révolution","Pyramides"], ans: 2 },
+  { q: "Un prisme a toujours…", opts: ["4 faces triangulaires","Deux bases parallèles et isométriques","Une surface courbe","Un seul sommet"], ans: 1 },
+  { q: "Combien d'arêtes a un cube ?", opts: ["6","8","12","16"], ans: 2 },
+  { q: "Quel solide n'a aucun sommet ni arête ?", opts: ["Cône","Tétraèdre","Boule","Cylindre"], ans: 2 },
+  { q: "Le parallélépipède rectangle est un cas particulier de…", opts: ["Pyramide","Prisme","Cône","Tétraèdre"], ans: 1 },
+  { q: "Quel solide obtient-on en faisant tourner un triangle rectangle autour d'un de ses côtés ?", opts: ["Cylindre","Boule","Cône","Prisme"], ans: 2 },
+  { q: "Un polyèdre est un solide dont…", opts: ["Toutes les faces sont des polygones plats","Au moins une face est courbe","La base est un cercle","Il y a exactement 6 faces"], ans: 0 },
+  { q: "Combien de faces a une pyramide à base carrée ?", opts: ["4","5","6","8"], ans: 1 },
+  { q: "Lequel est un polyèdre ?", opts: ["Boule","Cylindre","Cône","Pyramide"], ans: 3 },
+  { q: "Le tétraèdre a combien de sommets ?", opts: ["3","4","5","6"], ans: 1 },
+  { q: "Quel solide a deux faces circulaires parallèles ?", opts: ["Cône","Boule","Cylindre","Prisme"], ans: 2 },
+  { q: "Le cube est un cas particulier de…", opts: ["Pyramide","Parallélépipède rectangle","Cône","Tétraèdre"], ans: 1 },
+  { q: "Combien de sommets a un parallélépipède rectangle ?", opts: ["4","6","8","10"], ans: 2 },
+  { q: "Un cône possède combien de surface(s) courbe(s) ?", opts: ["0","1","2","3"], ans: 1 },
+  { q: "Quelle affirmation est VRAIE concernant le prisme ?", opts: ["Il a toujours 6 faces","Il est un non-polyèdre","Ses bases sont parallèles et identiques","Il a une surface courbe"], ans: 2 },
+  { q: "Le tétraèdre est une pyramide dont la base est…", opts: ["Un carré","Un cercle","Un triangle","Un pentagone"], ans: 2 },
+  { q: "Parmi ces solides, lequel a une seule face plate (circulaire) ?", opts: ["Cylindre","Boule","Prisme","Cône"], ans: 3 },
+];
+
+let examAnswers = new Array(20).fill(null);
+let examStarted = false;
+
+function startExam() {
+  examStarted = true;
+  document.getElementById('exam-intro').style.display = 'none';
+  const container = document.getElementById('exam-questions');
+  container.style.display = 'block';
+  const letters = ['A','B','C','D'];
+  container.innerHTML = examQuestions.map((eq, i) => `
+    <div class="exam-q" id="examq${i}">
+      <div class="exam-q-header">
+        <span class="exam-q-num">Question ${i+1} / 20</span>
+        <span class="exam-q-pts">1 pt</span>
+      </div>
+      <div class="exam-q-text">${eq.q}</div>
+      <div class="exam-opts">
+        ${eq.opts.map((o,j) => `
+          <button class="exam-opt" id="examopt${i}-${j}" onclick="selectExamOpt(${i},${j})">
+            <span class="exam-opt-letter">${letters[j]}</span> ${o}
+          </button>`).join('')}
+      </div>
+    </div>`).join('');
+  document.getElementById('exam-submit').style.display = 'block';
+}
+
+function selectExamOpt(qi, oi) {
+  const prev = examAnswers[qi];
+  if (prev !== null) {
+    document.getElementById(`examopt${qi}-${prev}`).classList.remove('selected');
+  }
+  examAnswers[qi] = oi;
+  document.getElementById(`examopt${qi}-${oi}`).classList.add('selected');
+}
+
+function submitExam() {
+  const unanswered = examAnswers.filter(a => a === null).length;
+  if (unanswered > 0) {
+    if (!confirm(`Tu n'as pas répondu à ${unanswered} question(s). Soumettre quand même ?`)) return;
+  }
+
+  let score = 0;
+  examQuestions.forEach((eq, i) => {
+    const correct = eq.ans;
+    const chosen = examAnswers[i];
+    const opts = document.querySelectorAll(`[id^="examopt${i}-"]`);
+    opts.forEach(o => o.disabled = true);
+    document.getElementById(`examopt${i}-${correct}`).classList.remove('selected');
+    document.getElementById(`examopt${i}-${correct}`).style.borderColor = 'var(--green)';
+    document.getElementById(`examopt${i}-${correct}`).style.background = 'rgba(62,207,142,0.1)';
+    document.getElementById(`examopt${i}-${correct}`).style.color = 'var(--green)';
+    if (chosen !== null && chosen !== correct) {
+      document.getElementById(`examopt${i}-${chosen}`).classList.remove('selected');
+      document.getElementById(`examopt${i}-${chosen}`).style.borderColor = 'var(--red)';
+      document.getElementById(`examopt${i}-${chosen}`).style.background = 'rgba(232,85,106,0.1)';
+      document.getElementById(`examopt${i}-${chosen}`).style.color = 'var(--red)';
+    }
+    if (chosen === correct) score++;
+  });
+
+  document.getElementById('exam-submit').style.display = 'none';
+
+  // RESULT
+  const pct = score / 20;
+  let mention, color, msg, emoji;
+  if (score >= 18) { mention = 'Distinction'; color = '#C9A84C'; msg = 'Remarquable ! Tu maîtrises parfaitement les solides géométriques. Un résultat digne d\'un futur mathématicien.'; emoji = '🏆'; }
+  else if (score >= 16) { mention = 'Très Bien'; color = '#3ECF8E'; msg = 'Excellent travail ! Tu as une très bonne maîtrise des solides. Quelques petites lacunes à combler.'; emoji = '⭐'; }
+  else if (score >= 14) { mention = 'Bien'; color = '#5B9FE8'; msg = 'Bon résultat ! Tu connais l\'essentiel mais il reste des points à revoir. Continue à pratiquer !'; emoji = '👍'; }
+  else if (score >= 10) { mention = 'Suffisant'; color = '#E8CC7A'; msg = 'Tu as les bases mais il faut retravailler la théorie et les exercices pour consolider tes connaissances.'; emoji = '📚'; }
+  else { mention = 'Insuffisant'; color = '#E8556A'; msg = 'Ne te décourage pas ! Retourne réviser la théorie et refais les exercices. Tu peux y arriver !'; emoji = '💪'; }
+
+  const rb = document.getElementById('result-box');
+  const circumference = 2 * Math.PI * 70;
+  const dashoffset = circumference - (pct * circumference);
+  rb.innerHTML = `
+    <div style="margin-bottom:1.5rem; font-size:3rem;">${emoji}</div>
+    <div style="position:relative;width:160px;height:160px;margin:0 auto 2rem;">
+      <svg width="160" height="160" style="transform:rotate(-90deg)">
+        <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
+        <circle cx="80" cy="80" r="70" fill="none" stroke="${color}" stroke-width="8"
+          stroke-dasharray="${circumference}" stroke-dashoffset="${dashoffset}"
+          stroke-linecap="round" style="transition:stroke-dashoffset 1.5s ease;"/>
+      </svg>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:${color};line-height:1;">${score}</div>
+        <div style="font-size:0.8rem;color:var(--muted);font-family:'DM Mono',monospace;">/ 20</div>
+      </div>
+    </div>
+    <div style="display:inline-block;padding:0.4rem 1.2rem;border-radius:50px;font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-family:'DM Mono',monospace;background:rgba(${color=='#C9A84C'?'201,168,76':color=='#3ECF8E'?'62,207,142':color=='#5B9FE8'?'91,159,232':color=='#E8CC7A'?'232,204,122':'232,85,106'},0.15);color:${color};border:1px solid ${color};margin-bottom:1.5rem;">${mention}</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:0.75rem;">Résultat : ${score} / 20</h2>
+    <p style="color:var(--muted);font-size:0.95rem;line-height:1.7;max-width:450px;margin:0 auto 2rem;">${msg}</p>
+    <div style="display:flex;justify-content:center;gap:3rem;margin-bottom:2rem;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--green);font-weight:700;">${score}</div>
+        <div style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Correctes</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--red);font-weight:700;">${20-score}</div>
+        <div style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Incorrectes</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:${color};font-weight:700;">${Math.round(pct*100)}%</div>
+        <div style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Réussite</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="retryExam()">↺ Recommencer l'examen</button>
+      <button class="btn btn-outline" onclick="showSection('theory')">📖 Revoir la théorie</button>
+    </div>`;
+  rb.style.display = 'block';
+  rb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function retryExam() {
+  examAnswers = new Array(20).fill(null);
+  examStarted = false;
+  document.getElementById('exam-intro').style.display = 'block';
+  document.getElementById('exam-questions').style.display = 'none';
+  document.getElementById('exam-questions').innerHTML = '';
+  document.getElementById('exam-submit').style.display = 'none';
+  document.getElementById('result-box').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
