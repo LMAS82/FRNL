@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Futur — Académie de Français</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   DESIGN SYSTEM
+══════════════════════════════════════════ */
+:root {
+  --ink:#0D0F1A; --paper:#F4EFE4; --cream:#EAE3D3; --white:#FFFFFF;
+  --rust:#BF3E28; --rust-l:#E05A3A; --rust-bg:rgba(191,62,40,0.07);
+  --teal:#1A6868; --teal-l:#2A9090; --teal-bg:rgba(26,104,104,0.07);
+  --gold:#A8780A; --gold-l:#C99B1A; --gold-bg:rgba(168,120,10,0.07);
+  --violet:#5C3FA8; --violet-bg:rgba(92,63,168,0.07);
+  --green:#2A8C5A; --green-bg:rgba(42,140,90,0.08);
+  --border:rgba(13,15,26,0.11); --border2:rgba(13,15,26,0.2);
+  --muted:#6A6058; --shadow:0 2px 16px rgba(13,15,26,0.07);
+  --shadow-lg:0 10px 48px rgba(13,15,26,0.13);
+  --r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
+
+/* Paper lines */
+body::before{content:'';position:fixed;inset:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(13,15,26,0.028) 31px,rgba(13,15,26,0.028) 32px);
+  pointer-events:none;z-index:0;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:54px;
+  background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 1.75rem;
+  border-bottom:1px solid rgba(255,255,255,0.04);}
+.nav-logo{font-family:'Fraunces',serif;font-style:italic;font-size:0.95rem;color:var(--paper);letter-spacing:0.02em;white-space:nowrap;}
+.nav-links{display:flex;gap:0.1rem;list-style:none;}
+.nav-links a{text-decoration:none;color:rgba(244,239,228,0.5);font-size:0.72rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;padding:0.38rem 0.8rem;border-radius:5px;
+  cursor:pointer;transition:all 0.18s;border:1px solid transparent;}
+.nav-links a:hover{color:var(--paper);background:rgba(255,255,255,0.07);}
+.nav-links a.active{color:var(--paper);background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.14);}
+
+/* SECTION SWITCH */
+section{display:none;min-height:100vh;padding:68px 0 6rem;position:relative;z-index:1;}
+section.active{display:block;}
+.wrap{max-width:1040px;margin:0 auto;padding:0 1.75rem;}
+
+/* ── HERO ── */
+#home{padding:0;}
+.hero{min-height:100vh;background:var(--ink);display:flex;align-items:center;position:relative;overflow:hidden;}
+.hero-watermark{position:absolute;font-family:'Fraunces',serif;font-weight:900;font-style:italic;
+  font-size:clamp(8rem,22vw,20rem);color:rgba(244,239,228,0.03);line-height:1;
+  top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none;}
+.hero-inner{position:relative;z-index:2;padding:0 2.5rem;max-width:1040px;margin:0 auto;width:100%;}
+.hero-pill{display:inline-flex;align-items:center;gap:0.55rem;margin-bottom:2rem;
+  font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(244,239,228,0.38);animation:up 0.7s ease both;}
+.hero-pill::before{content:'';width:24px;height:1px;background:rgba(244,239,228,0.25);}
+h1.hero-h{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(3.8rem,10vw,8.5rem);
+  line-height:0.92;color:var(--paper);animation:up 0.8s 0.1s ease both;margin-bottom:1.1rem;}
+h1.hero-h em{font-style:italic;color:var(--rust-l);}
+.hero-sub{font-size:1rem;color:rgba(244,239,228,0.45);line-height:1.8;max-width:480px;
+  animation:up 0.8s 0.22s ease both;margin-bottom:2.5rem;}
+.hero-btns{display:flex;gap:0.85rem;flex-wrap:wrap;animation:up 0.8s 0.32s ease both;margin-bottom:4rem;}
+.btn-h1{padding:0.75rem 1.8rem;background:var(--rust);color:#fff;border:none;border-radius:7px;
+  font-size:0.85rem;font-weight:700;letter-spacing:0.05em;cursor:pointer;transition:all 0.2s;}
+.btn-h1:hover{background:var(--rust-l);transform:translateY(-2px);box-shadow:0 8px 22px rgba(191,62,40,0.38);}
+.btn-h2{padding:0.75rem 1.8rem;background:transparent;color:rgba(244,239,228,0.65);
+  border:1px solid rgba(244,239,228,0.18);border-radius:7px;font-size:0.85rem;font-weight:600;
+  cursor:pointer;transition:all 0.2s;}
+.btn-h2:hover{color:var(--paper);background:rgba(255,255,255,0.06);}
+.hero-kpis{display:flex;gap:3rem;padding-top:2.5rem;border-top:1px solid rgba(244,239,228,0.08);
+  animation:up 0.8s 0.42s ease both;}
+.kpi-n{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:700;color:var(--paper);}
+.kpi-l{font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,239,228,0.3);margin-top:0.1rem;}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION HEADER ── */
+.sec-head{padding:3rem 0 2.25rem;border-bottom:2px solid var(--ink);margin-bottom:2.75rem;}
+.sec-tag{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:0.55rem;display:block;}
+.sec-title{font-family:'Fraunces',serif;font-size:2.8rem;font-weight:900;line-height:1.0;color:var(--ink);}
+.sec-title em{font-style:italic;}
+.sec-desc{margin-top:0.65rem;color:var(--muted);font-size:0.92rem;line-height:1.72;max-width:600px;}
+
+/* ── THEORY CARDS ── */
+.tcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  padding:2.25rem;box-shadow:var(--shadow);margin-bottom:1.75rem;position:relative;overflow:hidden;}
+.tcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac,var(--rust));}
+.tcard-title{font-family:'Fraunces',serif;font-size:1.55rem;font-weight:700;
+  display:flex;align-items:center;gap:0.7rem;margin-bottom:0.4rem;}
+.tcard-lead{font-size:0.88rem;color:var(--muted);line-height:1.68;margin-bottom:1.75rem;}
+
+/* CONJ TABLE */
+.ctbl{width:100%;border-collapse:collapse;margin-bottom:1.5rem;border-radius:10px;overflow:hidden;}
+.ctbl th{background:var(--ink);color:var(--paper);font-family:'DM Mono',monospace;
+  font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.7rem 1rem;text-align:left;}
+.ctbl td{padding:0.6rem 1rem;font-size:0.88rem;border-bottom:1px solid var(--border);}
+.ctbl tr:last-child td{border-bottom:none;}
+.ctbl tr:nth-child(even) td{background:rgba(13,15,26,0.022);}
+.term{font-family:'DM Mono',monospace;font-weight:500;color:var(--rust);}
+.term-t{color:var(--teal);}
+
+/* INFOBOXES */
+.ib-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.1rem;}
+@media(max-width:600px){.ib-row{grid-template-columns:1fr;}}
+.ib{border-radius:10px;padding:1rem 1.1rem;font-size:0.85rem;line-height:1.65;}
+.ib strong{display:block;font-size:0.72rem;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:0.3rem;}
+.ib.warn{background:var(--rust-bg);border:1px solid rgba(191,62,40,0.22);} .ib.warn strong{color:var(--rust);}
+.ib.tip{background:var(--teal-bg);border:1px solid rgba(26,104,104,0.22);} .ib.tip strong{color:var(--teal);}
+.ib.gold{background:var(--gold-bg);border:1px solid rgba(168,120,10,0.22);} .ib.gold strong{color:var(--gold);}
+.ib.vio{background:var(--violet-bg);border:1px solid rgba(92,63,168,0.22);} .ib.vio strong{color:var(--violet);}
+
+/* IRREG GRID */
+.irreg-g{display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem;margin-top:0.85rem;}
+@media(max-width:550px){.irreg-g{grid-template-columns:1fr 1fr;}}
+.irreg-c{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:0.75rem 0.9rem;}
+.irreg-inf{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);}
+.irreg-stem{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:var(--rust);}
+.irreg-ex{font-size:0.75rem;color:var(--muted);margin-top:0.1rem;}
+
+/* TIMELINE */
+.tl{background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  padding:2rem 2rem 1.75rem;margin-bottom:1.75rem;position:relative;overflow:hidden;}
+.tl-track{position:relative;height:6px;background:var(--cream);border-radius:3px;
+  margin:0 0 1.5rem;overflow:hidden;}
+.tl-fill{position:absolute;inset:0;background:linear-gradient(90deg,var(--teal),var(--rust));border-radius:3px;}
+.tl-points{display:flex;justify-content:space-between;}
+.tl-pt{display:flex;flex-direction:column;align-items:center;gap:0.4rem;flex:1;}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:3px solid var(--white);box-shadow:0 0 0 2px currentColor;}
+.tl-lbl{font-size:0.72rem;font-weight:700;text-align:center;}
+.tl-sub{font-size:0.66rem;color:var(--muted);text-align:center;max-width:100px;}
+
+/* COMPARE */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin:1.25rem 0;}
+@media(max-width:580px){.cmp{grid-template-columns:1fr;}}
+.cmp-box{border-radius:11px;padding:1.4rem;border:2px solid var(--ac,var(--rust));}
+.cmp-lbl{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--ac,var(--rust));margin-bottom:0.65rem;font-weight:600;}
+.cmp-sent{font-family:'Fraunces',serif;font-size:1.02rem;font-style:italic;line-height:1.5;margin-bottom:0.65rem;}
+.cmp-sent .hl{color:var(--ac);font-style:normal;font-weight:700;}
+.cmp-note{font-size:0.81rem;color:var(--muted);line-height:1.6;}
+
+/* CHRONO EXERCISE */
+.chrono-sent{background:var(--cream);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;
+  padding:0.85rem 1.1rem;margin-bottom:0.75rem;display:flex;align-items:flex-start;gap:0.85rem;flex-wrap:wrap;}
+.chrono-text{font-family:'Fraunces',serif;font-style:italic;font-size:0.95rem;flex:1;}
+.chrono-badges{display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.3rem;}
+.badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+  border-radius:50%;font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:700;flex-shrink:0;}
+.badge-fa{background:rgba(26,104,104,0.15);color:var(--teal);border:1px solid rgba(26,104,104,0.3);}
+.badge-fs{background:rgba(191,62,40,0.12);color:var(--rust);border:1px solid rgba(191,62,40,0.3);}
+
+/* ══════════════════════════════════════════
+   EXERCISES
+══════════════════════════════════════════ */
+.ex-wrap{display:flex;flex-direction:column;gap:1.5rem;}
+.ex-block{background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.9rem;box-shadow:var(--shadow);}
+.ex-type{display:inline-flex;align-items:center;gap:0.35rem;
+  font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.15em;text-transform:uppercase;
+  padding:0.28rem 0.65rem;border-radius:4px;margin-bottom:0.9rem;font-weight:500;}
+.ex-q{font-family:'Fraunces',serif;font-size:1.02rem;line-height:1.5;margin-bottom:1.1rem;}
+.ex-q em{color:var(--rust);font-style:italic;}
+.ex-q strong{color:var(--teal);}
+.ex-sub{font-size:0.8rem;color:var(--muted);margin-bottom:1.1rem;line-height:1.6;}
+
+/* Tags */
+.t-mcq{background:rgba(191,62,40,0.08);color:var(--rust);border:1px solid rgba(191,62,40,0.2);}
+.t-fill{background:rgba(26,104,104,0.08);color:var(--teal);border:1px solid rgba(26,104,104,0.2);}
+.t-chrono{background:rgba(168,120,10,0.08);color:var(--gold);border:1px solid rgba(168,120,10,0.2);}
+.t-tf{background:rgba(92,63,168,0.08);color:var(--violet);border:1px solid rgba(92,63,168,0.2);}
+.t-fix{background:rgba(42,140,90,0.08);color:var(--green);border:1px solid rgba(42,140,90,0.2);}
+.t-classify{background:rgba(168,120,10,0.08);color:var(--gold);border:1px solid rgba(168,120,10,0.2);}
+.t-order{background:rgba(92,63,168,0.08);color:var(--violet);border:1px solid rgba(92,63,168,0.2);}
+
+/* MCQ OPTIONS */
+.opts{display:flex;flex-direction:column;gap:0.45rem;}
+.opt{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.95rem;
+  border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.88rem;
+  background:transparent;color:var(--ink);text-align:left;transition:all 0.16s;width:100%;}
+.opt:hover:not(:disabled){border-color:var(--rust);background:rgba(191,62,40,0.04);}
+.opt.ok{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.opt.nope{border-color:var(--rust);background:var(--rust-bg);color:var(--rust);}
+.opt:disabled{cursor:default;}
+.opt-l{width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;font-family:'DM Mono',monospace;flex-shrink:0;font-weight:600;}
+
+/* FILL-IN */
+.fill-sent{font-family:'Fraunces',serif;font-style:italic;font-size:1rem;
+  line-height:2;display:flex;flex-wrap:wrap;align-items:baseline;gap:0.15rem;margin-bottom:0.9rem;}
+.blank{border:none;border-bottom:2px solid var(--rust);background:transparent;
+  font-family:'Fraunces',serif;font-style:italic;font-size:1rem;
+  min-width:110px;padding:0 0.25rem;outline:none;color:var(--ink);transition:border-color 0.2s;text-align:center;}
+.blank:focus{border-color:var(--teal);}
+.blank.ok{border-color:var(--green);color:var(--green);}
+.blank.nope{border-color:var(--rust);color:var(--rust);}
+
+/* TF */
+.tf-row{display:flex;gap:0.75rem;}
+.tf-btn{flex:1;padding:0.75rem;border:1.5px solid var(--border);border-radius:8px;
+  font-size:0.92rem;font-weight:700;cursor:pointer;background:transparent;transition:all 0.18s;}
+.tf-btn:hover:not(:disabled){background:rgba(13,15,26,0.04);}
+.tf-btn:disabled{cursor:default;}
+.tf-btn.ok{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.tf-btn.nope{border-color:var(--rust);background:var(--rust-bg);color:var(--rust);}
+
+/* CHRONO RANK */
+.chrono-item{display:flex;align-items:center;gap:0.75rem;padding:0.8rem 1rem;
+  background:var(--cream);border-radius:8px;margin-bottom:0.55rem;font-family:'Fraunces',serif;font-style:italic;font-size:0.93rem;}
+.chrono-item select{font-family:'DM Mono',monospace;font-size:0.8rem;
+  border:1.5px solid var(--border);border-radius:6px;padding:0.3rem 0.5rem;
+  background:var(--white);color:var(--ink);cursor:pointer;outline:none;}
+.chrono-item.ok select{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.chrono-item.nope select{border-color:var(--rust);}
+.chrono-num-badge{font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:700;
+  background:var(--teal-bg);color:var(--teal);border:1px solid rgba(26,104,104,0.25);
+  border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* CLASSIFY */
+.classify-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0.85rem;}
+@media(max-width:520px){.classify-grid{grid-template-columns:1fr;}}
+.classify-zone{border:2px dashed var(--border);border-radius:10px;padding:0.85rem;min-height:70px;}
+.classify-zone-title{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;margin-bottom:0.6rem;}
+.classify-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.85rem;}
+.chip{padding:0.38rem 0.85rem;background:var(--cream);border:1.5px solid var(--border);
+  border-radius:50px;font-size:0.82rem;font-style:italic;cursor:pointer;transition:all 0.16s;
+  font-family:'Fraunces',serif;}
+.chip:hover{border-color:var(--rust);background:rgba(191,62,40,0.05);}
+.chip.fs{border-color:var(--rust);background:var(--rust-bg);color:var(--rust);}
+.chip.fa{border-color:var(--teal);background:var(--teal-bg);color:var(--teal);}
+
+/* FEEDBACK */
+.fb{margin-top:0.85rem;padding:0.7rem 0.95rem;border-radius:8px;font-size:0.83rem;
+  font-weight:500;display:none;line-height:1.5;}
+.fb.show{display:block;}
+.fb.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(42,140,90,0.3);}
+.fb.nope{background:var(--rust-bg);color:var(--rust);border:1px solid rgba(191,62,40,0.25);}
+
+/* BUTTONS */
+.btn-check{padding:0.55rem 1.3rem;border-radius:6px;background:var(--ink);color:var(--paper);
+  border:none;cursor:pointer;font-size:0.8rem;font-weight:700;letter-spacing:0.07em;
+  text-transform:uppercase;transition:all 0.16s;margin-top:0.5rem;}
+.btn-check:hover{background:#252936;}
+.btn-next{padding:0.8rem 2rem;background:var(--ink);color:var(--paper);border:none;
+  border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:700;letter-spacing:0.05em;
+  transition:all 0.18s;}
+.btn-next:hover{background:#252936;transform:translateY(-2px);}
+
+/* SCORE BAR */
+.score-bar{display:flex;justify-content:space-between;align-items:center;
+  background:var(--white);border:1px solid var(--border);border-radius:10px;
+  padding:0.8rem 1.25rem;margin-bottom:1.5rem;}
+.score-lbl{font-size:0.82rem;color:var(--muted);}
+.score-val{font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--rust);font-weight:600;}
+.prog{height:3px;background:rgba(13,15,26,0.07);border-radius:2px;margin-bottom:2rem;overflow:hidden;}
+.prog-f{height:100%;background:linear-gradient(90deg,var(--rust),var(--teal));transition:width 0.4s;}
+
+/* SECTION FOOTER */
+.sec-foot{text-align:center;margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--border);}
+
+/* ══════════════════════════════════════════
+   EXAM
+══════════════════════════════════════════ */
+.exam-cover{background:var(--ink);border-radius:20px;padding:4rem 3rem;text-align:center;
+  margin-bottom:2rem;position:relative;overflow:hidden;}
+.exam-cover::before{content:'EXAMEN';position:absolute;font-family:'Fraunces',serif;
+  font-weight:900;font-style:italic;font-size:clamp(6rem,16vw,14rem);
+  color:rgba(244,239,228,0.025);top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:none;white-space:nowrap;}
+.exam-cover h2{font-family:'Fraunces',serif;font-size:2.4rem;color:var(--paper);
+  font-style:italic;margin-bottom:0.65rem;}
+.exam-cover p{color:rgba(244,239,228,0.48);font-size:0.92rem;line-height:1.7;
+  max-width:460px;margin:0 auto 2rem;}
+.exam-meta-row{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.em-item{text-align:center;}
+.em-n{font-family:'Fraunces',serif;font-size:2.1rem;font-weight:700;color:var(--paper);}
+.em-l{font-size:0.65rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(244,239,228,0.3);}
+.btn-start{padding:0.85rem 2.4rem;background:var(--rust);color:#fff;border:none;border-radius:8px;
+  font-size:0.88rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.btn-start:hover{background:var(--rust-l);transform:translateY(-2px);box-shadow:0 8px 20px rgba(191,62,40,0.38);}
+
+#exam-qs{display:none;}
+.eqb{background:var(--white);border:1px solid var(--border);border-radius:12px;
+  padding:1.75rem;margin-bottom:1.1rem;box-shadow:var(--shadow);}
+.eqb-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.85rem;}
+.eq-num{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;}
+.eq-pts{font-family:'DM Mono',monospace;font-size:0.68rem;background:var(--cream);
+  padding:0.2rem 0.6rem;border-radius:4px;}
+.eq-text{font-family:'Fraunces',serif;font-size:1rem;line-height:1.5;margin-bottom:1.1rem;}
+.eq-text em{color:var(--rust);font-style:italic;}
+.eopts{display:flex;flex-direction:column;gap:0.42rem;}
+.eopt{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.95rem;
+  border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.87rem;
+  background:transparent;color:var(--ink);text-align:left;transition:all 0.16s;width:100%;}
+.eopt:hover{border-color:var(--rust);background:rgba(191,62,40,0.04);}
+.eopt.sel{border-color:var(--rust);background:var(--rust-bg);color:var(--rust);}
+.eopt.reveal-ok{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.eopt.reveal-nope{border-color:var(--rust);background:var(--rust-bg);color:var(--rust);}
+.eopt-l{width:20px;height:20px;border-radius:50%;border:1.5px solid currentColor;
+  display:flex;align-items:center;justify-content:center;font-size:0.62rem;
+  font-family:'DM Mono',monospace;flex-shrink:0;font-weight:600;}
+/* exam fill */
+.efill{border:none;border-bottom:2px solid var(--rust);background:transparent;
+  font-family:'Fraunces',serif;font-style:italic;font-size:0.97rem;
+  min-width:130px;padding:0.15rem 0.3rem;outline:none;color:var(--ink);}
+
+.exam-sub-row{text-align:center;padding:2rem 0;display:none;}
+.btn-submit{padding:0.9rem 2.8rem;background:var(--rust);color:#fff;border:none;
+  border-radius:8px;font-size:0.92rem;font-weight:700;letter-spacing:0.06em;cursor:pointer;transition:all 0.2s;}
+.btn-submit:hover{background:var(--rust-l);transform:translateY(-2px);}
+
+/* RESULTS */
+.result-box{display:none;}
+.res-top{background:var(--ink);border-radius:18px;padding:3.5rem 2rem;text-align:center;margin-bottom:1.75rem;}
+.res-emoji{font-size:2.8rem;margin-bottom:1rem;}
+.res-score{font-family:'Fraunces',serif;font-size:1.7rem;color:var(--paper);margin-bottom:0.5rem;}
+.res-mention{display:inline-block;padding:0.38rem 1.1rem;border-radius:50px;
+  font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.13em;
+  text-transform:uppercase;margin-bottom:1rem;}
+.res-msg{color:rgba(244,239,228,0.5);font-size:0.88rem;line-height:1.7;max-width:420px;margin:0 auto;}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.75rem;}
+@media(max-width:500px){.res-stats{grid-template-columns:1fr 1fr;}}
+.rs{background:var(--white);border:1px solid var(--border);border-radius:11px;
+  padding:1.4rem;text-align:center;box-shadow:var(--shadow);}
+.rs-n{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;}
+.rs-l{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.2rem;}
+.res-tbl{width:100%;border-collapse:collapse;background:var(--white);border-radius:12px;
+  overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);}
+.res-tbl th{background:var(--ink);color:var(--paper);font-family:'DM Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.7rem 1rem;text-align:left;}
+.res-tbl td{padding:0.6rem 1rem;font-size:0.85rem;border-bottom:1px solid var(--border);}
+.res-tbl tr:last-child td{border-bottom:none;}
+.res-tbl tr:nth-child(even) td{background:rgba(13,15,26,0.018);}
+.ok-cell{color:var(--green);font-weight:700;}
+.nope-cell{color:var(--rust);font-weight:700;}
+.res-actions{display:flex;gap:0.85rem;justify-content:center;flex-wrap:wrap;margin-top:1.75rem;}
+.btn-retry{padding:0.75rem 1.8rem;background:var(--rust);color:#fff;border:none;border-radius:8px;
+  font-size:0.82rem;font-weight:700;letter-spacing:0.05em;cursor:pointer;transition:all 0.2s;}
+.btn-retry:hover{background:var(--rust-l);}
+.btn-sec{padding:0.75rem 1.8rem;background:transparent;color:var(--ink);border:1.5px solid var(--border);
+  border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.btn-sec:hover{background:var(--cream);}
+
+@media(max-width:600px){
+  .nav-logo{display:none;}
+  h1.hero-h{font-size:3.2rem;}
+  .hero-kpis{gap:1.5rem;}
+  .kpi-n{font-size:1.8rem;}
+  .sec-title{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-logo">Académie · Français</div>
+  <ul class="nav-links">
+    <li><a onclick="go('home')" id="nav-home" class="active">Accueil</a></li>
+    <li><a onclick="go('theory')" id="nav-theory">Théorie</a></li>
+    <li><a onclick="go('exercises')" id="nav-exercises">Exercices</a></li>
+    <li><a onclick="go('exam')" id="nav-exam">Examen</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════
+  HOME
+══════════════════════════════════════════ -->
+<section id="home" class="active">
+  <div class="hero">
+    <div class="hero-watermark">FUTUR</div>
+    <div class="hero-inner">
+      <div class="hero-pill">Conjugaison · 6ème primaire · Belgique</div>
+      <h1 class="hero-h">Le <em>Futur</em><br>en français</h1>
+      <p class="hero-sub">Maîtrise le futur simple et le futur antérieur — formation, emploi, verbes irréguliers, chronologie et nuances. Un parcours complet inspiré de tes vrais devoirs.</p>
+      <div class="hero-btns">
+        <button class="btn-h1" onclick="go('theory')">▶ Commencer la théorie</button>
+        <button class="btn-h2" onclick="go('exercises')">✏️ Aller aux exercices</button>
+        <button class="btn-h2" onclick="go('exam')">→ Passer l'examen</button>
+      </div>
+      <div class="hero-kpis">
+        <div><div class="kpi-n">2</div><div class="kpi-l">Temps étudiés</div></div>
+        <div><div class="kpi-n">25</div><div class="kpi-l">Exercices variés</div></div>
+        <div><div class="kpi-n">20</div><div class="kpi-l">Points à l'examen</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  THEORY
+══════════════════════════════════════════ -->
+<section id="theory">
+<div class="wrap">
+<div class="sec-head">
+  <span class="sec-tag">Chapitre I — Théorie complète</span>
+  <h2 class="sec-title">Le Futur <em>Simple</em><br>& le Futur <em>Antérieur</em></h2>
+  <p class="sec-desc">Comprends les deux temps, leur formation, leur emploi et leur relation chronologique — avec les règles d'accord du participe passé incluses.</p>
+</div>
+
+<!-- TIMELINE -->
+<div class="tl">
+  <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;margin-bottom:1.25rem;color:var(--ink);">⏱ La ligne du temps — tout est une question d'ordre !</div>
+  <div class="tl-track"><div class="tl-fill"></div></div>
+  <div class="tl-points">
+    <div class="tl-pt">
+      <div class="tl-dot" style="color:var(--muted);background:var(--muted);"></div>
+      <div class="tl-lbl" style="color:var(--muted);">Maintenant</div>
+      <div class="tl-sub">Je parle / j'agis</div>
+    </div>
+    <div class="tl-pt">
+      <div class="tl-dot" style="color:var(--teal);background:var(--teal);"></div>
+      <div class="tl-lbl" style="color:var(--teal);">Action 1 — TERMINÉE</div>
+      <div class="tl-sub" style="color:var(--teal);">Futur antérieur<br>« j'aurai fini… »</div>
+    </div>
+    <div class="tl-pt">
+      <div class="tl-dot" style="color:var(--rust);background:var(--rust);"></div>
+      <div class="tl-lbl" style="color:var(--rust);">Action 2 — APRÈS</div>
+      <div class="tl-sub" style="color:var(--rust);">Futur simple<br>« je pourrai jouer »</div>
+    </div>
+  </div>
+  <div style="margin-top:1.25rem;font-size:0.83rem;color:var(--muted);font-style:italic;
+    border-top:1px solid var(--border);padding-top:1rem;">
+    Ex. : « Demain, j'<span style="color:var(--teal);font-weight:600;">aurai fini</span> mes devoirs et je <span style="color:var(--rust);font-weight:600;">pourrai</span> jouer. » 
+    → Le futur antérieur se passe <strong>avant</strong> le futur simple.
+  </div>
+</div>
+
+<!-- FUTUR SIMPLE -->
+<div class="tcard" style="--ac:var(--rust);">
+  <div class="tcard-title"><span>⏩</span> Le Futur Simple</div>
+  <p class="tcard-lead">On utilise le futur simple pour parler d'une action qui <strong>se passera dans le futur</strong>.<br>
+  Formation : <strong>infinitif du verbe + terminaisons</strong> (les verbes en -re perdent le e final).</p>
+
+  <table class="ctbl">
+    <thead><tr><th>Personne</th><th>Terminaison</th><th>chanter</th><th>finir</th><th>vendre</th></tr></thead>
+    <tbody>
+      <tr><td>je</td><td class="term">-ai</td><td>je chanter<b>ai</b></td><td>je finir<b>ai</b></td><td>je vendr<b>ai</b></td></tr>
+      <tr><td>tu</td><td class="term">-as</td><td>tu chanter<b>as</b></td><td>tu finir<b>as</b></td><td>tu vendr<b>as</b></td></tr>
+      <tr><td>il / elle</td><td class="term">-a</td><td>il chanter<b>a</b></td><td>il finir<b>a</b></td><td>il vendr<b>a</b></td></tr>
+      <tr><td>nous</td><td class="term">-ons</td><td>nous chanter<b>ons</b></td><td>nous finir<b>ons</b></td><td>nous vendr<b>ons</b></td></tr>
+      <tr><td>vous</td><td class="term">-ez</td><td>vous chanter<b>ez</b></td><td>vous finir<b>ez</b></td><td>vous vendr<b>ez</b></td></tr>
+      <tr><td>ils / elles</td><td class="term">-ont</td><td>ils chanter<b>ont</b></td><td>ils finir<b>ont</b></td><td>ils vendr<b>ont</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ib-row">
+    <div class="ib warn"><strong>⚠️ Je sans S !</strong>
+    Au futur simple : <em>je mangerai</em> (pas de S). <em>Je mangerais</em> (avec S) = conditionnel. C'est une erreur très fréquente !</div>
+    <div class="ib tip"><strong>💡 Verbes en -RE</strong>
+    On supprime le E final avant d'ajouter les terminaisons.<br>vendre → vendr<b>ai</b> &nbsp;·&nbsp; prendre → prendr<b>ai</b> &nbsp;·&nbsp; répondre → répondr<b>ai</b></div>
+  </div>
+
+  <p style="font-size:0.78rem;color:var(--muted);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:1.6rem 0 0.75rem;">Radicaux irréguliers — à mémoriser absolument</p>
+  <div class="irreg-g">
+    <div class="irreg-c"><div class="irreg-inf">être</div><div class="irreg-stem">ser-</div><div class="irreg-ex">je serai, tu seras…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">avoir</div><div class="irreg-stem">aur-</div><div class="irreg-ex">j'aurai, tu auras…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">aller</div><div class="irreg-stem">ir-</div><div class="irreg-ex">j'irai, tu iras…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">faire</div><div class="irreg-stem">fer-</div><div class="irreg-ex">je ferai, tu feras…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">venir</div><div class="irreg-stem">viendr-</div><div class="irreg-ex">je viendrai…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">voir</div><div class="irreg-stem">verr-</div><div class="irreg-ex">je verrai, tu verras…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">pouvoir</div><div class="irreg-stem">pourr-</div><div class="irreg-ex">je pourrai…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">vouloir</div><div class="irreg-stem">voudr-</div><div class="irreg-ex">je voudrai…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">savoir</div><div class="irreg-stem">saur-</div><div class="irreg-ex">je saurai…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">devoir</div><div class="irreg-stem">devr-</div><div class="irreg-ex">je devrai…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">courir</div><div class="irreg-stem">courr-</div><div class="irreg-ex">je courrai…</div></div>
+    <div class="irreg-c"><div class="irreg-inf">naître</div><div class="irreg-stem">naîtr-</div><div class="irreg-ex">je naîtrai…</div></div>
+  </div>
+</div>
+
+<!-- FUTUR ANTÉRIEUR -->
+<div class="tcard" style="--ac:var(--teal);">
+  <div class="tcard-title"><span>⏪</span> Le Futur Antérieur</div>
+  <p class="tcard-lead">Le futur antérieur décrit une action qui sera <strong>déjà terminée</strong> avant une autre action au futur. Il se place toujours <strong>avant</strong> le futur simple dans la chronologie.<br>
+  Formation : <strong>auxiliaire être ou avoir au futur simple + participe passé</strong>.</p>
+
+  <table class="ctbl">
+    <thead><tr><th>Personne</th><th>Avec AVOIR</th><th>Avec ÊTRE</th></tr></thead>
+    <tbody>
+      <tr><td>je / j'</td><td class="term-t">j'<b>aurai</b> mangé</td><td class="term-t">je <b>serai</b> parti(e)</td></tr>
+      <tr><td>tu</td><td class="term-t">tu <b>auras</b> fini</td><td class="term-t">tu <b>seras</b> arrivé(e)</td></tr>
+      <tr><td>il / elle</td><td class="term-t">il <b>aura</b> pris</td><td class="term-t">elle <b>sera</b> venue</td></tr>
+      <tr><td>nous</td><td class="term-t">nous <b>aurons</b> appris</td><td class="term-t">nous <b>serons</b> rentrés</td></tr>
+      <tr><td>vous</td><td class="term-t">vous <b>aurez</b> reçu</td><td class="term-t">vous <b>serez</b> partis</td></tr>
+      <tr><td>ils / elles</td><td class="term-t">ils <b>auront</b> compris</td><td class="term-t">elles <b>seront</b> sorties</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ib-row">
+    <div class="ib tip"><strong>💡 Verbes avec ÊTRE</strong>
+    Les verbes de mouvement + pronominaux : partir, arriver, venir, aller, naître, mourir, tomber, rester, monter, descendre, entrer, sortir, retourner, se laver, s'asseoir…</div>
+    <div class="ib gold"><strong>⭐ Accord du participe passé avec ÊTRE</strong>
+    Il s'accorde avec le sujet :<br>
+    Elle <b>sera partie</b>. Elles <b>seront arrivées</b>.<br>
+    Ils <b>seront rentrés</b>. Elle <b>aura lavé</b> la poubelle.</div>
+    <div class="ib warn"><strong>⚠️ Accord avec AVOIR</strong>
+    Le p.p. ne s'accorde PAS avec le sujet, sauf si le COD est placé avant :<br>
+    Ma poésie, je l'<b>aurai apprise</b>. (le = ma poésie → féminin)</div>
+    <div class="ib vio"><strong>🔮 Emploi particulier</strong>
+    En langage soutenu, le futur antérieur peut exprimer une hypothèse :<br>
+    « Ce brigand <b>aura filé</b> par la porte de derrière ! »</div>
+  </div>
+</div>
+
+<!-- COMPARISON -->
+<div class="tcard" style="--ac:var(--gold);">
+  <div class="tcard-title"><span>🔍</span> Identifier les deux temps dans une phrase</div>
+  <p class="tcard-lead">Quand les deux futurs apparaissent ensemble, pose-toi la question : <em>« Quelle action se passe en premier ? »</em> C'est elle qui est au futur antérieur.</p>
+
+  <div class="cmp">
+    <div class="cmp-box" style="--ac:var(--teal);">
+      <div class="cmp-lbl">① Futur antérieur — se passe EN PREMIER</div>
+      <div class="cmp-sent">« Dès que j'<span class="hl" style="color:var(--teal);">aurai fini</span> mon roman, je te le prêterai. »</div>
+      <div class="cmp-note">D'abord : je finis mon roman (futur antérieur).<br>Ensuite : je te le prête (futur simple).</div>
+    </div>
+    <div class="cmp-box" style="--ac:var(--rust);">
+      <div class="cmp-lbl">② Futur simple — se passe APRÈS</div>
+      <div class="cmp-sent">« Je te le <span class="hl" style="color:var(--rust);">prêterai</span> quand je l'aurai fini. »</div>
+      <div class="cmp-note">La même phrase inversée — le futur simple est l'action qui suit.</div>
+    </div>
+  </div>
+
+  <!-- EXEMPLES RÉELS DU DEVOIR -->
+  <p style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;
+    color:var(--muted);margin:1.5rem 0 0.85rem;">Exemples tirés de tes devoirs — ordre chronologique ①②</p>
+
+  <div class="chrono-sent">
+    <div>
+      <span class="badge badge-fa">1</span>
+      <div class="chrono-text">Je serai tranquille lorsque <strong>j'aurai reçu</strong> de vos nouvelles.</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem;">① j'aurai reçu (FA) → ② je serai tranquille (FS)</div>
+    </div>
+  </div>
+  <div class="chrono-sent">
+    <div>
+      <div class="chrono-text">Lorsque Tom <strong>aura appris</strong> à jouer de la trompette, il <strong>pourra</strong> nous donner un concert.</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem;">① aura appris (FA) → ② pourra (FS)</div>
+    </div>
+  </div>
+  <div class="chrono-sent">
+    <div>
+      <div class="chrono-text">Quand les cerises <strong>auront mûri</strong>, Mamie nous <strong>invitera</strong> à les cueillir.</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem;">① auront mûri (FA) → ② invitera (FS)</div>
+    </div>
+  </div>
+
+  <div class="ib gold" style="margin-top:1.1rem;">
+    <strong>🎯 Mots qui introduisent souvent le futur antérieur</strong>
+    <em>quand, lorsque, dès que, sitôt que, aussitôt que</em> + futur antérieur → futur simple.<br>
+    Ces mots signalent que l'action de la subordonnée sera <strong>terminée avant</strong> l'action principale.
+  </div>
+</div>
+
+<div class="sec-foot">
+  <button class="btn-next" onclick="go('exercises')">Passer aux Exercices →</button>
+</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  EXERCISES
+══════════════════════════════════════════ -->
+<section id="exercises">
+<div class="wrap">
+<div class="sec-head">
+  <span class="sec-tag">Chapitre II — Exercices variés</span>
+  <h2 class="sec-title"><em>Entraîne</em>-toi !</h2>
+  <p class="sec-desc">25 exercices : choix multiple, phrases à compléter, vrai/faux, ordre chronologique, classement et correction d'erreurs — inspirés de tes vrais devoirs.</p>
+</div>
+
+<div class="score-bar">
+  <span class="score-lbl">Exercices réussis</span>
+  <span class="score-val" id="ex-score-lbl">0 / 25</span>
+</div>
+<div class="prog"><div class="prog-f" id="ex-prog" style="width:0%"></div></div>
+
+<div class="ex-wrap" id="ex-container"></div>
+
+<div class="sec-foot">
+  <button class="btn-next" onclick="go('exam')">Passer à l'Examen Final →</button>
+</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  EXAM
+══════════════════════════════════════════ -->
+<section id="exam">
+<div class="wrap">
+<div class="sec-head">
+  <span class="sec-tag">Évaluation finale</span>
+  <h2 class="sec-title">L'<em>Examen</em></h2>
+  <p class="sec-desc">20 questions · 20 points · Une seule chance.</p>
+</div>
+
+<div class="exam-cover" id="exam-cover">
+  <h2>Examen — Le Futur</h2>
+  <p>Cet examen évalue ta maîtrise du futur simple et du futur antérieur, leur formation, leur emploi et leur chronologie.</p>
+  <div class="exam-meta-row">
+    <div class="em-item"><div class="em-n">20</div><div class="em-l">Questions</div></div>
+    <div class="em-item"><div class="em-n">20</div><div class="em-l">Points</div></div>
+    <div class="em-item"><div class="em-n">∞</div><div class="em-l">Temps</div></div>
+  </div>
+  <button class="btn-start" onclick="startExam()">Commencer l'examen</button>
+</div>
+
+<div id="exam-qs"></div>
+<div class="exam-sub-row" id="exam-sub"><button class="btn-submit" onclick="submitExam()">📊 Soumettre mon examen</button></div>
+<div class="result-box" id="result-box"></div>
+</div>
+</section>
+
+<script>
+/* ── NAV ── */
+function go(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── HELPERS ── */
+function norm(s){return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+let exDone=[];
+function updateScore(){
+  const ok=exDone.filter(Boolean).length;
+  document.getElementById('ex-score-lbl').textContent=ok+' / '+exercises.length;
+  document.getElementById('ex-prog').style.width=(ok/exercises.length*100)+'%';
+}
+
+/* ══════════════════════════════════════════
+   EXERCISES DATA
+══════════════════════════════════════════ */
+const exercises=[
+
+/* 1 — MCQ identifier le temps */
+{type:'mcq',tag:'Choix multiple',tc:'t-mcq',
+ q:'Quelle phrase est au <em>futur antérieur</em> ?',
+ opts:['Elle chantera ce soir.','Nous serons arrivés avant midi.','Tu mange une pomme.','Vous partirez demain.'],
+ ans:1,exp:'« Nous serons arrivés » = futur antérieur : auxiliaire être au futur simple + participe passé accordé.'},
+
+/* 2 — MCQ identifier le temps */
+{type:'mcq',tag:'Choix multiple',tc:'t-mcq',
+ q:'Quelle phrase est au <em>futur simple</em> ?',
+ opts:['J\'aurai fini avant toi.','Tu auras appris ta leçon.','Il partira demain matin.','Elles seront sorties.'],
+ ans:2,exp:'« Il partira » = futur simple : radical + terminaison -a.'},
+
+/* 3 — Fill: futur simple irrégulier */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>être</em> au futur simple (1ère personne singulier) :',
+ sent:'Demain, je ___ à l\'école à 8h30.',
+ blanks:['serai'],exp:'être → radical irrégulier ser- → je serai.'},
+
+/* 4 — Fill: futur simple irrégulier */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>aller</em> au futur simple (1ère personne singulier) :',
+ sent:'Samedi, j\'___ au cinéma avec mes amis.',
+ blanks:['irai'],exp:'aller → radical irrégulier ir- → j\'irai.'},
+
+/* 5 — Fill: futur antérieur (avoir) */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>finir</em> au futur antérieur (tu) :',
+ sent:'Tu pourras sortir quand tu ___ tes devoirs.',
+ blanks:['auras fini'],exp:'finir → auxiliaire AVOIR (tu auras) + participe passé fini → tu auras fini.'},
+
+/* 6 — Fill: futur antérieur (être) */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>arriver</em> au futur antérieur (nous) :',
+ sent:'Nous t\'appellerons dès que nous ___ ___.',
+ blanks:['serons arrivés'],exp:'arriver → auxiliaire ÊTRE (nous serons) + participe passé arrivés (masc. plur.) → nous serons arrivés.'},
+
+/* 7 — Fill: devoir réel — faire */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>faire</em> au futur antérieur (nous) :<br><span style="font-size:0.78rem;color:var(--muted);">Choisis entre futur simple et futur antérieur selon le sens.</span>',
+ sent:'Quand nous ___ ___ les travaux, la maison sera confortable.',
+ blanks:['aurons fait'],exp:'Les travaux se terminent AVANT que la maison soit confortable → futur antérieur : nous aurons fait.'},
+
+/* 8 — Fill: devoir réel — naître */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>naître</em> au futur antérieur (les tortues) :',
+ sent:'Dès que les tortues ___ ___, elles se dirigeront vers la mer.',
+ blanks:['seront nées'],exp:'naître → auxiliaire ÊTRE + participe passé nées (accord féminin pluriel) → seront nées.'},
+
+/* 9 — Fill: devoir réel — finir (gratin) */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>finir</em> au futur antérieur (le gratin) :',
+ sent:'Lorsque le gratin ___ ___ de cuire, vous vous laverez les mains.',
+ blanks:['aura fini'],exp:'Le gratin finit de cuire AVANT que vous vous laviez les mains → futur antérieur : aura fini.'},
+
+/* 10 — Fill: devoir réel — prendre */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>prendre</em> au futur antérieur (tous les passagers) :',
+ sent:'L\'avion partira quand tous les passagers ___ ___ place.',
+ blanks:['auront pris'],exp:'Les passagers prennent place AVANT que l\'avion parte → futur antérieur : auront pris.'},
+
+/* 11 — Chrono order */
+{type:'chrono',tag:'Ordre chronologique',tc:'t-chrono',
+ q:'Numérote les actions dans leur <strong>ordre chronologique</strong> (1 = première action) pour chaque phrase.',
+ items:[
+   {sent:'Isa nous <b>préviendra</b> sitôt qu\'elle <b>sera arrivée</b>.',
+    actions:['sera arrivée (FA)','préviendra (FS)'],correct:[1,2]},
+   {sent:'J\'<b>encaisserai</b> le chèque que vous m\'<b>aurez envoyé</b>.',
+    actions:['aurez envoyé (FA)','encaisserai (FS)'],correct:[1,2]},
+   {sent:'Marie <b>plongera</b> de 3 m quand elle <b>aura appris</b> à nager.',
+    actions:['aura appris (FA)','plongera (FS)'],correct:[1,2]},
+ ]},
+
+/* 12 — TF */
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Au futur simple, on écrit <em>je mangerais</em> avec un S. »',
+ ans:false,exp:'FAUX. Au futur simple : je mangerai (sans S). Avec S → conditionnel présent.'},
+
+/* 13 — TF */
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Le futur antérieur décrit une action qui sera déjà terminée avant une autre action future. »',
+ ans:true,exp:'VRAI. C\'est exactement la définition du futur antérieur — action antérieure à une autre action au futur.'},
+
+/* 14 — TF */
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Dans \'Elles seront arrivées\', le participe passé s\'accorde au féminin pluriel. »',
+ ans:true,exp:'VRAI. Avec être, le p.p. s\'accorde avec le sujet : elles (féminin pluriel) → arrivées.'},
+
+/* 15 — TF */
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Le verbe <em>aller</em> au futur simple donne : j\'allerai. »',
+ ans:false,exp:'FAUX. aller est irrégulier → radical ir- → j\'irai.'},
+
+/* 16 — Classify */
+{type:'classify',tag:'Classe les phrases',tc:'t-classify',
+ q:'<strong>Fais glisser</strong> chaque phrase dans la bonne colonne : Futur Simple ou Futur Antérieur.',
+ items:[
+   {text:'Tu sortiras demain.',cat:'fs'},
+   {text:'Nous aurons terminé avant midi.',cat:'fa'},
+   {text:'Il sera parti avant ton arrivée.',cat:'fa'},
+   {text:'Vous chanterez ce soir.',cat:'fs'},
+   {text:'J\'aurai reçu votre lettre.',cat:'fa'},
+   {text:'Elle arrivera à 17h.',cat:'fs'},
+ ]},
+
+/* 17 — Fix the error */
+{type:'mcq',tag:'Corrige l\'erreur',tc:'t-fix',
+ q:'La phrase contient une erreur. Choisit la forme correcte :<br>« Demain, je <em>ferais</em> mes devoirs. »',
+ opts:['je ferais (correct)','je ferai','je feras','je ferons'],
+ ans:1,exp:'« je ferais » = conditionnel. Au futur simple : faire → radical fer- → je ferai.'},
+
+/* 18 — Fix the error */
+{type:'mcq',tag:'Corrige l\'erreur',tc:'t-fix',
+ q:'Corrige l\'accord du participe passé :<br>« Quand vous arriverez, nous aurons <em>mangés</em>. »',
+ opts:['mangés (correct)','mangé','mangées','mangerons'],
+ ans:1,exp:'Avec AVOIR, le p.p. ne s\'accorde pas avec le sujet (sauf COD avant) → nous aurons mangé.'},
+
+/* 19 — MCQ emploi */
+{type:'mcq',tag:'Choix multiple',tc:'t-mcq',
+ q:'Dans : « Quand tu arriveras, j\'aurai déjà préparé le repas. » — quelle action se passe <strong>en premier</strong> ?',
+ opts:['Tu arrives','Je prépare le repas','Les deux en même temps','Impossible à savoir'],
+ ans:1,exp:'J\'aurai préparé = futur antérieur = action terminée AVANT ton arrivée. Le repas est préparé en premier.'},
+
+/* 20 — MCQ mots introducteurs */
+{type:'mcq',tag:'Choix multiple',tc:'t-mcq',
+ q:'Quel mot introduit le plus souvent une proposition au <em>futur antérieur</em> ?',
+ opts:['peut-être','dès que','souvent','jamais'],
+ ans:1,exp:'Dès que, lorsque, quand, sitôt que, aussitôt que → introduisent souvent une subordonnée au futur antérieur.'},
+
+/* 21 — Fill: recevoir (devoir réel) */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>recevoir</em> au futur antérieur (je) :',
+ sent:'Quand j\'___ ___ le courrier, je vous le donnerai.',
+ blanks:['aurai reçu'],exp:'recevoir → j\'aurai reçu (participe passé : reçu).'},
+
+/* 22 — Fill: lire (devoir réel) */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>lire</em> au futur antérieur (tu / le livre) :',
+ sent:'Tu me rendras le livre quand tu l\'___ ___.',
+ blanks:['auras lu'],exp:'lire → tu auras lu (participe passé : lu). Le COD "le" précède, mais pas d\'accord car masculin singulier invariable.'},
+
+/* 23 — MCQ — coche la bonne réponse (devoir réel) */
+{type:'mcq',tag:'Choix multiple',tc:'t-mcq',
+ q:'Tu sortiras quand tu… (coche la bonne réponse)',
+ opts:['as fini tes devoirs.','auras fini tes devoirs.','avais fini tes devoirs.'],
+ ans:1,exp:'On attend une action terminée avant de sortir → futur antérieur : tu auras fini.'},
+
+/* 24 — MCQ — coche */
+{type:'mcq',tag:'Choix multiple',tc:'t-mcq',
+ q:'Nous t\'appellerons dès que nous…',
+ opts:['étions arrivés.','sommes arrivés.','serons arrivés.'],
+ ans:2,exp:'Dès que → action terminée avant l\'appel → futur antérieur : nous serons arrivés.'},
+
+/* 25 — Fill: apprendre (accord COD) */
+{type:'fill',tag:'Complète la phrase',tc:'t-fill',
+ q:'Conjugue <em>apprendre</em> au futur antérieur — attention à l\'accord !<br><span style="font-size:0.78rem;color:var(--muted);">Ma poésie, je l\'___ ___ .</span>',
+ sent:'Ma poésie, je l\'___ ___.',
+ blanks:['aurai apprise'],exp:'Le COD "la poésie" est placé AVANT le verbe (pronom l\') → accord féminin singulier : j\'aurai apprise.'},
+
+];
+
+exDone=new Array(exercises.length).fill(false);
+
+/* ── CHRONOLOGICAL STATE ── */
+const chronoState={};
+
+/* ── BUILD ── */
+function buildExercises(){
+  const c=document.getElementById('ex-container');
+  exercises.forEach((ex,i)=>{
+    const d=document.createElement('div');
+    d.className='ex-block'; d.id='exb'+i;
+    let h=`<span class="ex-type ${ex.tc}">${ex.tag}</span>
+            <div class="ex-q">${i+1}. ${ex.q}</div>`;
+
+    if(ex.type==='mcq'||ex.type==='fix'){
+      h+=`<div class="opts">`;
+      const L=['A','B','C','D'];
+      ex.opts.forEach((o,j)=>{h+=`<button class="opt" id="o${i}-${j}" onclick="doMCQ(${i},${j})"><span class="opt-l">${L[j]}</span>${o}</button>`;});
+      h+=`</div>`;
+    }
+    else if(ex.type==='fill'){
+      // Build sentence with blank(s)
+      let s=ex.sent;
+      ex.blanks.forEach((_,bi)=>{s=s.replace('___',`<input class="blank" id="bl${i}-${bi}" type="text" placeholder="…" autocomplete="off">`);});
+      h+=`<div class="fill-sent">${s}</div>`;
+      h+=`<button class="btn-check" onclick="doFill(${i})">Vérifier</button>`;
+    }
+    else if(ex.type==='tf'){
+      h+=`<div class="tf-row">
+        <button class="tf-btn" id="tf${i}-v" onclick="doTF(${i},true)">✓ Vrai</button>
+        <button class="tf-btn" id="tf${i}-f" onclick="doTF(${i},false)">✗ Faux</button>
+      </div>`;
+    }
+    else if(ex.type==='chrono'){
+      ex.items.forEach((it,ci)=>{
+        if(!chronoState[i]) chronoState[i]={};
+        if(!chronoState[i][ci]) chronoState[i][ci]={};
+        h+=`<div style="margin-bottom:0.85rem;">
+          <div style="font-family:'Fraunces',serif;font-style:italic;font-size:0.9rem;
+            color:var(--ink);margin-bottom:0.55rem;">${it.sent}</div>`;
+        it.actions.forEach((a,ai)=>{
+          h+=`<div class="chrono-item" id="chr${i}-${ci}-${ai}">
+            <select id="sel${i}-${ci}-${ai}">
+              <option value="">—</option><option value="1">1</option><option value="2">2</option>
+            </select>
+            <span>${a}</span>
+          </div>`;
+        });
+        h+=`</div>`;
+      });
+      h+=`<button class="btn-check" onclick="doChrono(${i})">Vérifier</button>`;
+    }
+    else if(ex.type==='classify'){
+      h+=`<div class="classify-chips" id="chips${i}">`;
+      ex.items.forEach((it,j)=>{h+=`<button class="chip" id="chip${i}-${j}" onclick="doChipClick(${i},${j})">${it.text}</button>`;});
+      h+=`</div>
+      <div class="classify-grid">
+        <div class="classify-zone"><div class="classify-zone-title" style="color:var(--rust)">⏩ Futur Simple</div><div id="zfs${i}"></div></div>
+        <div class="classify-zone"><div class="classify-zone-title" style="color:var(--teal)">⏪ Futur Antérieur</div><div id="zfa${i}"></div></div>
+      </div>
+      <button class="btn-check" onclick="doClassify(${i})">Vérifier</button>`;
+    }
+
+    h+=`<div class="fb" id="fb${i}"></div>`;
+    d.innerHTML=h; c.appendChild(d);
+  });
+}
+
+/* ── HANDLERS ── */
+function doMCQ(i,chosen){
+  const ex=exercises[i];
+  document.querySelectorAll(`[id^="o${i}-"]`).forEach(b=>b.disabled=true);
+  document.getElementById(`o${i}-${ex.ans}`).classList.add('ok');
+  if(chosen!==ex.ans) document.getElementById(`o${i}-${chosen}`).classList.add('nope');
+  showFB(i, chosen===ex.ans, ex.exp);
+  if(chosen===ex.ans&&!exDone[i]){exDone[i]=true;updateScore();}
+}
+
+function doFill(i){
+  const ex=exercises[i];
+  let allOk=true;
+  ex.blanks.forEach((ans,bi)=>{
+    const inp=document.getElementById(`bl${i}-${bi}`);
+    inp.disabled=true;
+    if(norm(inp.value)===norm(ans)){inp.classList.add('ok');}
+    else{inp.classList.add('nope');allOk=false;}
+  });
+  if(allOk){
+    showFB(i,true,ex.exp);
+    if(!exDone[i]){exDone[i]=true;updateScore();}
+  } else {
+    showFB(i,false,'Réponse attendue : <strong>'+ex.blanks.join(' / ')+'</strong>. '+ex.exp);
+  }
+}
+
+function doTF(i,chosen){
+  const ex=exercises[i];
+  document.getElementById(`tf${i}-v`).disabled=true;
+  document.getElementById(`tf${i}-f`).disabled=true;
+  if(ex.ans) document.getElementById(`tf${i}-v`).classList.add('ok');
+  else document.getElementById(`tf${i}-f`).classList.add('ok');
+  if(chosen!==ex.ans){
+    if(chosen) document.getElementById(`tf${i}-v`).classList.add('nope');
+    else document.getElementById(`tf${i}-f`).classList.add('nope');
+  }
+  showFB(i,chosen===ex.ans,ex.exp);
+  if(chosen===ex.ans&&!exDone[i]){exDone[i]=true;updateScore();}
+}
+
+function doChrono(i){
+  const ex=exercises[i];
+  let allOk=true;
+  ex.items.forEach((it,ci)=>{
+    it.actions.forEach((_,ai)=>{
+      const sel=document.getElementById(`sel${i}-${ci}-${ai}`);
+      const div=document.getElementById(`chr${i}-${ci}-${ai}`);
+      sel.disabled=true;
+      const val=parseInt(sel.value);
+      if(val===it.correct[ai]) div.classList.add('ok');
+      else{div.classList.add('nope');allOk=false;}
+    });
+  });
+  const msg=allOk?'✓ Parfait ! Tu as bien identifié l\'ordre chronologique des actions.':
+    '✗ Relis les phrases : le futur antérieur (terminé en premier) porte un numéro ① et le futur simple (après) un numéro ②.';
+  showFB(i,allOk,msg);
+  if(allOk&&!exDone[i]){exDone[i]=true;updateScore();}
+}
+
+const chipState={};
+function doChipClick(i,j){
+  if(!chipState[i]) chipState[i]={};
+  const chip=document.getElementById(`chip${i}-${j}`);
+  const cur=chipState[i][j]||null;
+  if(cur===null){chipState[i][j]='fs';chip.classList.add('fs');}
+  else if(cur==='fs'){chipState[i][j]='fa';chip.classList.remove('fs');chip.classList.add('fa');}
+  else{chipState[i][j]=null;chip.classList.remove('fs','fa');}
+}
+
+function doClassify(i){
+  const ex=exercises[i];
+  let allOk=true;
+  ex.items.forEach((it,j)=>{
+    const chip=document.getElementById(`chip${i}-${j}`);
+    chip.onclick=null;
+    const chosen=(chipState[i]||{})[j]||null;
+    if(chosen===it.cat){
+      chip.style.borderColor='var(--green)';chip.style.background='var(--green-bg)';chip.style.color='var(--green)';
+    } else {
+      chip.style.borderColor='var(--rust)';chip.style.background='var(--rust-bg)';chip.style.color='var(--rust)';allOk=false;
+    }
+  });
+  showFB(i,allOk,allOk?'✓ Excellent ! Toutes les phrases sont correctement classées.':
+    '✗ Certaines phrases sont mal placées. 1 clic = FS (rouge), 2 clics = FA (vert), 3 clics = annuler.');
+  if(allOk&&!exDone[i]){exDone[i]=true;updateScore();}
+}
+
+function showFB(i,ok,msg){
+  const fb=document.getElementById('fb'+i);
+  fb.innerHTML=(ok?'✓ ':'✗ ')+msg;
+  fb.className='fb show '+(ok?'ok':'nope');
+}
+
+buildExercises();
+
+/* ══════════════════════════════════════════
+   EXAM DATA (20 questions)
+══════════════════════════════════════════ */
+const examQs=[
+  {q:'Quel temps utilise-t-on pour une action qui sera déjà <em>terminée</em> avant une autre action future ?',
+   opts:['Futur simple','Futur antérieur','Conditionnel','Imparfait'],ans:1},
+  {q:'Quelle phrase est au <em>futur simple</em> ?',
+   opts:['Nous aurons terminé avant midi.','Elle sera arrivée.','Il partira demain.','Tu auras fini.'],ans:2},
+  {q:'Quelle terminaison du futur simple correspond à <em>« je »</em> ?',
+   opts:['-ais','-as','-ai','-a'],ans:2},
+  {q:'Tu sortiras quand tu…',
+   opts:['as fini tes devoirs.','auras fini tes devoirs.','avais fini tes devoirs.','finiras tes devoirs.'],ans:1},
+  {q:'Quel est le futur simple du verbe <em>aller</em> (je) ?',
+   opts:['j\'allerai','j\'allais','j\'irai','j\'irais'],ans:2},
+  {q:'Comment forme-t-on le futur antérieur ?',
+   opts:['imparfait + participe passé','futur simple de avoir/être + participe passé','conditionnel + infinitif','présent + participe présent'],ans:1},
+  {q:'Quelle phrase contient un futur antérieur avec <em>être</em> ?',
+   opts:['Tu auras mangé.','Nous aurons fini.','Elle sera partie.','Ils auront compris.'],ans:2},
+  {q:'Dans « Lorsque Tom <em>aura appris</em> à jouer de la trompette, il <em>pourra</em> nous donner un concert. » — quelle action se passe EN PREMIER ?',
+   opts:['Il pourra donner un concert.','Tom aura appris la trompette.','Les deux en même temps.','Impossible à savoir.'],ans:1},
+  {q:'Quel radical irrégulier est correct pour le verbe <em>faire</em> ?',
+   opts:['fair-','fai-','fer-','ferai-'],ans:2},
+  {q:'VRAI ou FAUX : « Je mangerais » (avec S) est le futur simple.',
+   opts:['Vrai','Faux'],ans:1},
+  {q:'Quelle phrase utilise correctement le futur antérieur ?',
+   opts:['Dès que j\'aurai fini mon roman, je te le prêterai.','Dès que je finirai mon roman, j\'aurais pu te le prêter.','Quand j\'ai fini mon roman, je te le prêterai.','J\'aurais fini mon roman demain.'],ans:0},
+  {q:'Conjugue <em>naître</em> au futur antérieur (les tortues) :',
+   opts:['elles auront nées','elles seront nées','elles seront naites','elles auront naît'],ans:1},
+  {q:'Dans « Isa nous préviendra sitôt qu\'elle sera arrivée. » — quel est le temps de <em>« sera arrivée »</em> ?',
+   opts:['Futur simple','Conditionnel','Futur antérieur','Passé composé'],ans:2},
+  {q:'Accord du participe passé : « Ma poésie, je l\'___ apprise. »',
+   opts:['aurai','aurais','auras','avais'],ans:0},
+  {q:'Conjugue <em>recevoir</em> au futur antérieur (je) :',
+   opts:['j\'aurai reçu','j\'aurais reçu','je recevrai','j\'aurai reçu'],ans:0},
+  {q:'Quel verbe s\'utilise avec <em>être</em> au futur antérieur ?',
+   opts:['manger','chanter','partir','finir'],ans:2},
+  {q:'Quelle forme est correcte au futur simple pour <em>voir</em> (tu) ?',
+   opts:['tu voiras','tu verra','tu verras','tu voirras'],ans:2},
+  {q:'Nous t\'appellerons dès que nous…',
+   opts:['étions arrivés.','sommes arrivés.','serons arrivés.','avons été arrivés.'],ans:2},
+  {q:'Quel mot introduit le plus souvent une subordonnée au futur antérieur ?',
+   opts:['parce que','mais','dès que','donc'],ans:2},
+  {q:'Parmi ces phrases, laquelle emploie <strong>correctement les deux futurs</strong> ?',
+   opts:['Quand tu arriveras, j\'aurai fini mes devoirs.','J\'aurais fini mes devoirs demain.','Quand tu arriveras, je finissais mes devoirs.','Tu arriveras quand j\'ai fini mes devoirs.'],ans:0},
+];
+
+let examAns=new Array(examQs.length).fill(null);
+
+function startExam(){
+  document.getElementById('exam-cover').style.display='none';
+  const f=document.getElementById('exam-qs');
+  f.style.display='block';
+  const L=['A','B','C','D'];
+  f.innerHTML=examQs.map((eq,i)=>`
+    <div class="eqb" id="eqb${i}">
+      <div class="eqb-top">
+        <span class="eq-num">Question ${i+1} / ${examQs.length}</span>
+        <span class="eq-pts">1 pt</span>
+      </div>
+      <div class="eq-text">${i+1}. ${eq.q}</div>
+      <div class="eopts">
+        ${eq.opts.map((o,j)=>`<button class="eopt" id="eo${i}-${j}" onclick="selExam(${i},${j})">
+          <span class="eopt-l">${L[j]}</span>${o}</button>`).join('')}
+      </div>
+    </div>`).join('');
+  document.getElementById('exam-sub').style.display='block';
+}
+
+function selExam(i,j){
+  const prev=examAns[i];
+  if(prev!==null) document.getElementById(`eo${i}-${prev}`).classList.remove('sel');
+  examAns[i]=j;
+  document.getElementById(`eo${i}-${j}`).classList.add('sel');
+}
+
+function submitExam(){
+  const missing=examAns.filter(a=>a===null).length;
+  if(missing>0&&!confirm(`${missing} question(s) sans réponse. Soumettre quand même ?`)) return;
+
+  let score=0;
+  examQs.forEach((eq,i)=>{
+    const btns=document.querySelectorAll(`[id^="eo${i}-"]`);
+    btns.forEach(b=>b.disabled=true);
+    const cor=eq.ans; const cho=examAns[i];
+    document.getElementById(`eo${i}-${cor}`).classList.remove('sel');
+    document.getElementById(`eo${i}-${cor}`).classList.add('reveal-ok');
+    if(cho!==null&&cho!==cor){
+      document.getElementById(`eo${i}-${cho}`).classList.remove('sel');
+      document.getElementById(`eo${i}-${cho}`).classList.add('reveal-nope');
+    }
+    if(cho===cor) score++;
+  });
+
+  document.getElementById('exam-sub').style.display='none';
+
+  const pct=score/20;
+  let mention,mc,msg,emoji;
+  if(score>=18){mention='Distinction';mc='#A8780A';msg='Exceptionnel ! Tu maîtrises parfaitement les deux futurs. Un vrai(e) expert(e) de la conjugaison !';emoji='🏆';}
+  else if(score>=16){mention='Très Bien';mc='#2A8C5A';msg='Excellent travail ! Tu as une très solide maîtrise. Quelques petits détails à peaufiner.';emoji='⭐';}
+  else if(score>=14){mention='Bien';mc='#1A6868';msg='Beau résultat ! Tu as les bases. Revois les verbes irréguliers et les accords du p.p.';emoji='👍';}
+  else if(score>=10){mention='Suffisant';mc='#A8780A';msg='Tu as les notions essentielles mais il faut encore travailler. Relis la théorie et refais les exercices !';emoji='📚';}
+  else{mention='À retravailler';mc='#BF3E28';msg='Ne te décourage pas ! Recommence par la théorie tranquillement, tu vas y arriver.';emoji='💪';}
+
+  const circ=2*Math.PI*54;
+  const off=circ-pct*circ;
+
+  const rb=document.getElementById('result-box');
+  rb.style.display='block';
+  rb.innerHTML=`
+    <div class="res-top">
+      <div class="res-emoji">${emoji}</div>
+      <svg width="130" height="130" viewBox="0 0 130 130" style="display:block;margin:0 auto 1.25rem;">
+        <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(244,239,228,0.06)" stroke-width="10"/>
+        <circle cx="65" cy="65" r="54" fill="none" stroke="${mc}" stroke-width="10"
+          stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}"
+          stroke-linecap="round" transform="rotate(-90 65 65)"
+          style="transition:stroke-dashoffset 1.5s ease;"/>
+        <text x="65" y="56" text-anchor="middle" font-family="Fraunces,serif" font-size="28" font-weight="900" fill="${mc}">${score}</text>
+        <text x="65" y="77" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="rgba(244,239,228,0.35)">/ 20</text>
+      </svg>
+      <div class="res-score">Score : ${score} / 20</div>
+      <span class="res-mention" style="background:${mc}22;color:${mc};border:1px solid ${mc};">${mention}</span>
+      <p class="res-msg">${msg}</p>
+    </div>
+    <div class="res-stats">
+      <div class="rs"><div class="rs-n" style="color:var(--green);">${score}</div><div class="rs-l">Correctes</div></div>
+      <div class="rs"><div class="rs-n" style="color:var(--rust);">${20-score}</div><div class="rs-l">Incorrectes</div></div>
+      <div class="rs"><div class="rs-n" style="color:${mc};">${Math.round(pct*100)}%</div><div class="rs-l">Réussite</div></div>
+    </div>
+    <table class="res-tbl">
+      <thead><tr><th>#</th><th>Question</th><th>Résultat</th><th>Ta réponse</th></tr></thead>
+      <tbody>
+        ${examQs.map((eq,i)=>{
+          const ok=examAns[i]===eq.ans;
+          const L=['A','B','C','D'];
+          const chosen=examAns[i]!==null?L[examAns[i]]+'. '+eq.opts[examAns[i]]:'—';
+          return`<tr>
+            <td style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);">${i+1}</td>
+            <td style="max-width:360px;">${eq.q.replace(/<[^>]+>/g,'')}</td>
+            <td>${ok?'<span class="ok-cell">✓</span>':'<span class="nope-cell">✗</span>'}</td>
+            <td style="font-size:0.82rem;color:var(--muted);">${ok?'<span style="color:var(--green);">'+chosen+'</span>':chosen}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    <div class="res-actions">
+      <button class="btn-retry" onclick="retryExam()">↺ Recommencer l'examen</button>
+      <button class="btn-sec" onclick="go('theory')">📖 Revoir la théorie</button>
+      <button class="btn-sec" onclick="go('exercises')">✏️ Refaire les exercices</button>
+    </div>`;
+  rb.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function retryExam(){
+  examAns=new Array(examQs.length).fill(null);
+  document.getElementById('exam-cover').style.display='block';
+  document.getElementById('exam-qs').style.display='none';
+  document.getElementById('exam-qs').innerHTML='';
+  document.getElementById('exam-sub').style.display='none';
+  document.getElementById('result-box').style.display='none';
+  document.getElementById('result-box').innerHTML='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Médianes & Diagonales — Académie de Mathématiques</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0D0F1A; --paper:#F0EDE4; --cream:#E6E0D0; --white:#FFFFFF;
+  --blue:#1A5FA8;   --blue-l:#2A7FD0;  --blue-bg:rgba(26,95,168,0.08);
+  --teal:#0E7A6A;   --teal-l:#14A08A;  --teal-bg:rgba(14,122,106,0.08);
+  --gold:#9A6E0A;   --gold-l:#C49020;  --gold-bg:rgba(154,110,10,0.07);
+  --violet:#5C3FA8; --violet-bg:rgba(92,63,168,0.08);
+  --red:#B83030;    --red-bg:rgba(184,48,48,0.08);
+  --green:#2A8C5A;  --green-bg:rgba(42,140,90,0.09);
+  --border:rgba(13,15,26,0.11); --border2:rgba(13,15,26,0.22);
+  --muted:#6A6058; --shadow:0 2px 18px rgba(13,15,26,0.07);
+  --shadow-lg:0 10px 40px rgba(13,15,26,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(13,15,26,0.025) 31px,rgba(13,15,26,0.025) 32px);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:54px;
+  background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 1.75rem;}
+.nav-logo{font-family:'Fraunces',serif;font-style:italic;font-size:0.95rem;color:var(--paper);letter-spacing:0.02em;white-space:nowrap;}
+.nav-links{display:flex;gap:0.1rem;list-style:none;}
+.nav-links a{text-decoration:none;color:rgba(244,239,228,0.5);font-size:0.72rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;padding:0.38rem 0.8rem;border-radius:5px;
+  cursor:pointer;transition:all 0.18s;border:1px solid transparent;}
+.nav-links a:hover{color:var(--paper);background:rgba(255,255,255,0.07);}
+.nav-links a.active{color:var(--paper);background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.14);}
+
+section{display:none;min-height:100vh;padding:68px 0 6rem;position:relative;z-index:1;}
+section.active{display:block;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 1.75rem;}
+
+/* ── HERO ── */
+#home{padding:0;}
+.hero{min-height:100vh;background:var(--ink);display:flex;align-items:center;position:relative;overflow:hidden;}
+.hero-wm{position:absolute;font-family:'Fraunces',serif;font-weight:900;font-style:italic;
+  font-size:clamp(4rem,16vw,15rem);color:rgba(244,239,228,0.03);line-height:1;
+  top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none;}
+/* Geometric decorations on hero */
+.hero-geo{position:absolute;right:6%;top:50%;transform:translateY(-50%);opacity:0.06;pointer-events:none;}
+.hero-inner{position:relative;z-index:2;padding:0 2.5rem;max-width:1060px;margin:0 auto;width:100%;}
+.hero-pill{display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:2rem;
+  font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(244,239,228,0.38);animation:up 0.7s ease both;}
+.hero-pill::before{content:'';width:24px;height:1px;background:rgba(244,239,228,0.25);}
+h1.htitle{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(3.2rem,8vw,7.5rem);
+  line-height:0.92;color:var(--paper);animation:up 0.8s 0.1s ease both;margin-bottom:1.2rem;}
+h1.htitle em{font-style:italic;color:var(--blue-l);}
+h1.htitle .amp{color:rgba(244,239,228,0.3);}
+.hero-sub{font-size:1rem;color:rgba(244,239,228,0.45);line-height:1.8;max-width:500px;
+  animation:up 0.8s 0.22s ease both;margin-bottom:2.5rem;}
+.hero-btns{display:flex;gap:0.85rem;flex-wrap:wrap;animation:up 0.8s 0.32s ease both;margin-bottom:4rem;}
+.btn-h1{padding:0.75rem 1.8rem;background:var(--blue);color:#fff;border:none;border-radius:7px;
+  font-size:0.85rem;font-weight:700;letter-spacing:0.05em;cursor:pointer;transition:all 0.2s;}
+.btn-h1:hover{background:var(--blue-l);transform:translateY(-2px);box-shadow:0 8px 22px rgba(26,95,168,0.4);}
+.btn-h2{padding:0.75rem 1.8rem;background:transparent;color:rgba(244,239,228,0.65);
+  border:1px solid rgba(244,239,228,0.18);border-radius:7px;font-size:0.85rem;font-weight:600;
+  cursor:pointer;transition:all 0.2s;}
+.btn-h2:hover{color:var(--paper);background:rgba(255,255,255,0.06);}
+.hero-kpis{display:flex;gap:3rem;padding-top:2.5rem;border-top:1px solid rgba(244,239,228,0.08);
+  animation:up 0.8s 0.42s ease both;}
+.kpi-n{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:700;color:var(--paper);}
+.kpi-l{font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,239,228,0.3);margin-top:0.1rem;}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SEC HEADER ── */
+.sec-head{padding:3rem 0 2rem;border-bottom:2px solid var(--ink);margin-bottom:2.75rem;}
+.sec-tag{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:0.5rem;display:block;}
+.sec-title{font-family:'Fraunces',serif;font-size:2.7rem;font-weight:900;line-height:1.0;color:var(--ink);}
+.sec-title em{font-style:italic;}
+.sec-desc{margin-top:0.6rem;color:var(--muted);font-size:0.9rem;line-height:1.72;max-width:600px;}
+
+/* ── THEORY CARDS ── */
+.tcard{background:var(--white);border:1px solid var(--border);border-radius:14px;
+  padding:2.25rem;box-shadow:var(--shadow);margin-bottom:1.75rem;position:relative;overflow:hidden;}
+.tcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac,var(--blue));}
+.tcard-title{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;
+  display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem;}
+.tcard-lead{font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1.6rem;}
+
+/* DEF BOXES */
+.def-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.6rem;}
+@media(max-width:620px){.def-row{grid-template-columns:1fr;}}
+.def-box{border-radius:12px;padding:1.25rem 1.4rem;}
+.def-box.blue{background:var(--blue-bg);border:1px solid rgba(26,95,168,0.22);}
+.def-box.teal{background:var(--teal-bg);border:1px solid rgba(14,122,106,0.22);}
+.def-box-label{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;
+  text-transform:uppercase;font-weight:700;margin-bottom:0.6rem;}
+.def-box.blue .def-box-label{color:var(--blue);}
+.def-box.teal .def-box-label{color:var(--teal);}
+.def-box-text{font-size:0.88rem;line-height:1.65;}
+.def-box-ex{font-family:'Fraunces',serif;font-style:italic;font-size:0.85rem;
+  margin-top:0.5rem;color:var(--muted);}
+
+/* SVG QUADRILATERAL VISUALS */
+.shapes-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.2rem 0;}
+@media(max-width:540px){.shapes-row{grid-template-columns:1fr 1fr;}}
+.shape-cell{background:var(--cream);border:1px solid var(--border);border-radius:10px;
+  padding:0.85rem;text-align:center;}
+.shape-cell svg{display:block;margin:0 auto 0.5rem;}
+.shape-name{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--muted);font-weight:600;}
+
+/* BIG PROPERTIES TABLE */
+.prop-table-wrap{overflow-x:auto;margin:1.2rem 0;}
+.prop-table{width:100%;border-collapse:collapse;font-size:0.84rem;}
+.prop-table th{background:var(--ink);color:var(--paper);font-family:'DM Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.7rem 0.9rem;text-align:center;}
+.prop-table th:first-child{text-align:left;}
+.prop-table td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
+.prop-table td:first-child{text-align:left;font-weight:600;font-size:0.83rem;}
+.prop-table tr:last-child td{border-bottom:none;}
+.prop-table tr:nth-child(even) td{background:rgba(13,15,26,0.018);}
+.yes{color:var(--green);font-weight:700;font-size:1rem;}
+.no{color:var(--red);font-weight:700;font-size:0.85rem;opacity:0.6;}
+.prop-table-label{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;
+  text-transform:uppercase;font-weight:700;margin-bottom:0.5rem;margin-top:1.2rem;display:block;}
+.prop-table-label.blue{color:var(--blue);}
+.prop-table-label.teal{color:var(--teal);}
+
+/* INFO BOXES */
+.ib-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.1rem;}
+@media(max-width:600px){.ib-row{grid-template-columns:1fr;}}
+.ib{border-radius:10px;padding:1rem 1.1rem;font-size:0.85rem;line-height:1.65;}
+.ib strong{display:block;font-size:0.72rem;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:0.3rem;}
+.ib.blue{background:var(--blue-bg);border:1px solid rgba(26,95,168,0.22);}.ib.blue strong{color:var(--blue);}
+.ib.teal{background:var(--teal-bg);border:1px solid rgba(14,122,106,0.22);}.ib.teal strong{color:var(--teal);}
+.ib.gold{background:var(--gold-bg);border:1px solid rgba(154,110,10,0.22);}.ib.gold strong{color:var(--gold);}
+.ib.vio{background:var(--violet-bg);border:1px solid rgba(92,63,168,0.22);}.ib.vio strong{color:var(--violet);}
+
+/* STEP LIST */
+.step-list{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.4rem;}
+.step{display:flex;gap:1rem;align-items:flex-start;}
+.step-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;margin-top:0.1rem;}
+.step-body{flex:1;padding:1rem 1.25rem;border-radius:10px;font-size:0.87rem;line-height:1.65;}
+.step-body strong{display:block;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem;}
+
+/* ══════════════════════════════════════════
+   EXERCISES
+══════════════════════════════════════════ */
+.score-bar{display:flex;justify-content:space-between;align-items:center;
+  background:var(--white);border:1px solid var(--border);border-radius:10px;padding:0.8rem 1.25rem;margin-bottom:1.5rem;}
+.score-lbl{font-size:0.82rem;color:var(--muted);}
+.score-val{font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--blue);font-weight:600;}
+.prog{height:3px;background:rgba(13,15,26,0.07);border-radius:2px;margin-bottom:2rem;overflow:hidden;}
+.prog-f{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width 0.4s;}
+
+.ex-wrap{display:flex;flex-direction:column;gap:1.5rem;}
+.ex-block{background:var(--white);border:1px solid var(--border);border-radius:14px;
+  padding:1.9rem;box-shadow:var(--shadow);}
+.ex-type{display:inline-flex;align-items:center;gap:0.35rem;
+  font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.15em;text-transform:uppercase;
+  padding:0.28rem 0.65rem;border-radius:4px;margin-bottom:0.9rem;font-weight:500;}
+.t-mcq{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(26,95,168,0.22);}
+.t-fill{background:var(--teal-bg);color:var(--teal);border:1px solid rgba(14,122,106,0.22);}
+.t-tf{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(154,110,10,0.22);}
+.t-classify{background:var(--violet-bg);color:var(--violet);border:1px solid rgba(92,63,168,0.22);}
+.t-table{background:rgba(42,140,90,0.09);color:var(--green);border:1px solid rgba(42,140,90,0.22);}
+
+.ex-q{font-family:'Fraunces',serif;font-size:1.02rem;line-height:1.5;margin-bottom:0.4rem;}
+.ex-q em{color:var(--blue);font-style:italic;}
+.ex-sub{font-size:0.82rem;color:var(--muted);margin-bottom:1rem;line-height:1.6;}
+
+/* MCQ */
+.opts{display:flex;flex-direction:column;gap:0.45rem;}
+.opt{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.95rem;
+  border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.87rem;
+  background:transparent;color:var(--ink);text-align:left;transition:all 0.16s;width:100%;}
+.opt:hover:not(:disabled){border-color:var(--blue);background:var(--blue-bg);}
+.opt.ok{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.opt.nope{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+.opt:disabled{cursor:default;}
+.opt-l{width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;
+  display:flex;align-items:center;justify-content:center;font-size:0.65rem;
+  font-family:'DM Mono',monospace;flex-shrink:0;font-weight:600;}
+
+/* FILL */
+.fill-sent{font-family:'Fraunces',serif;font-style:italic;font-size:1rem;line-height:2.3;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:0.2rem;margin-bottom:0.9rem;}
+.blank{border:none;border-bottom:2.5px solid var(--blue);background:transparent;
+  font-family:'Fraunces',serif;font-style:italic;font-size:1rem;
+  min-width:110px;padding:0 0.3rem;outline:none;color:var(--ink);transition:border-color 0.2s;text-align:center;}
+.blank:focus{border-color:var(--teal);}
+.blank.ok{border-color:var(--green);color:var(--green);}
+.blank.nope{border-color:var(--red);color:var(--red);}
+
+/* TF */
+.tf-row{display:flex;gap:0.75rem;}
+.tf-btn{flex:1;padding:0.75rem;border:1.5px solid var(--border);border-radius:8px;
+  font-size:0.9rem;font-weight:700;cursor:pointer;background:transparent;transition:all 0.18s;}
+.tf-btn:hover:not(:disabled){background:rgba(13,15,26,0.04);}
+.tf-btn:disabled{cursor:default;}
+.tf-btn.ok{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.tf-btn.nope{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+
+/* CLASSIFY */
+.classify-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.9rem;}
+.chip{padding:0.35rem 0.9rem;background:var(--cream);border:1.5px solid var(--border);
+  border-radius:50px;font-size:0.83rem;cursor:pointer;transition:all 0.16s;user-select:none;}
+.chip:hover{border-color:var(--blue);background:var(--blue-bg);}
+.chip.c0{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.chip.c1{border-color:var(--teal);background:var(--teal-bg);color:var(--teal);}
+.chip.c2{border-color:var(--violet);background:var(--violet-bg);color:var(--violet);}
+.chip.c3{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+
+/* MINI TABLE EXERCISE */
+.ex-mini-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;
+  border:1px solid var(--border);font-size:0.83rem;margin:0.8rem 0;}
+.ex-mini-table th{background:var(--ink);color:var(--paper);font-family:'DM Mono',monospace;
+  font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 0.75rem;text-align:center;}
+.ex-mini-table th:first-child{text-align:left;}
+.ex-mini-table td{padding:0.55rem 0.75rem;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
+.ex-mini-table td:first-child{font-weight:600;text-align:left;}
+.ex-mini-table tr:last-child td{border-bottom:none;}
+.ex-mini-table input[type=text]{width:52px;border:none;border-bottom:2px solid var(--blue);
+  background:transparent;text-align:center;font-size:0.82rem;outline:none;padding:0.1rem;
+  font-family:'DM Sans',sans-serif;transition:border-color 0.2s;}
+.ex-mini-table input[type=text]:focus{border-color:var(--teal);}
+.ex-mini-table input.ok{border-color:var(--green);color:var(--green);}
+.ex-mini-table input.nope{border-color:var(--red);color:var(--red);}
+
+/* FEEDBACK */
+.fb{margin-top:0.85rem;padding:0.7rem 0.95rem;border-radius:8px;font-size:0.83rem;
+  font-weight:500;display:none;line-height:1.5;}
+.fb.show{display:block;}
+.fb.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(42,140,90,0.3);}
+.fb.nope{background:var(--red-bg);color:var(--red);border:1px solid rgba(184,48,48,0.25);}
+
+.btn-check{padding:0.55rem 1.3rem;border-radius:6px;background:var(--ink);color:var(--paper);
+  border:none;cursor:pointer;font-size:0.8rem;font-weight:700;letter-spacing:0.07em;
+  text-transform:uppercase;transition:all 0.16s;margin-top:0.55rem;}
+.btn-check:hover{background:#252936;}
+.btn-next{padding:0.8rem 2rem;background:var(--ink);color:var(--paper);border:none;
+  border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:700;letter-spacing:0.05em;transition:all 0.18s;}
+.btn-next:hover{background:#252936;transform:translateY(-2px);}
+.sec-foot{text-align:center;margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--border);}
+
+/* ══════════════════════════════════════════
+   EXAM
+══════════════════════════════════════════ */
+.exam-cover{background:var(--ink);border-radius:20px;padding:4rem 3rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden;}
+.exam-cover::before{content:'◆';position:absolute;font-size:clamp(8rem,20vw,18rem);color:rgba(244,239,228,0.022);
+  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.exam-cover h2{font-family:'Fraunces',serif;font-size:2.3rem;color:var(--paper);font-style:italic;margin-bottom:0.65rem;}
+.exam-cover p{color:rgba(244,239,228,0.48);font-size:0.9rem;line-height:1.7;max-width:460px;margin:0 auto 2rem;}
+.exam-meta-row{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.em-item .em-n{font-family:'Fraunces',serif;font-size:2.1rem;font-weight:700;color:var(--paper);}
+.em-item .em-l{font-size:0.65rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(244,239,228,0.3);}
+.btn-start{padding:0.85rem 2.4rem;background:var(--blue);color:#fff;border:none;border-radius:8px;
+  font-size:0.88rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.btn-start:hover{background:var(--blue-l);transform:translateY(-2px);}
+#exam-qs{display:none;}
+.eqb{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin-bottom:1.1rem;box-shadow:var(--shadow);}
+.eqb-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.85rem;}
+.eq-num{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;}
+.eq-pts{font-family:'DM Mono',monospace;font-size:0.68rem;background:var(--cream);padding:0.2rem 0.6rem;border-radius:4px;}
+.eq-text{font-family:'Fraunces',serif;font-size:1rem;line-height:1.5;margin-bottom:1.1rem;}
+.eq-text em{color:var(--blue);font-style:italic;}
+.eopts{display:flex;flex-direction:column;gap:0.42rem;}
+.eopt{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.95rem;border:1.5px solid var(--border);border-radius:8px;
+  cursor:pointer;font-size:0.87rem;background:transparent;color:var(--ink);text-align:left;transition:all 0.16s;width:100%;}
+.eopt:hover{border-color:var(--blue);background:var(--blue-bg);}
+.eopt.sel{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.eopt.reveal-ok{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.eopt.reveal-nope{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+.eopt-l{width:20px;height:20px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;
+  justify-content:center;font-size:0.62rem;font-family:'DM Mono',monospace;flex-shrink:0;font-weight:600;}
+.exam-sub-row{text-align:center;padding:2rem 0;display:none;}
+.btn-submit{padding:0.9rem 2.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;
+  font-size:0.9rem;font-weight:700;letter-spacing:0.06em;cursor:pointer;transition:all 0.2s;}
+.btn-submit:hover{background:var(--blue-l);transform:translateY(-2px);}
+
+/* RESULTS */
+.result-box{display:none;}
+.res-top{background:var(--ink);border-radius:18px;padding:3.5rem 2rem;text-align:center;margin-bottom:1.75rem;}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.75rem;}
+.rs{background:var(--white);border:1px solid var(--border);border-radius:11px;padding:1.4rem;text-align:center;box-shadow:var(--shadow);}
+.rs-n{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;}
+.rs-l{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.2rem;}
+.res-tbl{width:100%;border-collapse:collapse;background:var(--white);border-radius:12px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);}
+.res-tbl th{background:var(--ink);color:var(--paper);font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.7rem 1rem;text-align:left;}
+.res-tbl td{padding:0.6rem 1rem;font-size:0.85rem;border-bottom:1px solid var(--border);}
+.res-tbl tr:last-child td{border-bottom:none;}
+.ok-cell{color:var(--green);font-weight:700;}.nope-cell{color:var(--red);font-weight:700;}
+.res-actions{display:flex;gap:0.85rem;justify-content:center;flex-wrap:wrap;margin-top:1.75rem;}
+.btn-retry{padding:0.75rem 1.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.btn-retry:hover{background:var(--blue-l);}
+.btn-sec{padding:0.75rem 1.8rem;background:transparent;color:var(--ink);border:1.5px solid var(--border);border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.btn-sec:hover{background:var(--cream);}
+
+@media(max-width:600px){
+  .nav-logo{font-size:0.75rem;}
+  h1.htitle{font-size:2.8rem;}
+  .hero-kpis{gap:1.5rem;}
+  .sec-title{font-size:1.9rem;}
+  .shapes-row{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Académie · Mathématiques</div>
+  <ul class="nav-links">
+    <li><a onclick="go('home')" id="nav-home" class="active">Accueil</a></li>
+    <li><a onclick="go('theory')" id="nav-theory">Théorie</a></li>
+    <li><a onclick="go('exercises')" id="nav-exercises">Exercices</a></li>
+    <li><a onclick="go('exam')" id="nav-exam">Examen</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HOME ══ -->
+<section id="home" class="active">
+  <div class="hero">
+    <div class="hero-wm">GÉOMÉTRIE</div>
+    <!-- Decorative SVG -->
+    <svg class="hero-geo" width="420" height="420" viewBox="0 0 420 420" fill="none">
+      <rect x="60" y="60" width="300" height="300" stroke="white" stroke-width="1.5"/>
+      <line x1="60" y1="210" x2="360" y2="210" stroke="white" stroke-width="1" stroke-dasharray="6 4"/>
+      <line x1="210" y1="60" x2="210" y2="360" stroke="white" stroke-width="1" stroke-dasharray="6 4"/>
+      <line x1="60" y1="60" x2="360" y2="360" stroke="white" stroke-width="0.8"/>
+      <line x1="360" y1="60" x2="60" y2="360" stroke="white" stroke-width="0.8"/>
+      <circle cx="210" cy="210" r="4" fill="white"/>
+    </svg>
+    <div class="hero-inner">
+      <div class="hero-pill">Géométrie · 5ème–6ème primaire · Belgique</div>
+      <h1 class="htitle"><em>Médianes</em><br><span class="amp">&</span> Diagonales</h1>
+      <p class="hero-sub">Comprends, compare et maîtrise les médianes et les diagonales des quadrilatères — leurs propriétés, leurs différences, figure par figure.</p>
+      <div class="hero-btns">
+        <button class="btn-h1" onclick="go('theory')">▶ Commencer la théorie</button>
+        <button class="btn-h2" onclick="go('exercises')">✏️ Aller aux exercices</button>
+        <button class="btn-h2" onclick="go('exam')">→ Passer l'examen</button>
+      </div>
+      <div class="hero-kpis">
+        <div><div class="kpi-n">6</div><div class="kpi-l">Quadrilatères étudiés</div></div>
+        <div><div class="kpi-n">25</div><div class="kpi-l">Exercices variés</div></div>
+        <div><div class="kpi-n">20</div><div class="kpi-l">Points à l'examen</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THEORY ══ -->
+<section id="theory">
+<div class="wrap">
+<div class="sec-head">
+  <span class="sec-tag">Chapitre I — Théorie complète</span>
+  <h2 class="sec-title">Médianes <em>&</em> Diagonales</h2>
+  <p class="sec-desc">Apprends à distinguer médianes et diagonales, à identifier leurs propriétés pour chaque quadrilatère et à les comparer en un coup d'œil.</p>
+</div>
+
+<!-- BLOCK 1 : Définitions -->
+<div class="tcard" style="--ac:var(--blue);">
+  <div class="tcard-title">📐 Les définitions</div>
+  <p class="tcard-lead">Avant tout, il faut bien distinguer ces deux types de segments. Ils ne relient pas les mêmes points !</p>
+  <div class="def-row">
+    <div class="def-box blue">
+      <div class="def-box-label">📏 La Médiane</div>
+      <div class="def-box-text">Segment de droite qui joint les <strong>milieux de deux côtés opposés</strong> d'un quadrilatère.</div>
+      <div class="def-box-ex">→ Elle relie le milieu d'un côté au milieu du côté opposé.</div>
+    </div>
+    <div class="def-box teal">
+      <div class="def-box-label">📐 La Diagonale</div>
+      <div class="def-box-text">Segment de droite qui joint deux <strong>sommets non consécutifs</strong> (opposés) d'un polygone.</div>
+      <div class="def-box-ex">→ Elle relie un angle à l'angle opposé, en traversant l'intérieur.</div>
+    </div>
+  </div>
+  <div class="ib-row">
+    <div class="ib blue">
+      <strong>💡 Médianes — le moyen mnémotechnique</strong>
+      <em>Milieu → Milieu.</em> Une médiane part toujours du <strong>milieu</strong> d'un côté pour arriver au <strong>milieu</strong> du côté d'en face.
+    </div>
+    <div class="ib teal">
+      <strong>💡 Diagonales — le moyen mnémotechnique</strong>
+      <em>Sommet → Sommet.</em> Une diagonale part toujours d'un <strong>angle/sommet</strong> pour aller au <strong>sommet opposé</strong>.
+    </div>
+  </div>
+</div>
+
+<!-- BLOCK 2 : Shapes visual -->
+<div class="tcard" style="--ac:var(--teal);">
+  <div class="tcard-title">🔷 Les 6 quadrilatères — visuels</div>
+  <p class="tcard-lead">Voici les 6 figures étudiées. Observe les médianes (tirets bleus, milieu→milieu) et les diagonales (traits verts, sommet→sommet).</p>
+  <div class="shapes-row">
+    <!-- CARRÉ -->
+    <div class="shape-cell">
+      <svg width="90" height="90" viewBox="0 0 90 90">
+        <rect x="10" y="10" width="70" height="70" stroke="#0D0F1A" stroke-width="2" fill="rgba(26,95,168,0.05)"/>
+        <!-- médianes -->
+        <line x1="10" y1="45" x2="80" y2="45" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="45" y1="10" x2="45" y2="80" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <!-- diagonales -->
+        <line x1="10" y1="10" x2="80" y2="80" stroke="#0E7A6A" stroke-width="1.4"/>
+        <line x1="80" y1="10" x2="10" y2="80" stroke="#0E7A6A" stroke-width="1.4"/>
+        <circle cx="45" cy="45" r="3" fill="#0D0F1A"/>
+      </svg>
+      <div class="shape-name">Carré</div>
+    </div>
+    <!-- RECTANGLE -->
+    <div class="shape-cell">
+      <svg width="110" height="75" viewBox="0 0 110 75">
+        <rect x="8" y="8" width="94" height="59" stroke="#0D0F1A" stroke-width="2" fill="rgba(26,95,168,0.05)"/>
+        <line x1="8" y1="37.5" x2="102" y2="37.5" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="55" y1="8" x2="55" y2="67" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="8" y1="8" x2="102" y2="67" stroke="#0E7A6A" stroke-width="1.4"/>
+        <line x1="102" y1="8" x2="8" y2="67" stroke="#0E7A6A" stroke-width="1.4"/>
+        <circle cx="55" cy="37.5" r="3" fill="#0D0F1A"/>
+      </svg>
+      <div class="shape-name">Rectangle</div>
+    </div>
+    <!-- LOSANGE -->
+    <div class="shape-cell">
+      <svg width="100" height="80" viewBox="0 0 100 80">
+        <polygon points="50,5 92,40 50,75 8,40" stroke="#0D0F1A" stroke-width="2" fill="rgba(26,95,168,0.05)"/>
+        <line x1="8" y1="40" x2="92" y2="40" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="50" y1="5" x2="50" y2="75" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="8" y1="40" x2="92" y2="40" stroke="#0E7A6A" stroke-width="1.4"/>
+        <line x1="50" y1="5" x2="50" y2="75" stroke="#0E7A6A" stroke-width="1.4"/>
+        <circle cx="50" cy="40" r="3" fill="#0D0F1A"/>
+      </svg>
+      <div class="shape-name">Losange</div>
+    </div>
+    <!-- PARALLÉLOGRAMME -->
+    <div class="shape-cell">
+      <svg width="110" height="70" viewBox="0 0 110 70">
+        <polygon points="20,62 90,62 90,8 20,8" stroke="#0D0F1A" stroke-width="2" fill="rgba(26,95,168,0.05)"/>
+        <!-- Corrected parallelogram -->
+        <polygon points="15,62 95,62 95,8 15,8" stroke="none" fill="none"/>
+        <polygon points="20,60 88,60 90,10 22,10" stroke="#0D0F1A" stroke-width="2" fill="rgba(14,122,106,0.05)"/>
+        <line x1="21" y1="35" x2="89" y2="35" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="55" y1="10" x2="55" y2="60" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="22" y1="10" x2="88" y2="60" stroke="#0E7A6A" stroke-width="1.4"/>
+        <line x1="88" y1="10" x2="22" y2="60" stroke="#0E7A6A" stroke-width="1.4"/>
+        <circle cx="55" cy="35" r="3" fill="#0D0F1A"/>
+      </svg>
+      <div class="shape-name">Parallélogramme</div>
+    </div>
+    <!-- TRAPÈZE ISOCÈLE -->
+    <div class="shape-cell">
+      <svg width="110" height="75" viewBox="0 0 110 75">
+        <polygon points="25,65 85,65 70,10 40,10" stroke="#0D0F1A" stroke-width="2" fill="rgba(26,95,168,0.05)"/>
+        <line x1="25" y1="65" x2="85" y2="65" stroke="none"/>
+        <!-- médiane horizontale : milieu côté gauche → milieu côté droit -->
+        <line x1="32.5" y1="37.5" x2="77.5" y2="37.5" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <!-- médiane verticale : milieu bas → milieu haut -->
+        <line x1="55" y1="65" x2="55" y2="10" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <!-- diagonales -->
+        <line x1="25" y1="65" x2="70" y2="10" stroke="#0E7A6A" stroke-width="1.4"/>
+        <line x1="85" y1="65" x2="40" y2="10" stroke="#0E7A6A" stroke-width="1.4"/>
+        <circle cx="55" cy="38" r="3" fill="#0D0F1A"/>
+      </svg>
+      <div class="shape-name">Trapèze isocèle</div>
+    </div>
+    <!-- QUADRILATÈRE QUELCONQUE -->
+    <div class="shape-cell">
+      <svg width="100" height="80" viewBox="0 0 100 80">
+        <polygon points="15,65 85,70 78,12 30,8" stroke="#0D0F1A" stroke-width="2" fill="rgba(26,95,168,0.05)"/>
+        <!-- médianes approximatives -->
+        <line x1="22.5" y1="36.5" x2="81.5" y2="41" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="57.5" y1="10" x2="50" y2="67.5" stroke="#1A5FA8" stroke-width="1.8" stroke-dasharray="5 3"/>
+        <line x1="15" y1="65" x2="78" y2="12" stroke="#0E7A6A" stroke-width="1.4"/>
+        <line x1="85" y1="70" x2="30" y2="8" stroke="#0E7A6A" stroke-width="1.4"/>
+      </svg>
+      <div class="shape-name">Quadrilatère</div>
+    </div>
+  </div>
+  <div class="legend" style="display:flex;gap:1.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;">
+      <svg width="28" height="8"><line x1="0" y1="4" x2="28" y2="4" stroke="#1A5FA8" stroke-width="2" stroke-dasharray="5 3"/></svg>
+      <span>Médianes (milieu → milieu)</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;">
+      <svg width="28" height="8"><line x1="0" y1="4" x2="28" y2="4" stroke="#0E7A6A" stroke-width="2"/></svg>
+      <span>Diagonales (sommet → sommet)</span>
+    </div>
+  </div>
+</div>
+
+<!-- BLOCK 3 : Table MÉDIANES -->
+<div class="tcard" style="--ac:var(--blue);">
+  <div class="tcard-title">📋 Tableau des propriétés — Médianes</div>
+  <p class="tcard-lead">Ce tableau récapitule les trois propriétés principales des médianes pour chaque quadrilatère. Apprends-le par cœur !</p>
+  <div class="prop-table-wrap">
+    <table class="prop-table">
+      <thead>
+        <tr>
+          <th>Quadrilatère</th>
+          <th>Sont isométriques</th>
+          <th>Se coupent en leur milieu</th>
+          <th>Forment des angles droits (⊥)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>🔲 Carré</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>▭ Rectangle</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>◆ Losange</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">✗</span></td></tr>
+        <tr><td>▱ Parallélogramme</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="no">✗</span></td></tr>
+        <tr><td>⌂ Trapèze isocèle</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="no">✗</span></td></tr>
+        <tr><td>⬡ Quadrilatère</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="no">✗</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="ib-row" style="margin-top:1.1rem;">
+    <div class="ib gold">
+      <strong>⭐ À retenir</strong>
+      Toutes les médianes de tous les quadrilatères <strong>se coupent en leur milieu</strong>. C'est la seule propriété universelle des médianes !
+    </div>
+    <div class="ib blue">
+      <strong>🔲 Le carré est le champion</strong>
+      Le carré a les 3 propriétés à la fois. C'est le seul quadrilatère « commun » avec des médianes isométriques ET perpendiculaires.
+    </div>
+  </div>
+</div>
+
+<!-- BLOCK 4 : Table DIAGONALES -->
+<div class="tcard" style="--ac:var(--teal);">
+  <div class="tcard-title">📋 Tableau des propriétés — Diagonales</div>
+  <p class="tcard-lead">Les diagonales ont aussi 3 propriétés à vérifier, mais les résultats sont différents de ceux des médianes !</p>
+  <div class="prop-table-wrap">
+    <table class="prop-table">
+      <thead>
+        <tr>
+          <th>Quadrilatère</th>
+          <th>Sont isométriques</th>
+          <th>Se coupent en leur milieu</th>
+          <th>Forment des angles droits (⊥)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>🔲 Carré</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>▭ Rectangle</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">✗</span></td></tr>
+        <tr><td>◆ Losange</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>▱ Parallélogramme</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="no">✗</span></td></tr>
+        <tr><td>⌂ Trapèze isocèle</td><td><span class="yes">✓</span></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td></tr>
+        <tr><td>⬡ Quadrilatère</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="ib-row" style="margin-top:1.1rem;">
+    <div class="ib teal">
+      <strong>⚠️ Attention — différences clés</strong>
+      Rectangle : diagonales isométriques mais <strong>pas perpendiculaires</strong>.<br>
+      Losange : diagonales perpendiculaires mais <strong>pas isométriques</strong>.<br>
+      Trapèze : isométriques mais <strong>ne se coupent pas en leur milieu</strong> !
+    </div>
+    <div class="ib gold">
+      <strong>📊 Se coupent en leur milieu</strong>
+      Les diagonales se coupent en leur milieu pour : carré, rectangle, losange, parallélogramme — les 4 <strong>parallélogrammes</strong>. Pas le trapèze ni le quadrilatère quelconque.
+    </div>
+  </div>
+</div>
+
+<!-- BLOCK 5 : Comparaison -->
+<div class="tcard" style="--ac:var(--violet);">
+  <div class="tcard-title">⚖️ Médianes vs Diagonales — comparaison rapide</div>
+  <p class="tcard-lead">Les 3 grandes différences à retenir pour ne pas confondre.</p>
+  <div class="step-list">
+    <div class="step">
+      <div class="step-num" style="background:var(--blue);">1</div>
+      <div class="step-body" style="background:var(--blue-bg);border:1px solid rgba(26,95,168,0.18);">
+        <strong style="color:var(--blue);">Ce qu'elles relient</strong>
+        Médiane = milieu d'un côté → milieu du côté opposé.<br>
+        Diagonale = sommet → sommet opposé.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:var(--teal);">2</div>
+      <div class="step-body" style="background:var(--teal-bg);border:1px solid rgba(14,122,106,0.18);">
+        <strong style="color:var(--teal);">Se coupent en leur milieu ?</strong>
+        Médianes : <strong>toujours</strong> (tous les quadrilatères). Diagonales : seulement les <strong>parallélogrammes</strong> (carré, rectangle, losange, parallélogramme).
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:var(--violet);">3</div>
+      <div class="step-body" style="background:var(--violet-bg);border:1px solid rgba(92,63,168,0.18);">
+        <strong style="color:var(--violet);">Perpendiculaires ?</strong>
+        Médianes ⊥ : carré et rectangle. Diagonales ⊥ : carré et losange.<br>
+        <em>→ Le rectangle a des médianes ⊥ mais pas des diagonales ⊥ !</em>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-foot">
+  <button class="btn-next" onclick="go('exercises')">Passer aux Exercices →</button>
+</div>
+</div>
+</section>
+
+<!-- ══ EXERCISES ══ -->
+<section id="exercises">
+<div class="wrap">
+<div class="sec-head">
+  <span class="sec-tag">Chapitre II — Exercices variés</span>
+  <h2 class="sec-title"><em>Entraîne</em>-toi !</h2>
+  <p class="sec-desc">25 exercices sur les médianes et les diagonales : définitions, propriétés, comparaisons, tableaux.</p>
+</div>
+<div class="score-bar">
+  <span class="score-lbl">Exercices réussis</span>
+  <span class="score-val" id="ex-score-lbl">0 / 25</span>
+</div>
+<div class="prog"><div class="prog-f" id="ex-prog" style="width:0%"></div></div>
+<div class="ex-wrap" id="ex-container"></div>
+<div class="sec-foot">
+  <button class="btn-next" onclick="go('exam')">Passer à l'Examen Final →</button>
+</div>
+</div>
+</section>
+
+<!-- ══ EXAM ══ -->
+<section id="exam">
+<div class="wrap">
+<div class="sec-head">
+  <span class="sec-tag">Évaluation finale</span>
+  <h2 class="sec-title">L'<em>Examen</em></h2>
+  <p class="sec-desc">20 questions · 20 points · Médianes, diagonales et comparaisons.</p>
+</div>
+<div class="exam-cover" id="exam-cover">
+  <h2>Examen — Médianes & Diagonales</h2>
+  <p>Cet examen évalue ta maîtrise des médianes et des diagonales des quadrilatères : définitions, propriétés et comparaisons.</p>
+  <div class="exam-meta-row">
+    <div class="em-item"><div class="em-n">20</div><div class="em-l">Questions</div></div>
+    <div class="em-item"><div class="em-n">20</div><div class="em-l">Points</div></div>
+    <div class="em-item"><div class="em-n">∞</div><div class="em-l">Temps</div></div>
+  </div>
+  <button class="btn-start" onclick="startExam()">Commencer l'examen</button>
+</div>
+<div id="exam-qs"></div>
+<div class="exam-sub-row" id="exam-sub"><button class="btn-submit" onclick="submitExam()">📊 Soumettre mon examen</button></div>
+<div class="result-box" id="result-box"></div>
+</div>
+</section>
+
+<!-- ══ SCRIPT ══ -->
+<script>
+function go(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function norm(s){return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+
+let exDone=[];
+function updateScore(){
+  const ok=exDone.filter(Boolean).length;
+  document.getElementById('ex-score-lbl').textContent=ok+' / 25';
+  document.getElementById('ex-prog').style.width=(ok/25*100)+'%';
+}
+
+/* ══ EXERCISES DATA ══ */
+const exercises=[
+
+// 1
+{type:'mcq',tag:'Définition',tc:'t-mcq',
+ q:'Qu\'est-ce qu\'une <em>médiane</em> d\'un quadrilatère ?',
+ opts:['Un segment qui relie deux sommets opposés.','Un segment qui relie les milieux de deux côtés opposés.','La moitié d\'une diagonale.','Un segment perpendiculaire à un côté.'],
+ ans:1,exp:'La médiane relie les MILIEUX de deux côtés opposés. Milieu → Milieu !'},
+
+// 2
+{type:'mcq',tag:'Définition',tc:'t-mcq',
+ q:'Qu\'est-ce qu\'une <em>diagonale</em> d\'un quadrilatère ?',
+ opts:['Un segment qui relie les milieux de deux côtés opposés.','Un segment perpendiculaire.','Un segment qui relie deux sommets non consécutifs (opposés).','La médiane d\'un côté.'],
+ ans:2,exp:'La diagonale relie deux SOMMETS non consécutifs. Sommet → Sommet !'},
+
+// 3
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Les médianes de tous les quadrilatères se coupent en leur milieu. »',
+ ans:true,exp:'VRAI ! C\'est la seule propriété qui est toujours vraie pour les médianes, quel que soit le quadrilatère.'},
+
+// 4
+{type:'mcq',tag:'Propriétés',tc:'t-mcq',
+ q:'Pour quel(s) quadrilatère(s) les médianes sont-elles <em>isométriques</em> (de même longueur) ?',
+ opts:['Rectangle et trapèze','Carré et losange','Tous les quadrilatères','Parallélogramme et rectangle'],
+ ans:1,exp:'Seuls le CARRÉ et le LOSANGE ont des médianes isométriques. Le rectangle ne les a pas !'},
+
+// 5
+{type:'mcq',tag:'Propriétés',tc:'t-mcq',
+ q:'Pour quel quadrilatère les médianes forment-elles des <em>angles droits</em> ?',
+ opts:['Losange et parallélogramme','Rectangle et losange','Carré et rectangle','Carré seulement'],
+ ans:2,exp:'Les médianes sont perpendiculaires pour le CARRÉ et le RECTANGLE. Attention : le losange a des diagonales ⊥, mais pas des médianes ⊥ !'},
+
+// 6
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Les diagonales du rectangle se coupent en formant des angles droits. »',
+ ans:false,exp:'FAUX ! Les diagonales du rectangle se coupent en leur milieu et sont isométriques, mais elles ne sont PAS perpendiculaires. C\'est le LOSANGE qui a des diagonales perpendiculaires.'},
+
+// 7
+{type:'mcq',tag:'Propriétés — Diagonales',tc:'t-mcq',
+ q:'Pour quels quadrilatères les diagonales se coupent-elles <em>en leur milieu</em> ?',
+ opts:['Carré, rectangle, losange, parallélogramme','Tous les quadrilatères','Carré et losange uniquement','Trapèze isocèle et rectangle'],
+ ans:0,exp:'Les diagonales se coupent en leur milieu pour les 4 parallélogrammes : carré, rectangle, losange et parallélogramme. Pas le trapèze ni le quadrilatère quelconque.'},
+
+// 8
+{type:'mcq',tag:'Propriétés — Diagonales',tc:'t-mcq',
+ q:'Pour quel quadrilatère les diagonales sont-elles <em>isométriques</em> mais ne se coupent <em>pas</em> en leur milieu ?',
+ opts:['Le losange','Le rectangle','Le trapèze isocèle','Le parallélogramme'],
+ ans:2,exp:'Le TRAPÈZE ISOCÈLE a des diagonales isométriques, mais elles ne se coupent PAS en leur milieu. C\'est sa particularité !'},
+
+// 9
+{type:'mcq',tag:'Comparaison',tc:'t-mcq',
+ q:'Quelle est la différence principale entre une médiane et une diagonale ?',
+ opts:['La longueur.','La médiane relie des milieux de côtés, la diagonale relie des sommets.','La diagonale est toujours plus longue.','Elles ne se distinguent pas.'],
+ ans:1,exp:'Médiane = milieu de côté → milieu du côté opposé. Diagonale = sommet → sommet opposé. C\'est le critère fondamental !'},
+
+// 10
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Pour le carré, les médianes et les diagonales ont exactement les mêmes propriétés. »',
+ ans:true,exp:'VRAI ! Pour le carré, les deux sont isométriques, se coupent en leur milieu et forment des angles droits.'},
+
+// 11 — fill
+{type:'fill',tag:'Complète la définition',tc:'t-fill',
+ q:'Complète : La médiane est un segment de droite qui joint les ___ de deux côtés opposés.',
+ sent:'La médiane joint les ___ de deux côtés opposés.',
+ blanks:['milieux'],exp:'milieux — c\'est le mot-clé de la définition de la médiane.'},
+
+// 12 — fill
+{type:'fill',tag:'Complète la définition',tc:'t-fill',
+ q:'Complète : La diagonale est un segment de droite qui joint deux ___ non consécutifs.',
+ sent:'La diagonale joint deux ___ non consécutifs.',
+ blanks:['sommets'],exp:'sommets — la diagonale relie les sommets (angles) opposés d\'un polygone.'},
+
+// 13
+{type:'mcq',tag:'Propriétés — Diagonales',tc:'t-mcq',
+ q:'Les diagonales du <em>losange</em> sont-elles perpendiculaires ?',
+ opts:['Oui','Non'],
+ ans:0,exp:'OUI ! Les diagonales du losange se coupent en leur milieu et forment des angles droits (⊥). Mais elles ne sont pas isométriques.'},
+
+// 14
+{type:'mcq',tag:'Propriétés — Médianes',tc:'t-mcq',
+ q:'Les médianes du <em>rectangle</em> sont-elles isométriques ?',
+ opts:['Oui','Non'],
+ ans:1,exp:'NON ! Les médianes du rectangle ne sont pas isométriques (la horizontale ≠ la verticale pour un rectangle non carré). Par contre ses diagonales sont isométriques.'},
+
+// 15
+{type:'mcq',tag:'Propriétés — Médianes',tc:'t-mcq',
+ q:'Les médianes du <em>parallélogramme</em> forment-elles des angles droits ?',
+ opts:['Oui','Non'],
+ ans:1,exp:'NON ! Les médianes du parallélogramme se coupent bien en leur milieu, mais elles ne sont pas perpendiculaires.'},
+
+// 16
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Les médianes du losange sont perpendiculaires (forment des angles droits). »',
+ ans:false,exp:'FAUX ! Les médianes du losange sont isométriques et se coupent en leur milieu, mais elles ne sont PAS perpendiculaires. Ce sont ses DIAGONALES qui sont perpendiculaires.'},
+
+// 17 — classify
+{type:'classify',tag:'Classe les propriétés',tc:'t-classify',
+ q:'Classe chaque propriété selon qu\'elle appartient aux <strong>médianes</strong> ou aux <strong>diagonales</strong> du rectangle.',
+ cats:['Médianes du rectangle','Diagonales du rectangle'],
+ catColors:['c0','c1'],
+ items:[
+   {text:'Isométriques',cat:1},
+   {text:'Se coupent en leur milieu',cat:0},
+   {text:'Se coupent en leur milieu',cat:1},
+   {text:'Perpendiculaires (⊥)',cat:0},
+   {text:'NON isométriques',cat:0},
+   {text:'NON perpendiculaires',cat:1},
+ ]},
+
+// 18
+{type:'mcq',tag:'Synthèse',tc:'t-mcq',
+ q:'Quel est le seul quadrilatère pour lequel médianes ET diagonales ont les 3 propriétés (isométriques, milieu, ⊥) ?',
+ opts:['Le rectangle','Le losange','Le carré','Le parallélogramme'],
+ ans:2,exp:'LE CARRÉ est le seul quadrilatère où les médianes ET les diagonales sont simultanément isométriques, se coupent en leur milieu et sont perpendiculaires.'},
+
+// 19
+{type:'mcq',tag:'Propriétés — Diagonales',tc:'t-mcq',
+ q:'Pour le <em>trapèze isocèle</em>, quelle propriété vérifient les diagonales ?',
+ opts:['Elles sont isométriques.','Elles se coupent en leur milieu.','Elles sont perpendiculaires.','Elles n\'ont aucune propriété.'],
+ ans:0,exp:'Les diagonales du trapèze isocèle sont ISOMÉTRIQUES, mais ne se coupent pas en leur milieu et ne sont pas perpendiculaires.'},
+
+// 20
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Pour le quadrilatère quelconque, les diagonales n\'ont aucune propriété particulière. »',
+ ans:true,exp:'VRAI ! Le quadrilatère quelconque (irrégulier) n\'a aucune propriété garantie pour ses diagonales : ni isométriques, ni milieu, ni perpendiculaires.'},
+
+// 21
+{type:'mcq',tag:'Propriétés',tc:'t-mcq',
+ q:'Quelle propriété est commune aux diagonales du carré, du rectangle, du losange ET du parallélogramme ?',
+ opts:['Elles sont isométriques.','Elles se coupent en leur milieu.','Elles sont perpendiculaires.','Elles sont toutes égales.'],
+ ans:1,exp:'Ces 4 figures sont des PARALLÉLOGRAMMES, et toutes les diagonales des parallélogrammes se coupent en leur milieu.'},
+
+// 22
+{type:'mcq',tag:'Comparaison',tc:'t-mcq',
+ q:'Lequel de ces quadrilatères a des <em>médianes</em> isométriques mais des <em>diagonales</em> non isométriques ?',
+ opts:['Le carré','Le losange','Le rectangle','Le parallélogramme'],
+ ans:1,exp:'Le LOSANGE a des médianes isométriques (✓) mais ses diagonales ne sont pas isométriques (✗). Attention à ne pas confondre !'},
+
+// 23 — fill
+{type:'fill',tag:'Complète',tc:'t-fill',
+ q:'Pour tous les quadrilatères, les médianes se coupent toujours en leur ___.',
+ sent:'Les médianes se coupent toujours en leur ___.',
+ blanks:['milieu'],exp:'milieu — c\'est la seule propriété universelle des médianes !'},
+
+// 24
+{type:'tf',tag:'Vrai ou Faux',tc:'t-tf',
+ q:'VRAI ou FAUX : « Les diagonales du carré se coupent perpendiculairement et en leur milieu. »',
+ ans:true,exp:'VRAI ! Pour le carré, les diagonales sont isométriques, se coupent en leur milieu ET sont perpendiculaires. Triple propriété !'},
+
+// 25
+{type:'mcq',tag:'Synthèse finale',tc:'t-mcq',
+ q:'Dans cette liste, quelle affirmation est <em>fausse</em> ?',
+ opts:['Les médianes du carré sont perpendiculaires.','Les diagonales du losange sont perpendiculaires.','Les médianes du rectangle sont isométriques.','Les diagonales du rectangle se coupent en leur milieu.'],
+ ans:2,exp:'FAUSSE ! Les médianes du rectangle ne sont PAS isométriques (une médiane est plus longue que l\'autre). Par contre les DIAGONALES du rectangle sont isométriques.'},
+];
+
+exDone=new Array(exercises.length).fill(false);
+const chipState={};
+
+function buildExercises(){
+  const c=document.getElementById('ex-container');
+  exercises.forEach((ex,i)=>{
+    const d=document.createElement('div');
+    d.className='ex-block'; d.id='exb'+i;
+    let h=`<span class="ex-type ${ex.tc}">${ex.tag}</span>
+            <div class="ex-q">${i+1}. ${ex.q}</div>`;
+    if(ex.type==='mcq'){
+      const L=['A','B','C','D'];
+      h+=`<div class="opts">`;
+      ex.opts.forEach((o,j)=>{h+=`<button class="opt" id="o${i}-${j}" onclick="doMCQ(${i},${j})"><span class="opt-l">${L[j]}</span>${o}</button>`;});
+      h+=`</div>`;
+    } else if(ex.type==='tf'){
+      h+=`<div class="tf-row">
+        <button class="tf-btn" id="tf${i}-v" onclick="doTF(${i},true)">✓ Vrai</button>
+        <button class="tf-btn" id="tf${i}-f" onclick="doTF(${i},false)">✗ Faux</button>
+      </div>`;
+    } else if(ex.type==='fill'){
+      let s=ex.sent.replace('___',`<input class="blank" id="bl${i}-0" type="text" placeholder="…" autocomplete="off">`);
+      h+=`<div class="fill-sent">${s}</div>`;
+      h+=`<button class="btn-check" onclick="doFill(${i})">Vérifier</button>`;
+    } else if(ex.type==='classify'){
+      chipState[i]={};
+      h+=`<div class="classify-chips" id="chips${i}">`;
+      ex.items.forEach((it,j)=>{h+=`<button class="chip" id="chip${i}-${j}" onclick="cycleChip2(${i},${j})">${it.text}</button>`;});
+      h+=`</div>`;
+      h+=`<div style="display:flex;gap:0.75rem;margin-bottom:0.7rem;flex-wrap:wrap;">`;
+      ex.cats.forEach((cat,ci)=>{ const col=ci===0?'var(--blue)':'var(--teal)';
+        h+=`<span style="font-size:0.75rem;padding:0.25rem 0.7rem;border-radius:4px;background:${ci===0?'var(--blue-bg)':'var(--teal-bg)'};color:${col};font-family:'DM Mono',monospace;letter-spacing:0.08em;">●${ci+1} ${cat}</span>`;});
+      h+=`</div>`;
+      h+=`<div style="font-size:0.78rem;color:var(--muted);">💡 Clique pour cycler : bleu = médianes · vert = diagonales</div>`;
+      h+=`<button class="btn-check" onclick="doClassify(${i})" style="margin-top:0.65rem;">Vérifier</button>`;
+    }
+    h+=`<div class="fb" id="fb${i}"></div>`;
+    d.innerHTML=h; c.appendChild(d);
+  });
+}
+
+function cycleChip2(i,j){
+  if(!chipState[i]) chipState[i]={};
+  const ex=exercises[i];
+  const chip=document.getElementById(`chip${i}-${j}`);
+  const cur=chipState[i][j]??-1;
+  const next=(cur+1)%ex.cats.length;
+  chipState[i][j]=next;
+  chip.className='chip c'+next;
+}
+function doClassify(i){
+  const ex=exercises[i];
+  let ok=true;
+  ex.items.forEach((it,j)=>{
+    const chip=document.getElementById(`chip${i}-${j}`);
+    chip.onclick=null;
+    const chosen=chipState[i]?.[j]??-1;
+    if(chosen===it.cat) chip.style.outline='2px solid var(--green)';
+    else{chip.style.outline='2px solid var(--red)';chip.style.opacity='0.7';ok=false;}
+  });
+  showFB(i,ok,ok?'✓ Parfait ! Tout est bien classé.':'✗ Certaines propriétés sont mal classées. Revois le tableau comparatif.');
+  if(ok&&!exDone[i]){exDone[i]=true;updateScore();}
+}
+function doMCQ(i,chosen){
+  const ex=exercises[i];
+  document.querySelectorAll(`[id^="o${i}-"]`).forEach(b=>b.disabled=true);
+  document.getElementById(`o${i}-${ex.ans}`).classList.add('ok');
+  if(chosen!==ex.ans) document.getElementById(`o${i}-${chosen}`).classList.add('nope');
+  showFB(i,chosen===ex.ans,ex.exp);
+  if(chosen===ex.ans&&!exDone[i]){exDone[i]=true;updateScore();}
+}
+function doFill(i){
+  const ex=exercises[i];
+  const inp=document.getElementById(`bl${i}-0`);
+  inp.disabled=true;
+  const val=norm(inp.value);
+  const ans=norm(ex.blanks[0]);
+  const ok=val===ans||val.length>2;
+  inp.classList.add('ok');
+  showFB(i,true,'✓ Bonne réponse ! '+ex.exp);
+  if(!exDone[i]){exDone[i]=true;updateScore();}
+}
+function doTF(i,chosen){
+  const ex=exercises[i];
+  document.getElementById(`tf${i}-v`).disabled=true;
+  document.getElementById(`tf${i}-f`).disabled=true;
+  if(ex.ans) document.getElementById(`tf${i}-v`).classList.add('ok');
+  else document.getElementById(`tf${i}-f`).classList.add('ok');
+  if(chosen!==ex.ans){
+    if(chosen) document.getElementById(`tf${i}-v`).classList.add('nope');
+    else document.getElementById(`tf${i}-f`).classList.add('nope');
+  }
+  showFB(i,chosen===ex.ans,ex.exp);
+  if(chosen===ex.ans&&!exDone[i]){exDone[i]=true;updateScore();}
+}
+function showFB(i,ok,msg){
+  const fb=document.getElementById('fb'+i);
+  fb.innerHTML=(ok?'✓ ':'✗ ')+msg;
+  fb.className='fb show '+(ok?'ok':'nope');
+}
+
+buildExercises();
+
+/* ══ EXAM ══ */
+const examQs=[
+  {q:'Qu\'est-ce qu\'une médiane d\'un quadrilatère ?',
+   opts:['Un segment reliant deux sommets opposés.','Un segment reliant les milieux de deux côtés opposés.','La perpendiculaire d\'un côté.','La moitié d\'une diagonale.'],ans:1},
+  {q:'Qu\'est-ce qu\'une diagonale d\'un quadrilatère ?',
+   opts:['Un segment reliant les milieux de deux côtés opposés.','La perpendiculaire d\'un côté.','Un segment reliant deux sommets non consécutifs.','Le prolongement d\'un côté.'],ans:2},
+  {q:'Les médianes de <em>tous</em> les quadrilatères…',
+   opts:['sont isométriques.','se coupent en leur milieu.','forment des angles droits.','sont perpendiculaires aux côtés.'],ans:1},
+  {q:'Les médianes du <em>carré</em> : cocher la propriété qui est fausse.',
+   opts:['Elles sont isométriques.','Elles se coupent en leur milieu.','Elles forment des angles droits.','Elles ne se coupent pas.'],ans:3},
+  {q:'Les médianes du <em>rectangle</em> sont-elles isométriques ?',
+   opts:['Oui','Non'],ans:1},
+  {q:'Les médianes du <em>losange</em> sont-elles perpendiculaires ?',
+   opts:['Oui','Non'],ans:1},
+  {q:'Les médianes du <em>parallélogramme</em> se coupent-elles en leur milieu ?',
+   opts:['Oui','Non'],ans:0},
+  {q:'Les diagonales du <em>rectangle</em>…',
+   opts:['sont isométriques et se coupent en leur milieu.','sont perpendiculaires et isométriques.','ne se coupent pas en leur milieu.','sont perpendiculaires mais pas isométriques.'],ans:0},
+  {q:'Les diagonales du <em>losange</em>…',
+   opts:['sont isométriques.','sont perpendiculaires et se coupent en leur milieu.','ne se coupent pas en leur milieu.','forment des angles obtus.'],ans:1},
+  {q:'Les diagonales du <em>trapèze isocèle</em>…',
+   opts:['sont isométriques.','se coupent en leur milieu.','sont perpendiculaires.','n\'ont aucune propriété.'],ans:0},
+  {q:'Pour quel(s) quadrilatère(s) les diagonales se coupent-elles en leur milieu ?',
+   opts:['Tous les quadrilatères.','Carré, rectangle, losange, parallélogramme.','Trapèze isocèle et losange.','Carré seulement.'],ans:1},
+  {q:'Quelle propriété distingue les diagonales du carré de celles du rectangle ?',
+   opts:['Les diagonales du carré se coupent en leur milieu.','Les diagonales du carré sont isométriques.','Les diagonales du carré sont perpendiculaires.','Les diagonales du carré sont plus longues.'],ans:2},
+  {q:'Quelle affirmation est <em>vraie</em> ?',
+   opts:['Les médianes du rectangle sont isométriques.','Les diagonales du losange sont isométriques.','Les médianes du losange sont perpendiculaires.','Les diagonales du parallélogramme se coupent en leur milieu.'],ans:3},
+  {q:'Quelle affirmation est <em>fausse</em> ?',
+   opts:['Les médianes du carré forment des angles droits.','Les diagonales du rectangle se coupent en leur milieu.','Les médianes du losange sont isométriques.','Les diagonales du trapèze isocèle se coupent en leur milieu.'],ans:3},
+  {q:'Pour le <em>quadrilatère quelconque</em>, les diagonales…',
+   opts:['sont isométriques.','se coupent en leur milieu.','sont perpendiculaires.','n\'ont aucune des trois propriétés.'],ans:3},
+  {q:'Le seul quadrilatère pour lequel médianes ET diagonales ont les 3 propriétés est…',
+   opts:['Le rectangle','Le losange','Le carré','Le parallélogramme'],ans:2},
+  {q:'Les médianes de quel quadrilatère sont isométriques mais pas perpendiculaires ?',
+   opts:['Le carré','Le rectangle','Le losange','Le trapèze'],ans:2},
+  {q:'VRAI ou FAUX : « Les médianes du parallélogramme sont isométriques. »',
+   opts:['Vrai','Faux'],ans:1},
+  {q:'VRAI ou FAUX : « Les diagonales du losange se coupent en leur milieu. »',
+   opts:['Vrai','Faux'],ans:0},
+  {q:'Quelle est la différence entre médiane et diagonale d\'un quadrilatère ?',
+   opts:['La longueur.','La médiane relie des milieux de côtés ; la diagonale relie des sommets.','La diagonale est toujours perpendiculaire.','Il n\'y a aucune différence.'],ans:1},
+];
+
+let examAns=new Array(examQs.length).fill(null);
+
+function startExam(){
+  document.getElementById('exam-cover').style.display='none';
+  const f=document.getElementById('exam-qs');
+  f.style.display='block';
+  const L=['A','B','C','D'];
+  f.innerHTML=examQs.map((eq,i)=>`
+    <div class="eqb" id="eqb${i}">
+      <div class="eqb-top">
+        <span class="eq-num">Question ${i+1} / ${examQs.length}</span>
+        <span class="eq-pts">1 pt</span>
+      </div>
+      <div class="eq-text">${i+1}. ${eq.q}</div>
+      <div class="eopts">
+        ${eq.opts.map((o,j)=>`<button class="eopt" id="eo${i}-${j}" onclick="selExam(${i},${j})">
+          <span class="eopt-l">${L[j]||'·'}</span>${o}</button>`).join('')}
+      </div>
+    </div>`).join('');
+  document.getElementById('exam-sub').style.display='block';
+}
+
+function selExam(i,j){
+  const prev=examAns[i];
+  if(prev!==null) document.getElementById(`eo${i}-${prev}`).classList.remove('sel');
+  examAns[i]=j;
+  document.getElementById(`eo${i}-${j}`).classList.add('sel');
+}
+
+function submitExam(){
+  const missing=examAns.filter(a=>a===null).length;
+  if(missing>0&&!confirm(`${missing} question(s) sans réponse. Soumettre quand même ?`)) return;
+  let score=0;
+  examQs.forEach((eq,i)=>{
+    document.querySelectorAll(`[id^="eo${i}-"]`).forEach(b=>b.disabled=true);
+    document.getElementById(`eo${i}-${eq.ans}`).classList.remove('sel');
+    document.getElementById(`eo${i}-${eq.ans}`).classList.add('reveal-ok');
+    if(examAns[i]!==null&&examAns[i]!==eq.ans){
+      document.getElementById(`eo${i}-${examAns[i]}`).classList.remove('sel');
+      document.getElementById(`eo${i}-${examAns[i]}`).classList.add('reveal-nope');
+    }
+    if(examAns[i]===eq.ans) score++;
+  });
+  document.getElementById('exam-sub').style.display='none';
+  const pct=score/20;
+  let mention,mc,msg,emoji;
+  if(score>=18){mention='Distinction';mc='#9A6E0A';msg='Exceptionnel ! Tu maîtrises parfaitement médianes et diagonales. Bravo !';emoji='🏆';}
+  else if(score>=16){mention='Très Bien';mc='#2A8C5A';msg='Excellent résultat ! Quelques propriétés à consolider.';emoji='⭐';}
+  else if(score>=14){mention='Bien';mc='#0E7A6A';msg='Bon travail. Revois les propriétés du trapèze et du losange.';emoji='👍';}
+  else if(score>=10){mention='Suffisant';mc='#9A6E0A';msg='Tu as les bases. Relis le tableau des propriétés attentivement.';emoji='📚';}
+  else{mention='À retravailler';mc='#B83030';msg='Recommence par la théorie — tu vas y arriver !';emoji='💪';}
+  const circ=2*Math.PI*54; const off=circ-pct*circ;
+  const rb=document.getElementById('result-box');
+  rb.style.display='block';
+  rb.innerHTML=`
+    <div class="res-top">
+      <div style="font-size:2.8rem;margin-bottom:1rem;">${emoji}</div>
+      <svg width="130" height="130" viewBox="0 0 130 130" style="display:block;margin:0 auto 1.25rem;">
+        <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(244,239,228,0.06)" stroke-width="10"/>
+        <circle cx="65" cy="65" r="54" fill="none" stroke="${mc}" stroke-width="10"
+          stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}"
+          stroke-linecap="round" transform="rotate(-90 65 65)" style="transition:stroke-dashoffset 1.5s ease;"/>
+        <text x="65" y="56" text-anchor="middle" font-family="Fraunces,serif" font-size="28" font-weight="900" fill="${mc}">${score}</text>
+        <text x="65" y="77" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="rgba(244,239,228,0.35)">/ 20</text>
+      </svg>
+      <div style="font-family:'Fraunces',serif;font-size:1.7rem;color:var(--paper);">Score : ${score} / 20</div>
+      <span style="display:inline-block;padding:0.38rem 1.1rem;border-radius:50px;font-family:'DM Mono',monospace;
+        font-size:0.72rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;margin:0.75rem 0 1rem;
+        background:${mc}22;color:${mc};border:1px solid ${mc};">${mention}</span>
+      <p style="color:rgba(244,239,228,0.5);font-size:0.88rem;line-height:1.7;max-width:420px;margin:0 auto;">${msg}</p>
+    </div>
+    <div class="res-stats">
+      <div class="rs"><div class="rs-n" style="color:var(--green);">${score}</div><div class="rs-l">Correctes</div></div>
+      <div class="rs"><div class="rs-n" style="color:var(--red);">${20-score}</div><div class="rs-l">Incorrectes</div></div>
+      <div class="rs"><div class="rs-n" style="color:${mc};">${Math.round(pct*100)}%</div><div class="rs-l">Réussite</div></div>
+    </div>
+    <table class="res-tbl">
+      <thead><tr><th>#</th><th>Question</th><th>Résultat</th></tr></thead>
+      <tbody>${examQs.map((eq,i)=>`<tr>
+        <td style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);">${i+1}</td>
+        <td>${eq.q.replace(/<[^>]+>/g,'')}</td>
+        <td>${examAns[i]===eq.ans?'<span class="ok-cell">✓</span>':'<span class="nope-cell">✗</span>'}</td>
+      </tr>`).join('')}</tbody>
+    </table>
+    <div class="res-actions">
+      <button class="btn-retry" onclick="retryExam()">↺ Recommencer</button>
+      <button class="btn-sec" onclick="go('theory')">📖 Revoir la théorie</button>
+      <button class="btn-sec" onclick="go('exercises')">✏️ Refaire les exercices</button>
+    </div>`;
+  rb.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function retryExam(){
+  examAns=new Array(examQs.length).fill(null);
+  document.getElementById('exam-cover').style.display='block';
+  document.getElementById('exam-qs').style.display='none';
+  document.getElementById('exam-qs').innerHTML='';
+  document.getElementById('exam-sub').style.display='none';
+  document.getElementById('result-box').style.display='none';
+  document.getElementById('result-box').innerHTML='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
