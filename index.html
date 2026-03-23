@@ -660,6 +660,196 @@ footer {
   .ceb-card-actions { flex-direction:column; }
 }
 
+/* ══════════════════════════════════════
+   SECTION "PRÉPARE-TOI" — 10 livrets
+══════════════════════════════════════ */
+.learn-section {
+  position:relative; z-index:1;
+  padding:5rem 0 5rem;
+  border-top:1px solid var(--border);
+}
+.learn-section::before {
+  content:'';
+  position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(91,159,232,.04) 0%, transparent 65%);
+}
+.learn-inner { max-width:1160px; margin:0 auto; padding:0 2.5rem; }
+
+/* Header */
+.learn-header { margin-bottom:2.5rem; display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+.learn-header-left {}
+.learn-eyebrow {
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:'DM Mono',monospace; font-size:.65rem;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:.85rem;
+}
+.learn-eyebrow::before { content:''; width:24px; height:1px; background:var(--gold); }
+.learn-title {
+  font-family:'Playfair Display',serif; font-weight:900;
+  font-size:clamp(2rem,4.5vw,3rem); line-height:1;
+  color:var(--text); margin-bottom:.5rem;
+}
+.learn-title em { font-style:italic; color:var(--gold); }
+.learn-desc { font-size:.88rem; color:var(--muted); line-height:1.72; max-width:520px; }
+
+/* Grille livrets */
+.livrets-grid {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:.75rem;
+  margin-bottom:3rem;
+}
+@media(max-width:900px){ .livrets-grid{ grid-template-columns:repeat(3,1fr); } }
+@media(max-width:580px){ .livrets-grid{ grid-template-columns:repeat(2,1fr); } }
+
+.livret-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:1.15rem 1rem;
+  cursor:pointer; transition:all .22s; text-align:center;
+  position:relative; overflow:hidden;
+}
+.livret-card::before {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:var(--lc,var(--gold)); opacity:0; transition:opacity .2s;
+}
+.livret-card:hover { border-color:var(--lc,var(--gold)); box-shadow:0 6px 28px rgba(0,0,0,.35); transform:translateY(-3px); }
+.livret-card:hover::before { opacity:1; }
+.livret-card.lc-active { border-color:var(--lc,var(--gold)); background:rgba(255,255,255,.03); }
+.livret-card.lc-active::before { opacity:1; }
+.lc-num { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:.28rem; }
+.lc-icon { font-size:1.45rem; margin-bottom:.35rem; }
+.lc-name { font-family:'Playfair Display',serif; font-size:.78rem; font-weight:700; line-height:1.3; color:var(--text); }
+.lc-sub { font-size:.63rem; color:var(--muted); margin-top:.22rem; }
+.lc-badge {
+  display:inline-block; margin-top:.4rem;
+  padding:.14rem .45rem; border-radius:3px;
+  font-family:'DM Mono',monospace; font-size:.56rem; font-weight:700; letter-spacing:.08em;
+}
+
+/* Panel livret */
+.livret-panel {
+  display:none;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:16px; overflow:hidden; margin-bottom:.5rem;
+  animation:panelIn .22s ease both;
+}
+.livret-panel.lp-active { display:block; }
+@keyframes panelIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.lp-head {
+  padding:1.5rem 1.75rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:1.1rem;
+}
+.lp-icon {
+  width:52px; height:52px; border-radius:13px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:1.6rem;
+}
+.lp-head-text { flex:1; }
+.lp-tag { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:.2rem; display:block; }
+.lp-title { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; color:var(--text); margin-bottom:.22rem; }
+.lp-title em { font-style:italic; }
+.lp-desc { font-size:.82rem; color:var(--muted); line-height:1.65; }
+.lp-meta { display:flex; gap:1.2rem; margin-top:.7rem; flex-wrap:wrap; }
+.lp-meta-item { font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:.35rem; }
+.lp-dot { width:6px; height:6px; border-radius:50%; }
+
+/* Tabs */
+.lp-tabs { display:flex; gap:.4rem; padding:1rem 1.75rem .75rem; border-bottom:1px solid var(--border); }
+.lp-tab {
+  padding:.45rem 1.2rem; border-radius:7px;
+  border:1px solid var(--border); background:transparent;
+  color:var(--muted); font-size:.75rem; font-weight:700;
+  letter-spacing:.07em; text-transform:uppercase;
+  cursor:pointer; transition:all .18s; font-family:'DM Sans',sans-serif;
+}
+.lp-tab.active { background:var(--gold); color:var(--deep); border-color:var(--gold); }
+.lp-tab:not(.active):hover { border-color:var(--border2); color:var(--text); }
+
+/* Tab content */
+.lp-body { padding:1.75rem; }
+.lp-panel { display:none; }
+.lp-panel.active { display:block; }
+
+/* Theory blocks */
+.th-block {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:12px; padding:1.5rem; margin-bottom:1.1rem;
+  position:relative; overflow:hidden;
+}
+.th-block::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--lc-cur,var(--gold)); opacity:.6; }
+.th-block-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:.6rem; display:flex; align-items:center; gap:.5rem; }
+.th-body { font-size:.85rem; line-height:1.78; color:rgba(232,228,217,.72); }
+.th-body strong { color:var(--text); }
+.th-body em { font-style:italic; color:var(--gold); }
+.th-ib-grid { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin:.85rem 0; }
+@media(max-width:580px){ .th-ib-grid{ grid-template-columns:1fr; } }
+.th-ib { border-radius:9px; padding:.9rem 1rem; font-size:.82rem; line-height:1.62; }
+.th-ib-t { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700; margin-bottom:.3rem; display:block; }
+.th-ib.g { background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2); }.th-ib.g .th-ib-t{color:var(--gold);}
+.th-ib.b { background:rgba(91,159,232,.07);border:1px solid rgba(91,159,232,.2); }.th-ib.b .th-ib-t{color:#5B9FE8;}
+.th-ib.gr{ background:rgba(62,207,142,.07);border:1px solid rgba(62,207,142,.2); }.th-ib.gr .th-ib-t{color:#3ECF8E;}
+.th-ib.v { background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2); }.th-ib.v .th-ib-t{color:#A78BFA;}
+.th-ib.r { background:rgba(232,85,106,.07);border:1px solid rgba(232,85,106,.2); }.th-ib.r .th-ib-t{color:#E8556A;}
+.th-ib.o { background:rgba(232,122,76,.07);border:1px solid rgba(232,122,76,.2); }.th-ib.o .th-ib-t{color:#E87A4C;}
+.th-tbl { width:100%; border-collapse:collapse; font-size:.8rem; margin:.85rem 0; }
+.th-tbl th { background:rgba(201,168,76,.1); color:var(--gold); font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; padding:.55rem .8rem; text-align:left; border-bottom:1px solid var(--border2); }
+.th-tbl td { padding:.48rem .8rem; border-bottom:1px solid var(--border); color:rgba(232,228,217,.72); }
+.th-tbl tr:last-child td { border-bottom:none; }
+.th-tbl tr:hover td { background:rgba(201,168,76,.025); }
+.th-timeline { padding-left:1.75rem; margin:.85rem 0; border-left:2px solid var(--border2); }
+.th-tl-item { margin-bottom:.9rem; padding-left:.75rem; position:relative; }
+.th-tl-item::before { content:''; position:absolute; left:-1rem; top:.35rem; width:7px; height:7px; border-radius:50%; background:var(--gold); border:2px solid var(--deep); }
+.th-tl-date { font-family:'DM Mono',monospace; font-size:.65rem; color:var(--gold); font-weight:700; letter-spacing:.06em; }
+.th-tl-lbl { font-size:.84rem; font-weight:600; color:var(--text); margin-top:.08rem; }
+.th-tl-sub { font-size:.76rem; color:var(--muted); margin-top:.06rem; line-height:1.45; }
+.th-tip { display:flex; gap:.75rem; align-items:flex-start; padding:.9rem 1.1rem; background:rgba(201,168,76,.06); border:1px solid rgba(201,168,76,.2); border-radius:9px; margin:.85rem 0; font-size:.82rem; line-height:1.62; }
+.th-tip-icon { font-size:1rem; flex-shrink:0; }
+.th-tip strong { color:var(--gold); }
+
+/* Exercices */
+.ex-score-row { display:flex; justify-content:space-between; align-items:center; background:var(--card2); border:1px solid var(--border); border-radius:9px; padding:.65rem 1.1rem; margin-bottom:.85rem; }
+.ex-score-l { font-size:.8rem; color:var(--muted); }
+.ex-score-v { font-family:'DM Mono',monospace; font-size:.82rem; color:var(--gold); font-weight:600; }
+.ex-prog { height:2px; background:rgba(201,168,76,.1); border-radius:2px; margin-bottom:1.75rem; overflow:hidden; }
+.ex-prog-f { height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-l)); transition:width .45s; }
+.ex-list { display:flex; flex-direction:column; gap:1.1rem; }
+.ex-item { background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:1.45rem; transition:border-color .18s; }
+.ex-item:hover { border-color:rgba(201,168,76,.2); }
+.ex-badge { display:inline-flex; align-items:center; gap:.3rem; font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; padding:.2rem .55rem; border-radius:4px; margin-bottom:.75rem; font-weight:600; }
+.eb-mcq { background:rgba(91,159,232,.1);color:#5B9FE8;border:1px solid rgba(91,159,232,.22); }
+.eb-tf  { background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.22); }
+.eb-fl  { background:rgba(62,207,142,.1);color:#3ECF8E;border:1px solid rgba(62,207,142,.22); }
+.ex-q { font-family:'Playfair Display',serif; font-size:.95rem; line-height:1.5; color:var(--text); margin-bottom:.85rem; }
+.ex-opts { display:flex; flex-direction:column; gap:.38rem; }
+.ex-opt { display:flex; align-items:center; gap:.65rem; padding:.55rem .85rem; border:1.5px solid var(--border); border-radius:8px; cursor:pointer; font-size:.83rem; background:transparent; color:var(--text); text-align:left; transition:all .15s; width:100%; font-family:'DM Sans',sans-serif; }
+.ex-opt:hover:not(:disabled) { border-color:var(--border2); background:rgba(201,168,76,.04); }
+.ex-opt.ok  { border-color:#3ECF8E; background:rgba(62,207,142,.08); color:#3ECF8E; }
+.ex-opt.nope{ border-color:#E8556A; background:rgba(232,85,106,.08); color:#E8556A; }
+.ex-opt:disabled { cursor:default; }
+.ex-opt-l { width:18px; height:18px; border-radius:50%; border:1.5px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:.58rem; font-family:'DM Mono',monospace; flex-shrink:0; font-weight:700; }
+.tf-btns { display:flex; gap:.6rem; }
+.tf-btn { flex:1; padding:.6rem; border:1.5px solid var(--border); border-radius:8px; font-size:.85rem; font-weight:700; cursor:pointer; background:transparent; color:var(--text); transition:all .17s; font-family:'DM Sans',sans-serif; }
+.tf-btn:hover:not(:disabled) { background:rgba(201,168,76,.04); }
+.tf-btn:disabled { cursor:default; }
+.tf-btn.ok   { border-color:#3ECF8E; background:rgba(62,207,142,.08); color:#3ECF8E; }
+.tf-btn.nope { border-color:#E8556A; background:rgba(232,85,106,.08); color:#E8556A; }
+.fill-line { font-family:'Playfair Display',serif; font-style:italic; font-size:.92rem; line-height:2.4; margin-bottom:.7rem; }
+.fill-inp { border:none; border-bottom:2px solid var(--gold); background:transparent; font-family:'Playfair Display',serif; font-style:italic; font-size:.9rem; min-width:110px; padding:0 .3rem; outline:none; color:var(--text); transition:border-color .2s; text-align:center; }
+.fill-inp:focus { border-color:var(--gold-l); }
+.fill-inp.ok   { border-color:#3ECF8E; color:#3ECF8E; }
+.fill-inp.nope { border-color:#E8556A; color:#E8556A; }
+.btn-verif { padding:.42rem 1.1rem; border-radius:6px; background:var(--gold); color:var(--deep); border:none; cursor:pointer; font-size:.72rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; transition:all .15s; margin-top:.45rem; font-family:'DM Sans',sans-serif; }
+.btn-verif:hover { background:var(--gold-l); }
+.ex-fb { margin-top:.7rem; padding:.55rem .85rem; border-radius:8px; font-size:.8rem; font-weight:500; display:none; line-height:1.5; }
+.ex-fb.show { display:block; }
+.ex-fb.ok   { background:rgba(62,207,142,.08); color:#3ECF8E; border:1px solid rgba(62,207,142,.22); }
+.ex-fb.nope { background:rgba(232,85,106,.08); color:#E8556A; border:1px solid rgba(232,85,106,.18); }
+.next-livret-row { text-align:center; margin-top:2rem; padding-top:1.75rem; border-top:1px solid var(--border); }
+.btn-next-livret { padding:.7rem 1.75rem; background:rgba(201,168,76,.1); color:var(--gold); border:1px solid var(--border2); border-radius:8px; cursor:pointer; font-size:.82rem; font-weight:700; letter-spacing:.05em; transition:all .18s; font-family:'DM Sans',sans-serif; }
+.btn-next-livret:hover { background:rgba(201,168,76,.18); transform:translateY(-1px); }
+
 /* Correctifs dans les cartes CEB */
 .ceb-correctifs {
   padding:.75rem 0 0;
@@ -694,6 +884,7 @@ footer {
   <div class="nav-logo">Académie · Table des Matières</div>
   <div class="nav-right">
     <span class="nav-year">6ème Primaire · 2025–2026</span>
+    <a href="#ceb-preparer" style="display:flex;align-items:center;gap:.45rem;padding:.38rem .9rem;border-radius:6px;border:1px solid rgba(91,159,232,.35);background:rgba(91,159,232,.08);color:#5B9FE8;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='rgba(91,159,232,.16)'" onmouseout="this.style.background='rgba(91,159,232,.08)'">📖 Se préparer</a>
     <a href="#ceb-examens" style="display:flex;align-items:center;gap:.45rem;padding:.38rem .9rem;border-radius:6px;border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.08);color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,.16)'" onmouseout="this.style.background='rgba(201,168,76,.08)'">🎓 Examens CEB</a>
     <button class="nav-add-btn" onclick="openModal('subject')">+ Ajouter</button>
   </div>
@@ -752,7 +943,22 @@ footer {
 
 </div><!-- /page -->
 
-<!-- ══ CEB SECTION ══ -->
+<!-- ══ SECTION PRÉPARE-TOI ══ -->
+<section class="learn-section" id="ceb-preparer">
+  <div class="learn-inner">
+    <div class="learn-header">
+      <div class="learn-header-left">
+        <div class="learn-eyebrow">Programme CEB &middot; 10 livrets</div>
+        <h2 class="learn-title">Pr&eacute;pare-toi au <em>CEB</em></h2>
+        <p class="learn-desc">Th&eacute;orie compl&egrave;te + exercices interactifs pour chacun des 10 livrets de l&rsquo;&eacute;preuve CEB de Wallonie-Bruxelles.</p>
+      </div>
+    </div>
+    <!-- Grille des 10 livrets -->
+    <div class="livrets-grid" id="lv-grid"></div>
+    <!-- Panneau actif -->
+    <div id="lv-panel-root"></div>
+  </div>
+</section>
 <section class="ceb-section" id="ceb-examens">
   <div class="ceb-inner">
 
@@ -1495,6 +1701,285 @@ window.addEventListener('scroll', () => {
    INIT
 ───────────────────────────── */
 render();
+/* ═══════════════════════════════════════════════════
+   CEB — 10 LIVRETS : données + moteur interactif
+═══════════════════════════════════════════════════ */
+const livrets = [
+{id:1,num:'Livret 1',icon:'👂',color:'#6B9FE8',jour:'Lundi',pts:'/20',
+  name:'Fran&ccedil;ais',sub:'Savoir &Eacute;couter',
+  desc:'Comprendre un texte lu &agrave; voix haute, rep&eacute;rer les informations essentielles et identifier le type de texte.',
+  theorie:[
+    {titre:'Les types de textes',icon:'📄',corps:`<div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">Texte informatif</span>Donne des informations. Mots-cl&eacute;s&nbsp;: <em>explique, informe, pr&eacute;sente.</em></div><div class="th-ib gr"><span class="th-ib-t">Texte narratif</span>Raconte une histoire. Imparfait &amp; pass&eacute; compos&eacute;.</div><div class="th-ib g"><span class="th-ib-t">Texte injonctif</span>Donne des ordres (recette, mode d&rsquo;emploi). Infinitif ou imp&eacute;ratif.</div><div class="th-ib v"><span class="th-ib-t">Texte argumentatif</span>D&eacute;fend un point de vue. Arguments pour ou contre.</div></div>`},
+    {titre:'Strat&eacute;gies pour bien &eacute;couter',icon:'🎯',corps:`<div class="th-tip"><div class="th-tip-icon">1️⃣</div><div><strong>1&egrave;re lecture&nbsp;:</strong> &Eacute;coute sans &eacute;crire. Cherche le sujet g&eacute;n&eacute;ral.</div></div><div class="th-tip"><div class="th-tip-icon">2️⃣</div><div><strong>2&egrave;me lecture&nbsp;:</strong> Note les chiffres, dates, noms propres.</div></div><div class="th-tip"><div class="th-tip-icon">⚠️</div><div><strong>Pi&egrave;ge&nbsp;:</strong> Certaines r&eacute;ponses r&eacute;p&egrave;tent des mots du texte mais sont fausses. V&eacute;rifie le sens complet.</div></div>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'Lors de l\'&eacute;preuve "Savoir &Eacute;couter", combien de fois le texte est-il lu&nbsp;?',opts:['1 fois','2 fois','3 fois','4 fois'],ans:1,exp:'Le texte est lu <strong>2 fois</strong>. La 1&egrave;re pour &eacute;couter, la 2&egrave;me pour noter.'},
+    {type:'tf',q:'Pendant la 1&egrave;re lecture, tu peux &eacute;crire des notes.',ans:false,exp:'FAUX&nbsp;! Pendant la 1&egrave;re lecture, tu &eacute;coutes sans &eacute;crire.'},
+    {type:'mcq',q:'Une recette de cuisine est un texte&nbsp;:',opts:['Narratif','Informatif','Injonctif','Argumentatif'],ans:2,exp:'Une recette est un texte <strong>injonctif</strong>&nbsp;: elle donne des instructions.'},
+    {type:'tf',q:'Un texte narratif raconte une histoire avec des personnages.',ans:true,exp:'VRAI&nbsp;! Le texte narratif r&eacute;pond aux questions&nbsp;: Qui&nbsp;? Quoi&nbsp;? Quand&nbsp;? O&ugrave;&nbsp;?'},
+    {type:'mcq',q:'Dans un texte informatif, le but est de&nbsp;:',opts:['Raconter','Donner des ordres','Convaincre','Expliquer et informer'],ans:3,exp:'Le texte informatif <strong>explique et informe</strong>.'},
+  ]
+},
+{id:2,num:'Livret 2',icon:'✍️',color:'#7BA8F0',jour:'Lundi',pts:'/30',
+  name:'Fran&ccedil;ais',sub:'Savoir &Eacute;crire',
+  desc:'R&eacute;diger un texte coh&eacute;rent et correct. Grammaire, orthographe, ponctuation et structure.',
+  theorie:[
+    {titre:'Les accords essentiels',icon:'📐',corps:`<div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">Accord sujet-verbe</span>Le verbe s\'accorde avec son sujet.<br><em>Les enfants <strong>jouent</strong>.</em></div><div class="th-ib gr"><span class="th-ib-t">Accord nom-adjectif</span>L\'adjectif s\'accorde en genre et nombre.<br><em>de belles <strong>fleurs</strong></em></div><div class="th-ib g"><span class="th-ib-t">Homophones cl&eacute;s</span>a/&agrave; &bull; on/ont &bull; son/sont &bull; ou/o&ugrave; &bull; ce/se</div><div class="th-ib v"><span class="th-ib-t">Participe pass&eacute;</span>Avec &laquo;&nbsp;&ecirc;tre&nbsp;&raquo;&nbsp;: accord avec le sujet.<br><em>Elle est <strong>partie</strong>.</em></div></div>`},
+    {titre:'Les connecteurs logiques',icon:'🔗',corps:`<table class="th-tbl"><thead><tr><th>Type</th><th>Connecteurs</th></tr></thead><tbody><tr><td>Ordre</td><td>d\'abord, ensuite, enfin, puis</td></tr><tr><td>Cause</td><td>parce que, car, puisque</td></tr><tr><td>Cons&eacute;quence</td><td>donc, alors, c\'est pourquoi</td></tr><tr><td>Opposition</td><td>mais, cependant, pourtant</td></tr></tbody></table>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'Dans "Les chats dorment", le verbe est au&nbsp;:',opts:['Singulier','Pluriel','F&eacute;minin','Masculin'],ans:1,exp:'"Dorment" est au <strong>pluriel</strong> car "les chats" est pluriel.'},
+    {type:'tf',q:'"Son" et "sont" ont des sens diff&eacute;rents.',ans:true,exp:'VRAI&nbsp;! "Son" = d&eacute;terminant (son cahier). "Sont" = verbe &ecirc;tre (ils sont l&agrave;).'},
+    {type:'mcq',q:'Quel connecteur indique une cons&eacute;quence&nbsp;?',opts:['Mais','Donc','Car','Pourtant'],ans:1,exp:'"<strong>Donc</strong>" = cons&eacute;quence. "Mais"=opposition. "Car"=cause.'},
+    {type:'fill',q:'"Grand" accord&eacute; avec "maisons" (f. pl.) = ___',blanks:['grandes'],exp:'Grand &rarr; <strong>grandes</strong> (f&eacute;minin + pluriel).'},
+    {type:'mcq',q:'Orthographe correcte&nbsp;?',opts:['Il son parti','Ils sont partis','Ils son parti','Il sont partis'],ans:1,exp:'"<strong>Ils sont partis</strong>"&nbsp;: sont = verbe &ecirc;tre. Partis accord&eacute; avec "ils".'},
+  ]
+},
+{id:3,num:'Livret 3',icon:'📐',color:'#3ECF8E',jour:'Lundi',pts:'/20',
+  name:'Math&eacute;matiques',sub:'Solides &amp; Figures',
+  desc:'Solides et figures planes. Propri&eacute;t&eacute;s des quadrilat&egrave;res, sym&eacute;tries, m&eacute;dianes et diagonales.',
+  theorie:[
+    {titre:'Les solides g&eacute;om&eacute;triques',icon:'🔷',corps:`<table class="th-tbl"><thead><tr><th>Solide</th><th>Faces</th><th>Ar&ecirc;tes</th><th>Sommets</th></tr></thead><tbody><tr><td><strong>Cube</strong></td><td>6 carr&eacute;s</td><td>12</td><td>8</td></tr><tr><td><strong>Pav&eacute; droit</strong></td><td>6 rectangles</td><td>12</td><td>8</td></tr><tr><td><strong>Pyramide (base carr&eacute;e)</strong></td><td>5</td><td>8</td><td>5</td></tr><tr><td><strong>Prisme triangulaire</strong></td><td>5</td><td>9</td><td>6</td></tr><tr><td><strong>Cylindre</strong></td><td>3</td><td>2 courbes</td><td>0</td></tr></tbody></table><div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">Poly&egrave;dres</span>Faces planes uniquement&nbsp;: cube, pav&eacute;, pyramide, prisme.</div><div class="th-ib o"><span class="th-ib-t">Non-poly&egrave;dres</span>Surface courbe&nbsp;: cylindre, c&ocirc;ne, sph&egrave;re.</div></div>`},
+    {titre:'Quadrilat&egrave;res &amp; diagonales',icon:'⬜',corps:`<table class="th-tbl"><thead><tr><th>Figure</th><th>Caract&eacute;ristiques</th></tr></thead><tbody><tr><td><strong>Carr&eacute;</strong></td><td>4 c&ocirc;t&eacute;s &eacute;gaux, 4 angles droits, diag. &perp;</td></tr><tr><td><strong>Rectangle</strong></td><td>4 angles droits, c&ocirc;t&eacute;s oppos&eacute;s &eacute;gaux</td></tr><tr><td><strong>Losange</strong></td><td>4 c&ocirc;t&eacute;s &eacute;gaux, diagonales &perp;</td></tr><tr><td><strong>Parall&eacute;logramme</strong></td><td>C&ocirc;t&eacute;s oppos&eacute;s &eacute;gaux et parall&egrave;les</td></tr></tbody></table><div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">M&eacute;diane</span>Relie les <strong>milieux de deux c&ocirc;t&eacute;s oppos&eacute;s</strong>.</div><div class="th-ib gr"><span class="th-ib-t">Diagonale</span>Relie <strong>deux sommets non cons&eacute;cutifs</strong>.</div></div>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'Combien de faces a un cube&nbsp;?',opts:['4','6','8','12'],ans:1,exp:'Un cube a <strong>6</strong> faces, 12 ar&ecirc;tes et 8 sommets.'},
+    {type:'tf',q:'Une sph&egrave;re est un poly&egrave;dre.',ans:false,exp:'FAUX&nbsp;! La sph&egrave;re a une surface courbe — c\'est un <strong>non-poly&egrave;dre</strong>.'},
+    {type:'mcq',q:'La diagonale relie&nbsp;:',opts:['Milieux de 2 c&ocirc;t&eacute;s','Deux sommets non cons&eacute;cutifs','2 c&ocirc;t&eacute;s parall&egrave;les','Centre et sommet'],ans:1,exp:'La diagonale relie <strong>2 sommets non cons&eacute;cutifs</strong>. La m&eacute;diane relie les milieux de 2 c&ocirc;t&eacute;s.'},
+    {type:'tf',q:'Dans un rectangle, les diagonales sont perpendiculaires.',ans:false,exp:'FAUX&nbsp;! Les diagonales sont &eacute;GALES mais pas &perp; dans un rectangle. C\'est dans le carr&eacute; et le losange qu\'elles sont &perp;.'},
+    {type:'fill',q:'Un prisme &agrave; base triangulaire a ___ faces.',blanks:['5'],exp:'<strong>5</strong> faces&nbsp;: 2 triangles + 3 rectangles.'},
+  ]
+},
+{id:4,num:'Livret 4',icon:'📏',color:'#52D99A',jour:'Mardi',pts:'/20',
+  name:'Math&eacute;matiques',sub:'Grandeurs',
+  desc:'Mesures de longueur, masse, contenance, superficie et temps. Conversions et probl&egrave;mes.',
+  theorie:[
+    {titre:'Unit&eacute;s et conversions',icon:'⚖️',corps:`<table class="th-tbl"><thead><tr><th>Grandeur</th><th>Unit&eacute;s</th><th>Relation</th></tr></thead><tbody><tr><td><strong>Longueur</strong></td><td>km &rarr; m &rarr; dm &rarr; cm &rarr; mm</td><td>&times;10 &agrave; chaque &eacute;tape</td></tr><tr><td><strong>Masse</strong></td><td>t &rarr; kg &rarr; g &rarr; mg</td><td>&times;1000 entre t/kg/g</td></tr><tr><td><strong>Contenance</strong></td><td>l &rarr; dl &rarr; cl &rarr; ml</td><td>&times;10 &agrave; chaque &eacute;tape</td></tr><tr><td><strong>Superficie</strong></td><td>ha &rarr; a &rarr; m² &rarr; cm²</td><td>&times;100 entre chaque</td></tr><tr><td><strong>Temps</strong></td><td>1j=24h &bull; 1h=60min &bull; 1min=60s</td><td></td></tr></tbody></table><div class="th-tip"><div class="th-tip-icon">⚠️</div><div><strong>R&egrave;gle d\'or&nbsp;:</strong> Toujours convertir dans la m&ecirc;me unit&eacute; AVANT de calculer.</div></div>`},
+    {titre:'Superficie et monnaie',icon:'💶',corps:`<div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">Superficie</span>Rectangle&nbsp;: L&times;l &bull; Carr&eacute;&nbsp;: c&times;c &bull; Triangle&nbsp;: (b&times;h)&divide;2<br>R&eacute;sultat en unit&eacute;s <strong>carr&eacute;es</strong> (cm², m²...).</div><div class="th-ib g"><span class="th-ib-t">Monnaie</span>1&euro; = 100 centimes. Calcule toujours au m&ecirc;me niveau.</div></div>`}
+  ],
+  exercices:[
+    {type:'fill',q:'1 km = ___ m',blanks:['1000'],exp:'1 km = <strong>1 000 m</strong>.'},
+    {type:'mcq',q:'Combien de cm dans 3,5 m&nbsp;?',opts:['35 cm','350 cm','3 500 cm','3,5 cm'],ans:1,exp:'3,5 &times; 100 = <strong>350 cm</strong>.'},
+    {type:'tf',q:'1 heure = 100 minutes.',ans:false,exp:'FAUX&nbsp;! 1 heure = <strong>60 minutes</strong>.'},
+    {type:'mcq',q:'Superficie d\'un rectangle 8cm &times; 5cm&nbsp;?',opts:['13 cm²','26 cm²','40 cm²','26 cm'],ans:2,exp:'8 &times; 5 = <strong>40 cm²</strong>. Attention&nbsp;: unit&eacute; carr&eacute;e&nbsp;!'},
+    {type:'fill',q:'2,5 kg = ___ g',blanks:['2500'],exp:'2,5 &times; 1000 = <strong>2 500 g</strong>.'},
+  ]
+},
+{id:5,num:'Livret 5',icon:'🏛️',color:'#E8A44C',jour:'Mardi',pts:'/60',
+  name:'&Eacute;veil',sub:'Histoire &amp; G&eacute;ographie',
+  desc:'Les 5 p&eacute;riodes historiques, la Belgique (r&eacute;gions, provinces, fleuves), les continents et la lecture de cartes.',
+  theorie:[
+    {titre:'Les 5 p&eacute;riodes historiques',icon:'⏳',corps:`<div class="th-timeline"><div class="th-tl-item"><div class="th-tl-date">-600 000 &rarr; -3000</div><div class="th-tl-lbl">Pr&eacute;histoire</div><div class="th-tl-sub">De la ma&icirc;trise du feu &agrave; l\'invention de l\'&eacute;criture. Chasseurs-cueilleurs puis agriculteurs.</div></div><div class="th-tl-item"><div class="th-tl-date">-3000 &rarr; 476</div><div class="th-tl-lbl">Antiquit&eacute;</div><div class="th-tl-sub">De l\'&eacute;criture &agrave; la chute de l\'Empire romain. Gallo-Romains, Jules C&eacute;sar.</div></div><div class="th-tl-item"><div class="th-tl-date">476 &rarr; 1492</div><div class="th-tl-lbl">Moyen-&Acirc;ge</div><div class="th-tl-sub">Ch&acirc;teau fort, chevaliers. Charlemagne, Clovis, Jeanne d\'Arc.</div></div><div class="th-tl-item"><div class="th-tl-date">1492 &rarr; 1789</div><div class="th-tl-lbl">Temps Modernes</div><div class="th-tl-sub">Christophe Colomb, imprimerie, Louis XIV.</div></div><div class="th-tl-item"><div class="th-tl-date">1789 &rarr; aujourd\'hui</div><div class="th-tl-lbl">&Eacute;poque Contemporaine</div><div class="th-tl-sub">Belgique ind&eacute;pendante (1830), 2 guerres mondiales, Union Europ&eacute;enne.</div></div></div><div class="th-tip"><div class="th-tip-icon">💡</div><div><strong>Si&egrave;cle&nbsp;:</strong> 4 chiffres &rarr; 2 premiers +1. Ex&nbsp;: 1789 &rarr; 17+1 = 18<sup>e</sup> si&egrave;cle.</div></div>`},
+    {titre:'La Belgique &amp; le Monde',icon:'🇧🇪',corps:`<div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">3 R&eacute;gions</span>Flandre (n&eacute;erl.) &bull; Wallonie (fr.) &bull; Bruxelles (bilingue)</div><div class="th-ib gr"><span class="th-ib-t">4 Pays limitrophes</span>France &bull; Pays-Bas &bull; Allemagne &bull; Gd-Duch&eacute; Lux.</div><div class="th-ib g"><span class="th-ib-t">3 Fleuves belges</span>L\'Yser &bull; L\'Escaut &bull; La Meuse</div><div class="th-ib v"><span class="th-ib-t">Lire une carte&nbsp;: TOLES</span><strong>T</strong>itre &bull; <strong>O</strong>rientation &bull; <strong>L</strong>&eacute;gende &bull; <strong>E</strong>chelle &bull; <strong>S</strong>ituateur</div></div>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'La chute de l\'Empire romain (476) = d&eacute;but du&nbsp;:',opts:['Antiquit&eacute;','Moyen-&Acirc;ge','Temps Modernes','&Eacute;p. Contemporaine'],ans:1,exp:'476 = d&eacute;but du <strong>Moyen-&Acirc;ge</strong>.'},
+    {type:'fill',q:'L\'ann&eacute;e 1830 appartient au ___ si&egrave;cle.',blanks:['19ème','19e','19'],exp:'1830 &rarr; 18+1 = <strong>19<sup>e</sup> si&egrave;cle</strong>.'},
+    {type:'mcq',q:'Chef-lieu de la province de Hainaut&nbsp;?',opts:['Li&egrave;ge','Namur','Mons','Wavre'],ans:2,exp:'Le chef-lieu du Hainaut est <strong>Mons</strong>.'},
+    {type:'tf',q:'La Belgique a 4 pays limitrophes.',ans:true,exp:'VRAI&nbsp;! France, Pays-Bas, Allemagne et Grand-Duch&eacute; du Luxembourg.'},
+    {type:'mcq',q:'"O" dans TOLES signifie&nbsp;?',opts:['Oc&eacute;an','Orientation','Organisation','Op&eacute;ration'],ans:1,exp:'TOLES = Titre, <strong>Orientation</strong>, L&eacute;gende, Echelle, Situateur.'},
+  ]
+},
+{id:6,num:'Livret 6',icon:'🔢',color:'#F0B85E',jour:'Jeudi',pts:'/20',
+  name:'Math&eacute;matiques',sub:'Nombres &amp; Op&eacute;rations 1',
+  desc:'Grands nombres, fractions, d&eacute;cimaux et ordre des op&eacute;rations.',
+  theorie:[
+    {titre:'Fractions, d&eacute;cimaux et op&eacute;rations',icon:'½',corps:`<div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">Fractions &eacute;quivalentes</span>1/2=2/4=0,5 &bull; 1/4=0,25 &bull; 3/4=0,75 &bull; 1/5=0,2</div><div class="th-ib gr"><span class="th-ib-t">Arrondir</span>Regarde le chiffre APR&Egrave;S. &ge;5&rarr;monte, &lt;5&rarr;garde.<br>Ex&nbsp;: 3,47 &asymp; 3,5</div><div class="th-ib g"><span class="th-ib-t">Ordre des op&eacute;rations</span>1. Parenth&egrave;ses &bull; 2. &times;&divide; &bull; 3. +&minus;<br><em>3+4&times;2 = 3+8 = 11 (pas 14!)</em></div><div class="th-ib v"><span class="th-ib-t">D&eacute;cimaux</span>3,45 = 3 unit&eacute;s, 4 dixi&egrave;mes, 5 centi&egrave;mes.</div></div>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'5 + 3 &times; 4 = &nbsp;?',opts:['32','17','27','20'],ans:1,exp:'5+3&times;4 = 5+12 = <strong>17</strong>. Multiplication d\'abord&nbsp;!'},
+    {type:'fill',q:'1/2 en d&eacute;cimal = ___',blanks:['0,5','0.5'],exp:'1&divide;2 = <strong>0,5</strong>.'},
+    {type:'tf',q:'2/4 = 1/2',ans:true,exp:'VRAI&nbsp;! 2&divide;2=1 et 4&divide;2=2, donc 2/4 = 1/2.'},
+    {type:'mcq',q:'7,83 arrondi au dixi&egrave;me = &nbsp;?',opts:['7,8','7,9','8','7'],ans:0,exp:'7,83 &rarr; chiffre des centi&egrave;mes = 3 &lt;5, donc <strong>7,8</strong>.'},
+    {type:'fill',q:'(4+6) &times; 3 = ___',blanks:['30'],exp:'(4+6)&times;3 = 10&times;3 = <strong>30</strong>. Parenth&egrave;ses d\'abord&nbsp;!'},
+  ]
+},
+{id:7,num:'Livret 7',icon:'🧮',color:'#E8556A',jour:'Jeudi',pts:'/20',
+  name:'Math&eacute;matiques',sub:'Nombres &amp; Op&eacute;rations 2',
+  desc:'Proportionnalit&eacute;, pourcentages, vitesse, distance et probl&egrave;mes multiplicatifs.',
+  theorie:[
+    {titre:'Proportionnalit&eacute;, % et vitesse',icon:'📊',corps:`<div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">R&egrave;gle de trois</span>3 pommes=1,50&euro;&nbsp;; 9 pommes=&nbsp;?<br>9=3&times;3 &rarr; 1,50&times;3 = <strong>4,50&euro;</strong></div><div class="th-ib g"><span class="th-ib-t">Pourcentages</span>25% de 80 = 80&times;0,25 = <strong>20</strong><br>10%=&divide;10 &bull; 50%=&divide;2 &bull; 25%=&divide;4</div><div class="th-ib gr"><span class="th-ib-t">Vitesse/Distance/Temps</span>D=V&times;T &bull; V=D&divide;T &bull; T=D&divide;V<br><strong>1h30=1,5h &bull; 1h45=1,75h</strong></div><div class="th-ib v"><span class="th-ib-t">Prix unitaire</span>Total &divide; quantit&eacute; = prix d\'1 unit&eacute;.</div></div>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'4 cahiers=6&euro;, combien pour 10&nbsp;?',opts:['10&euro;','14&euro;','15&euro;','16&euro;'],ans:2,exp:'1 cahier=1,50&euro;. 10&times;1,50 = <strong>15&euro;</strong>.'},
+    {type:'fill',q:'25% de 200 = ___',blanks:['50'],exp:'200&times;0,25 = <strong>50</strong>. Ou&nbsp;: 200&divide;4 = 50.'},
+    {type:'mcq',q:'20km/h pendant 1h30 = distance&nbsp;?',opts:['20km','25km','30km','45km'],ans:2,exp:'1h30=1,5h. 20&times;1,5 = <strong>30 km</strong>.'},
+    {type:'tf',q:'1h45 = 1,75 heures.',ans:true,exp:'VRAI&nbsp;! 45min=0,75h. 1h45 = <strong>1,75h</strong>.'},
+    {type:'fill',q:'Manteau 120&euro; sold&eacute; &minus;30% = ___ &euro;',blanks:['84'],exp:'R&eacute;duction=36&euro;. 120&minus;36 = <strong>84&euro;</strong>.'},
+  ]
+},
+{id:8,num:'Livret 8',icon:'📰',color:'#E87A4C',jour:'Jeudi',pts:'/20',
+  name:'Fran&ccedil;ais',sub:'Lire Informatif',
+  desc:'Comprendre des textes documentaires. Rep&eacute;rer les informations essentielles et le plan du texte.',
+  theorie:[
+    {titre:'Strat&eacute;gies de lecture informatif',icon:'🔍',corps:`<div class="th-tip"><div class="th-tip-icon">1️⃣</div><div><strong>Lire les questions AVANT le texte</strong> pour savoir quoi chercher.</div></div><div class="th-tip"><div class="th-tip-icon">2️⃣</div><div><strong>Lire titre et sous-titres</strong> — ils donnent l\'essentiel.</div></div><div class="th-tip"><div class="th-tip-icon">3️⃣</div><div><strong>Mots en gras</strong> = mots cl&eacute;s importants.</div></div><div class="th-ib-grid" style="margin-top:.85rem"><div class="th-ib b"><span class="th-ib-t">Questions litt&eacute;rales</span>R&eacute;ponse directement dans le texte. Trouver et reformuler.</div><div class="th-ib g"><span class="th-ib-t">Questions inf&eacute;rentielles</span>R&eacute;ponse &agrave; d&eacute;duire en reliant plusieurs informations.</div></div>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'Que faire d\'abord avant de lire un texte au CEB&nbsp;?',opts:['&Eacute;crire sa r&eacute;ponse','Lire les questions','Lire le titre','Souligner les mots'],ans:1,exp:'Lire les <strong>questions</strong> d\'abord permet de savoir quoi chercher.'},
+    {type:'tf',q:'Les mots en gras sont souvent les mots cl&eacute;s.',ans:true,exp:'VRAI&nbsp;! Les mots en gras signalent les termes importants.'},
+    {type:'mcq',q:'Une question "inf&eacute;rentielle" demande de&nbsp;:',opts:['Copier le texte','D&eacute;duire en reliant des infos','Donner son avis','Chercher dans le dico'],ans:1,exp:'Question inf&eacute;rentielle = <strong>d&eacute;duire</strong> en reliant plusieurs informations.'},
+    {type:'mcq',q:'Pour trouver une CAUSE dans le texte, cherche&nbsp;:',opts:['Les guillemets','"parce que, car, puisque"','Les points ?','Les chiffres'],ans:1,exp:'"<strong>Parce que</strong>", "car", "puisque" = cause. "Donc" = cons&eacute;quence.'},
+  ]
+},
+{id:9,num:'Livret 9',icon:'📚',color:'#A78BFA',jour:'Vendredi',pts:'/20',
+  name:'Fran&ccedil;ais',sub:'Lire Fictionnel',
+  desc:'Textes narratifs et po&eacute;tiques. Sch&eacute;ma narratif, personnages et figures de style.',
+  theorie:[
+    {titre:'Sch&eacute;ma narratif &amp; figures de style',icon:'📖',corps:`<div class="th-timeline"><div class="th-tl-item"><div class="th-tl-date">1</div><div class="th-tl-lbl">Situation initiale</div><div class="th-tl-sub">Personnages, lieu, &eacute;poque. Tout va bien.</div></div><div class="th-tl-item"><div class="th-tl-date">2</div><div class="th-tl-lbl">&Eacute;l&eacute;ment perturbateur</div><div class="th-tl-sub">&Eacute;v&eacute;nement inattendu qui brise l\'&eacute;quilibre.</div></div><div class="th-tl-item"><div class="th-tl-date">3</div><div class="th-tl-lbl">P&eacute;rip&eacute;ties</div><div class="th-tl-sub">Actions pour r&eacute;soudre le probl&egrave;me.</div></div><div class="th-tl-item"><div class="th-tl-date">4</div><div class="th-tl-lbl">R&eacute;solution + Situation finale</div><div class="th-tl-sub">Le probl&egrave;me est r&eacute;solu. Nouvel &eacute;quilibre.</div></div></div><div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">Comparaison</span>Avec "comme".<br><em>"court <strong>comme</strong> le vent"</em></div><div class="th-ib g"><span class="th-ib-t">M&eacute;taphore</span>Sans "comme".<br><em>"Il <strong>est un lion</strong>"</em></div><div class="th-ib v"><span class="th-ib-t">Personnification</span>Action humaine &agrave; un objet.<br><em>"Le soleil <strong>souriait</strong>"</em></div><div class="th-ib o"><span class="th-ib-t">Justifier ses r&eacute;ponses</span>Toujours citer le texte&nbsp;: "Je pense que... parce que dans le texte..."</div></div>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'L\'&eacute;l&eacute;ment perturbateur = &nbsp;?',opts:['Pr&eacute;sentation des perso.','L\'&eacute;v&eacute;nement qui brise l\'&eacute;quilibre','La r&eacute;solution','La fin'],ans:1,exp:'L\'&eacute;l&eacute;ment perturbateur <strong>brise la situation initiale</strong>.'},
+    {type:'tf',q:'"Il courait comme le vent" est une m&eacute;taphore.',ans:false,exp:'FAUX&nbsp;! C\'est une <strong>comparaison</strong> (il y a "comme").'},
+    {type:'mcq',q:'"Le soleil dansait" est une&nbsp;:',opts:['Comparaison','M&eacute;taphore','Personnification','R&eacute;p&eacute;tition'],ans:2,exp:'<strong>Personnification</strong>&nbsp;: action humaine donn&eacute;e au soleil.'},
+    {type:'tf',q:'Pour justifier, on doit toujours citer le texte.',ans:true,exp:'VRAI&nbsp;! "Je pense que... parce que dans le texte il est &eacute;crit..."'},
+  ]
+},
+{id:10,num:'Livret 10',icon:'🔬',color:'#8B6FE8',jour:'Vendredi',pts:'/20',
+  name:'&Eacute;veil',sub:'Initiation Scientifique',
+  desc:'&Eacute;tats de la mati&egrave;re, &ecirc;tres vivants, &eacute;lectricit&eacute;, lumi&egrave;re et forces.',
+  theorie:[
+    {titre:'Mati&egrave;re, vivant &amp; &eacute;lectricit&eacute;',icon:'⚡',corps:`<div class="th-ib-grid"><div class="th-ib b"><span class="th-ib-t">3 &eacute;tats de la mati&egrave;re</span>Solide (forme fixe) &bull; Liquide (vol. fixe) &bull; Gazeux (vol. variable)<br>Eau&nbsp;: gèle &agrave; 0°C, bout &agrave; 100°C.</div><div class="th-ib gr"><span class="th-ib-t">Cha&icirc;ne alimentaire</span>Producteur &rarr; Consommateur 1 &rarr; Consommateur 2 &rarr; D&eacute;composeur</div><div class="th-ib g"><span class="th-ib-t">Circuit &eacute;lectrique</span>Doit &ecirc;tre <strong>ferm&eacute;</strong>. Conducteurs&nbsp;: m&eacute;taux. Isolants&nbsp;: plastique, bois, verre.</div><div class="th-ib v"><span class="th-ib-t">Changements d\'&eacute;tat</span>Fusion (sol&rarr;liq) &bull; Solidification (liq&rarr;sol) &bull; Vaporisation (liq&rarr;gaz) &bull; Condensation (gaz&rarr;liq)</div></div>`}
+  ],
+  exercices:[
+    {type:'mcq',q:'&Eacute;tat de l\'eau &agrave; &minus;5°C&nbsp;?',opts:['Liquide','Gazeux','Solide','Semi-liquide'],ans:2,exp:'&Agrave; &minus;5°C, l\'eau est <strong>solide</strong> (glace). Elle gèle &agrave; 0°C.'},
+    {type:'tf',q:'Un insecte est un vert&eacute;br&eacute;.',ans:false,exp:'FAUX&nbsp;! Les insectes sont des <strong>invert&eacute;br&eacute;s</strong>.'},
+    {type:'mcq',q:'Les plantes dans une cha&icirc;ne alimentaire sont&nbsp;:',opts:['Consommateurs','D&eacute;composeurs','Producteurs','Pr&eacute;dateurs'],ans:2,exp:'Les plantes sont des <strong>producteurs</strong> (photosynth&egrave;se).'},
+    {type:'tf',q:'Le bois conduit l\'&eacute;lectricit&eacute;.',ans:false,exp:'FAUX&nbsp;! Le bois est un <strong>isolant</strong>. Conducteurs = m&eacute;taux.'},
+    {type:'fill',q:'Un circuit &eacute;lectrique doit &ecirc;tre ___ pour fonctionner.',blanks:['fermé','ferme'],exp:'Le circuit doit &ecirc;tre <strong>ferm&eacute;</strong>.'},
+  ]
+}
+];
+
+const lvScores = {};
+livrets.forEach(l => { lvScores[l.id] = []; });
+let activeLv = null;
+
+function buildLearningSection() {
+  const grid = document.getElementById('lv-grid');
+  if (!grid) return;
+  grid.innerHTML = livrets.map(l =>
+    `<div class="livret-card" id="lvc-${l.id}" style="--lc:${l.color}" onclick="toggleLivret(${l.id})">
+      <div class="lc-num">${l.num}</div>
+      <div class="lc-icon">${l.icon}</div>
+      <div class="lc-name">${l.name}</div>
+      <div class="lc-sub">${l.sub}</div>
+      <span class="lc-badge" style="background:${l.color}18;color:${l.color};border:1px solid ${l.color}33">${l.exercices.length} ex.</span>
+    </div>`).join('');
+
+  const root = document.getElementById('lv-panel-root');
+  root.innerHTML = livrets.map(l => `
+    <div class="livret-panel" id="lvp-${l.id}">
+      <div class="lp-head">
+        <div class="lp-icon" style="background:${l.color}18;border:1px solid ${l.color}33">${l.icon}</div>
+        <div class="lp-head-text">
+          <span class="lp-tag">${l.num} &bull; ${l.jour} &bull; ${l.pts} pts</span>
+          <div class="lp-title">${l.name} &mdash; <em>${l.sub}</em></div>
+          <div class="lp-desc">${l.desc}</div>
+          <div class="lp-meta">
+            <span class="lp-meta-item"><span class="lp-dot" style="background:${l.color}"></span>${l.theorie.length} blocs</span>
+            <span class="lp-meta-item"><span class="lp-dot" style="background:#3ECF8E"></span>${l.exercices.length} exercices</span>
+          </div>
+        </div>
+      </div>
+      <div class="lp-tabs">
+        <button class="lp-tab active" id="lptab-th-${l.id}" onclick="switchLvTab(${l.id},'th')">📖 Th&eacute;orie</button>
+        <button class="lp-tab" id="lptab-ex-${l.id}" onclick="switchLvTab(${l.id},'ex')">✏️ Exercices</button>
+      </div>
+      <div class="lp-body">
+        <div class="lp-panel active" id="lppanel-th-${l.id}">
+          ${l.theorie.map(t=>`<div class="th-block" style="--lc-cur:${l.color}"><div class="th-block-title">${t.icon} ${t.titre}</div><div class="th-body">${t.corps}</div></div>`).join('')}
+          <div class="next-livret-row"><button class="btn-next-livret" onclick="switchLvTab(${l.id},'ex')">✏️ Passer aux exercices &rarr;</button></div>
+        </div>
+        <div class="lp-panel" id="lppanel-ex-${l.id}">
+          <div class="ex-score-row">
+            <span class="ex-score-l">R&eacute;ussis</span>
+            <span class="ex-score-v" id="lvscore-${l.id}">0 / ${l.exercices.length}</span>
+          </div>
+          <div class="ex-prog"><div class="ex-prog-f" id="lvprog-${l.id}" style="width:0%"></div></div>
+          <div class="ex-list" id="lvexlist-${l.id}"></div>
+          <div class="next-livret-row">
+            ${l.id<10?`<button class="btn-next-livret" onclick="toggleLivret(${l.id+1})">${livrets[l.id].icon} Livret ${l.id+1} : ${livrets[l.id].sub} &rarr;</button>`:`<button class="btn-next-livret" onclick="document.getElementById('ceb-examens').scrollIntoView({behavior:'smooth'})">🎓 Voir les examens &rarr;</button>`}
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  livrets.forEach(l => buildLvExercices(l));
+}
+
+function buildLvExercices(l) {
+  const list = document.getElementById('lvexlist-'+l.id);
+  if (!list) return;
+  const L=['A','B','C','D'];
+  list.innerHTML = l.exercices.map((ex,i) => {
+    const bc=ex.type==='mcq'?'eb-mcq':ex.type==='tf'?'eb-tf':'eb-fl';
+    const bl=ex.type==='mcq'?'QCM':ex.type==='tf'?'Vrai/Faux':'Compl&eacute;ter';
+    let inner='';
+    if(ex.type==='mcq'){
+      inner=`<div class="ex-opts">${ex.opts.map((o,j)=>`<button class="ex-opt" id="lvo${l.id}-${i}-${j}" onclick="lvMCQ(${l.id},${i},${j})"><span class="ex-opt-l">${L[j]}</span>${o}</button>`).join('')}</div>`;
+    }else if(ex.type==='tf'){
+      inner=`<div class="tf-btns"><button class="tf-btn" id="lvtf${l.id}-${i}-v" onclick="lvTF(${l.id},${i},true)">✓ Vrai</button><button class="tf-btn" id="lvtf${l.id}-${i}-f" onclick="lvTF(${l.id},${i},false)">✗ Faux</button></div>`;
+    }else{
+      const txt=ex.q.replace('___',`<input class="fill-inp" id="lvfl${l.id}-${i}" type="text" placeholder="…" autocomplete="off">`);
+      inner=`<div class="fill-line">${txt}</div><button class="btn-verif" onclick="lvFill(${l.id},${i})">V&eacute;rifier</button>`;
+    }
+    return `<div class="ex-item"><span class="ex-badge ${bc}">${bl}</span><div class="ex-q">${i+1}. ${ex.q}</div>${inner}<div class="ex-fb" id="lvfb${l.id}-${i}"></div></div>`;
+  }).join('');
+}
+
+function toggleLivret(id){
+  const panel=document.getElementById('lvp-'+id);
+  const card=document.getElementById('lvc-'+id);
+  if(activeLv===id){panel.classList.remove('lp-active');card.classList.remove('lc-active');activeLv=null;return;}
+  if(activeLv){document.getElementById('lvp-'+activeLv).classList.remove('lp-active');document.getElementById('lvc-'+activeLv).classList.remove('lc-active');}
+  panel.classList.add('lp-active');card.classList.add('lc-active');activeLv=id;
+  switchLvTab(id,'th');
+  setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+function switchLvTab(lid,tab){
+  document.getElementById('lptab-th-'+lid).classList.toggle('active',tab==='th');
+  document.getElementById('lptab-ex-'+lid).classList.toggle('active',tab==='ex');
+  document.getElementById('lppanel-th-'+lid).classList.toggle('active',tab==='th');
+  document.getElementById('lppanel-ex-'+lid).classList.toggle('active',tab==='ex');
+}
+function lvNorm(s){return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function lvUpdateScore(lid){
+  const ok=lvScores[lid].filter(Boolean).length,tot=livrets.find(l=>l.id===lid).exercices.length;
+  document.getElementById('lvscore-'+lid).textContent=ok+' / '+tot;
+  document.getElementById('lvprog-'+lid).style.width=(ok/tot*100)+'%';
+}
+function lvMCQ(lid,i,chosen){
+  const ex=livrets.find(l=>l.id===lid).exercices[i];
+  document.querySelectorAll(`[id^="lvo${lid}-${i}-"]`).forEach(b=>b.disabled=true);
+  document.getElementById(`lvo${lid}-${i}-${ex.ans}`).classList.add('ok');
+  if(chosen!==ex.ans)document.getElementById(`lvo${lid}-${i}-${chosen}`).classList.add('nope');
+  lvShowFB(lid,i,chosen===ex.ans,ex.exp);
+  if(chosen===ex.ans&&!lvScores[lid][i]){lvScores[lid][i]=true;lvUpdateScore(lid);}
+}
+function lvTF(lid,i,chosen){
+  const ex=livrets.find(l=>l.id===lid).exercices[i];
+  document.getElementById(`lvtf${lid}-${i}-v`).disabled=true;document.getElementById(`lvtf${lid}-${i}-f`).disabled=true;
+  if(ex.ans)document.getElementById(`lvtf${lid}-${i}-v`).classList.add('ok');
+  else document.getElementById(`lvtf${lid}-${i}-f`).classList.add('ok');
+  if(chosen!==ex.ans){if(chosen)document.getElementById(`lvtf${lid}-${i}-v`).classList.add('nope');else document.getElementById(`lvtf${lid}-${i}-f`).classList.add('nope');}
+  lvShowFB(lid,i,chosen===ex.ans,ex.exp);
+  if(chosen===ex.ans&&!lvScores[lid][i]){lvScores[lid][i]=true;lvUpdateScore(lid);}
+}
+function lvFill(lid,i){
+  const ex=livrets.find(l=>l.id===lid).exercices[i];
+  const inp=document.getElementById(`lvfl${lid}-${i}`);
+  const ok=ex.blanks.some(b=>lvNorm(b)===lvNorm(inp.value));
+  inp.disabled=true;inp.classList.add(ok?'ok':'nope');
+  lvShowFB(lid,i,ok,ex.exp);
+  if(ok&&!lvScores[lid][i]){lvScores[lid][i]=true;lvUpdateScore(lid);}
+}
+function lvShowFB(lid,i,ok,msg){
+  const fb=document.getElementById(`lvfb${lid}-${i}`);
+  fb.innerHTML=(ok?'✓ ':'✗ ')+msg;
+  fb.className='ex-fb show '+(ok?'ok':'nope');
+}
+
+buildLearningSection();
 </script>
 </body>
 </html>
