@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Néerlandais Pro — VR</title>
+<style>
+:root {
+  --bg: #0d0f14;
+  --panel: #13161f;
+  --card-bg: #1a1e2a;
+  --border: #252a38;
+  --text: #e8ecf5;
+  --muted: #7a85a0;
+  --hint: #3a4055;
+  --accent: #4d9fff;
+  --accent-dim: #1a3a6a;
+  --green: #3ecf8e;
+  --green-dim: #0e3325;
+  --red: #f06060;
+  --red-dim: #3a1010;
+  --cat-active: #4d9fff;
+  --cat-active-bg: #0e2240;
+  --shadow: 0 8px 40px rgba(0,0,0,0.6);
+  --radius: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  padding: 2rem 1.5rem 3rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 860px; margin: 0 auto; }
+
+/* Header */
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+.logo { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
+.logo span { color: var(--accent); }
+.header-right { display: flex; gap: 10px; }
+.hbtn { font-size: 13px; padding: 7px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.hbtn:hover { color: var(--text); border-color: var(--muted); }
+.hbtn.on { color: var(--accent); border-color: var(--accent-dim); background: var(--accent-dim); }
+
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+.stat { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.25rem; text-align: center; }
+.stat-n { font-size: 26px; font-weight: 700; letter-spacing: -1px; }
+.stat-n.g { color: var(--green); }
+.stat-n.r { color: var(--red); }
+.stat-n.w { color: var(--text); }
+.stat-l { font-size: 11px; color: var(--muted); margin-top: 3px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* Persist */
+.persist { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+.pbtn { flex: 1; font-size: 12px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; font-family: inherit; transition: all 0.15s; text-align: center; }
+.pbtn:hover { color: var(--text); }
+
+/* Modes */
+.modes { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+.mbtn { flex: 1; font-size: 13px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; font-family: inherit; font-weight: 500; transition: all 0.15s; }
+.mbtn.on { background: #1c2235; color: var(--text); border-color: #3a4260; }
+
+/* Cats */
+.cats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.cbtn { font-size: 12px; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.cbtn:hover { color: var(--text); }
+.cbtn.on { background: var(--cat-active-bg); color: var(--cat-active); border-color: var(--accent-dim); font-weight: 600; }
+
+/* Progress */
+.prog-wrap { margin-bottom: 1.5rem; }
+.prog-bar { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
+.prog-lbl { font-size: 11px; color: var(--hint); margin-top: 6px; text-align: right; }
+
+/* Hard banner */
+.hdbanner { display: none; background: var(--red-dim); border: 1px solid var(--red); border-radius: 12px; padding: 9px 16px; font-size: 13px; color: var(--red); text-align: center; margin-bottom: 1.25rem; }
+.hdbanner.on { display: block; }
+
+/* ═══ VR CARD — large, readable at distance ═══ */
+.card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3rem 2.5rem;
+  min-height: 280px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+  user-select: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.card:hover { border-color: #3a4260; }
+.card.ok { border-color: var(--green); background: var(--green-dim); }
+.card.ko { border-color: var(--red); background: var(--red-dim); }
+
+.card-cat {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--hint); margin-bottom: 1.25rem;
+}
+
+/* FR — shown first, big for VR */
+.card-fr {
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+  max-width: 640px;
+}
+
+/* NL — revealed */
+.card-nl {
+  display: none;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1.35;
+  margin-top: 1.5rem;
+  max-width: 640px;
+}
+.card-ph {
+  display: none;
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+.reveal-hint {
+  font-size: 13px;
+  color: var(--hint);
+  margin-top: 1.5rem;
+}
+
+.card.open .card-nl,
+.card.open .card-ph { display: block; }
+.card.open .reveal-hint { display: none; }
+
+/* Score buttons */
+.sbwrap { display: none; gap: 12px; margin-bottom: 1rem; }
+.sbwrap.on { display: flex; }
+.sbtn {
+  flex: 1; padding: 14px;
+  border-radius: 14px; border: none;
+  font-size: 16px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  transition: all 0.12s;
+}
+.sbtn:active { transform: scale(0.97); }
+.sbtn-ok { background: var(--green-dim); color: var(--green); border: 1.5px solid var(--green); }
+.sbtn-ok:hover { background: var(--green); color: #000; }
+.sbtn-ko { background: var(--red-dim); color: var(--red); border: 1.5px solid var(--red); }
+.sbtn-ko:hover { background: var(--red); color: #fff; }
+
+/* Speak + Nav */
+.spkbtn {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; font-size: 14px; padding: 11px 24px;
+  border-radius: 12px; border: 1px solid var(--border);
+  background: var(--panel); color: var(--muted);
+  cursor: pointer; font-family: inherit;
+  margin: 0 auto 1rem; transition: all 0.15s;
+}
+.spkbtn:hover { color: var(--text); }
+.spkbtn.playing { border-color: var(--accent); color: var(--accent); }
+
+.nav { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.nbtn {
+  font-size: 14px; padding: 11px 24px;
+  border-radius: 12px; border: 1px solid var(--border);
+  background: var(--panel); color: var(--text);
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.nbtn:hover { border-color: var(--muted); }
+.nbtn:active { transform: scale(0.97); }
+.nctr { font-size: 13px; color: var(--muted); }
+
+/* Keyboard */
+.kbd { text-align: center; font-size: 11px; color: var(--hint); margin-bottom: 0.5rem; }
+kbd { background: var(--panel); border: 1px solid var(--border); border-radius: 5px; padding: 2px 7px; font-size: 10px; font-family: inherit; }
+
+.empty { text-align: center; padding: 4rem 1rem; color: var(--muted); font-size: 15px; }
+
+/* Focus mode */
+body.focus .header,
+body.focus .stats,
+body.focus .persist,
+body.focus .modes { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="logo">🇧🇪 <span>Nederlands</span> Pro</div>
+    <div class="header-right">
+      <button class="hbtn" id="focusbtn" onclick="toggleFocus()">🎯 Focus VR</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n w" id="sttot">0</div><div class="stat-l">Phrases</div></div>
+    <div class="stat"><div class="stat-n g" id="stok">0</div><div class="stat-l">✅ Maîtrisées</div></div>
+    <div class="stat"><div class="stat-n r" id="stko">0</div><div class="stat-l">❌ À retravailler</div></div>
+  </div>
+
+  <div class="persist">
+    <button class="pbtn" onclick="exportScores()">💾 Exporter mes scores</button>
+    <label class="pbtn">📂 Importer scores<input type="file" id="score-input" accept=".json" style="display:none"></label>
+  </div>
+
+  <div class="modes">
+    <button class="mbtn on" id="m-study" onclick="setMode('study')">📇 Flashcards</button>
+    <button class="mbtn" id="m-hard" onclick="setMode('hard')">🔥 Difficiles</button>
+    <button class="mbtn" id="m-loop" onclick="setMode('loop')">🔁 Boucle auto</button>
+    <button class="mbtn" onclick="doShuffle()">🔀 Mélanger</button>
+  </div>
+
+  <div class="cats" id="cats"></div>
+
+  <div class="hdbanner" id="hdbanner"></div>
+
+  <div class="prog-wrap">
+    <div class="prog-bar"><div class="prog-fill" id="prog"></div></div>
+    <div class="prog-lbl" id="proglbl"></div>
+  </div>
+
+  <div class="card" id="card" onclick="handleClick()">
+    <div class="card-cat" id="ccat"></div>
+    <div class="card-fr" id="cfr"></div>
+    <div class="reveal-hint">Essaie de le dire… puis clique pour révéler ↓</div>
+    <div class="card-nl" id="cnl"></div>
+    <div class="card-ph" id="cph"></div>
+  </div>
+
+  <div class="sbwrap" id="sbwrap">
+    <button class="sbtn sbtn-ko" onclick="score(false)">❌ Je ne savais pas</button>
+    <button class="sbtn sbtn-ok" onclick="score(true)">✅ Je savais !</button>
+  </div>
+
+  <button class="spkbtn" id="spkbtn" onclick="speakNow()">🔊 Écouter en néerlandais</button>
+
+  <div class="nav">
+    <button class="nbtn" onclick="go(-1)">← Précédent</button>
+    <span class="nctr" id="nctr">– / –</span>
+    <button class="nbtn" onclick="go(1)">Suivant →</button>
+  </div>
+
+  <div class="kbd">
+    <kbd>Espace</kbd> révéler &nbsp;·&nbsp; <kbd>→</kbd> <kbd>←</kbd> naviguer &nbsp;·&nbsp; <kbd>1</kbd> je savais &nbsp;·&nbsp; <kbd>2</kbd> à retravailler &nbsp;·&nbsp; <kbd>S</kbd> écouter
+  </div>
+
+</div>
+<script>
+const DATA = [
+  {cat:"Ouvrir une réunion",nl:"Kunnen we beginnen?",fr:"Peut-on commencer ?",ph:"KU-nen wə bə-GIN-ən"},
+  {cat:"Ouvrir une réunion",nl:"Ik heb een punt op de agenda.",fr:"J\x27ai un point à l\x27ordre du jour.",ph:"Ik hep ən punt op də a-GHEN-da"},
+  {cat:"Ouvrir une réunion",nl:"Wie neemt de notulen?",fr:"Qui prend le compte-rendu ?",ph:"WEE neymt də NO-ty-lən"},
+  {cat:"Ouvrir une réunion",nl:"We ronden af voor twaalf uur.",fr:"Nous terminons avant midi.",ph:"Wə RON-dən af for TWALEF ur"},
+  {cat:"Ouvrir une réunion",nl:"Ik wil u graag voorstellen aan…",fr:"Je voudrais vous présenter…",ph:"Ik wil ü khraakh VOR-stel-ən an"},
+  {cat:"Ouvrir une réunion",nl:"Laat me even uitleggen.",fr:"Laissez-moi expliquer.",ph:"Lat mə EY-vən ŒŒYT-leg-ən"},
+  {cat:"Ouvrir une réunion",nl:"Zoals u kunt zien op de slide…",fr:"Comme vous pouvez le voir sur le slide…",ph:"ZO-als ü kunt zeyn op də slayd"},
+  {cat:"Ouvrir une réunion",nl:"Laten we beginnen met het overzicht van de cijfers van dit kwartaal.",fr:"Commençons par la vue d\x27ensemble des chiffres de ce trimestre.",ph:""},
+  {cat:"Ouvrir une réunion",nl:"Ik stel voor dat we eerst de interne auditresultaten bespreken.",fr:"Je propose de commencer par discuter des résultats de l\x27audit interne.",ph:""},
+  {cat:"Ouvrir une réunion",nl:"Mag ik even uw aandacht voor dit punt op de agenda?",fr:"Puis-je avoir votre attention pour ce point à l\x27ordre du jour ?",ph:""},
+  {cat:"Ouvrir une réunion",nl:"Zullen we starten met de belangrijkste bevindingen?",fr:"Allons-nous commencer par les constatations principales ?",ph:""},
+  {cat:"Ouvrir une réunion",nl:"Ik stel voor dat we de agenda stap voor stap doorlopen.",fr:"Je propose de parcourir l\x27agenda étape par étape.",ph:""},
+  {cat:"Ouvrir une réunion",nl:"Mag ik beginnen met een korte toelichting?",fr:"Puis-je commencer par une brève explication ?",ph:""},
+  {cat:"Ouvrir une réunion",nl:"Ik zou graag dit onderwerp introduceren voor verdere discussie.",fr:"J\x27aimerais introduire ce sujet pour une discussion plus approfondie.",ph:""},
+  {cat:"Ouvrir une réunion",nl:"Laten we eerst de prioriteiten van dit project op een rijtje zetten.",fr:"Mettons d\x27abord en ordre les priorités de ce projet.",ph:""},
+  {cat:"Ouvrir une réunion",nl:"Tijdens de vergadering wil ik de belangrijkste bevindingen stap voor stap toelichten.",fr:"Lors de la réunion, je veux expliquer les principales conclusions étape par étape.",ph:""},
+  {cat:"Donner son avis",nl:"Volgens mij is er een inconsistentie in deze rapportering.",fr:"Selon moi, il y a une incohérence dans ce rapport.",ph:""},
+  {cat:"Donner son avis",nl:"Ik denk dat we dit proces kunnen optimaliseren.",fr:"Je pense que nous pouvons optimiser ce processus.",ph:""},
+  {cat:"Donner son avis",nl:"Mijn indruk is dat de risico\x27s onderschat worden.",fr:"Mon impression est que les risques sont sous-estimés.",ph:""},
+  {cat:"Donner son avis",nl:"Naar mijn mening moeten we dit vanuit een ander perspectief bekijken.",fr:"À mon avis, nous devons examiner cela sous un autre angle.",ph:""},
+  {cat:"Donner son avis",nl:"Ik ben ervan overtuigd dat dit de juiste richting is.",fr:"Je suis convaincu que c\x27est la bonne direction.",ph:""},
+  {cat:"Donner son avis",nl:"Het lijkt me dat er nog te veel onzekerheden zijn.",fr:"Il me semble qu\x27il reste encore trop d\x27incertitudes.",ph:""},
+  {cat:"Donner son avis",nl:"Persoonlijk denk ik dat dit voorstel haalbaar is.",fr:"Personnellement, je pense que cette proposition est réalisable.",ph:""},
+  {cat:"Donner son avis",nl:"Ik vraag me af of dit in de praktijk wel werkt.",fr:"Je me demande si cela fonctionne vraiment en pratique.",ph:""},
+  {cat:"Donner son avis",nl:"Ik ben het daar niet helemaal mee eens.",fr:"Je ne suis pas tout à fait d\x27accord avec ça.",ph:""},
+  {cat:"Donner son avis",nl:"Volgens mij zijn de voordelen groter dan de nadelen.",fr:"Selon moi, les avantages sont plus importants que les inconvénients.",ph:""},
+  {cat:"Donner son avis",nl:"Naar mijn mening is dit een strategische kans.",fr:"À mon avis, c\x27est une opportunité stratégique.",ph:""},
+  {cat:"Donner son avis",nl:"Persoonlijk vind ik dat we te veel tijd verliezen.",fr:"Personnellement, je trouve que nous perdons trop de temps.",ph:""},
+  {cat:"Donner son avis",nl:"Ik vraag me af of dit wel efficiënt genoeg is.",fr:"Je me demande si c\x27est suffisamment efficace.",ph:""},
+  {cat:"Donner son avis",nl:"Persoonlijk zou ik dit anders aanpakken.",fr:"Personnellement, j\x27aborderais cela différemment.",ph:""},
+  {cat:"Donner son avis",nl:"Ik denk dat we dit beter extern laten controleren.",fr:"Je pense que nous devrions faire contrôler cela de manière externe.",ph:""},
+  {cat:"Donner son avis",nl:"Mijn indruk is dat de communicatie niet duidelijk genoeg is.",fr:"Mon impression est que la communication n\x27est pas assez claire.",ph:""},
+  {cat:"Donner son avis",nl:"Naar mijn mening zijn de risico\x27s te hoog.",fr:"À mon avis, les risques sont trop élevés.",ph:""},
+  {cat:"Donner son avis",nl:"Ik ben ervan overtuigd dat dit de juiste investering is.",fr:"Je suis convaincu que c\x27est le bon investissement.",ph:""},
+  {cat:"Donner son avis",nl:"Volgens mij moeten we sneller beslissingen nemen.",fr:"Selon moi, nous devons prendre des décisions plus rapidement.",ph:""},
+  {cat:"Donner son avis",nl:"Mijn indruk is dat de planning niet realistisch is.",fr:"Mon impression est que le planning n\x27est pas réaliste.",ph:""},
+  {cat:"Donner son avis",nl:"Ik ben ervan overtuigd dat samenwerking hier cruciaal is.",fr:"Je suis convaincu que la coopération est cruciale ici.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Ik ben het daarmee eens.",fr:"Je suis d\x27accord avec ça.",ph:"Ik ben ət DAR-mey eyns"},
+  {cat:"Accord & Désaccord",nl:"Dat klinkt als een goed plan.",fr:"Ça semble être un bon plan.",ph:"Dat klinkt als ən ghoot plan"},
+  {cat:"Accord & Désaccord",nl:"We zijn het erover eens.",fr:"Nous sommes d\x27accord là-dessus.",ph:"Wə zeyn ət er-O-ver eyns"},
+  {cat:"Accord & Désaccord",nl:"Wat zijn uw voorwaarden?",fr:"Quelles sont vos conditions ?",ph:"Wat zeyn üw VOR-var-dən"},
+  {cat:"Accord & Désaccord",nl:"We moeten een compromis vinden.",fr:"Nous devons trouver un compromis.",ph:"Wə MU-tən ən kom-pro-MEE VIN-dən"},
+  {cat:"Accord & Désaccord",nl:"Dat is buiten ons budget.",fr:"C\x27est hors de notre budget.",ph:"Dat is BŒŒ-tən ons BÜD-khet"},
+  {cat:"Accord & Désaccord",nl:"Ik ben volledig akkoord met dit voorstel.",fr:"Je suis pleinement d\x27accord avec cette proposition.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Ik ben het niet helemaal eens met dat standpunt.",fr:"Je ne suis pas tout à fait d\x27accord avec ce point de vue.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Ik zie het eerder vanuit een ander perspectief.",fr:"Je le vois plutôt d\x27un autre point de vue.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Ik begrijp uw redenering, maar ik denk daar anders over.",fr:"Je comprends votre raisonnement, mais j\x27ai une autre opinion.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Ik ben daar niet echt van overtuigd.",fr:"Je ne suis pas vraiment convaincu.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Ik begrijp je standpunt, maar ik zie het anders.",fr:"Je comprends ton point de vue, mais je vois les choses différemment.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Dat is een goed punt, laten we dat meenemen in de analyse.",fr:"C\x27est un bon point, intégrons-le dans l\x27analyse.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Zullen we het even parkeren en later opnieuw bekijken?",fr:"Mettons cela en attente et revoyons-le plus tard ?",ph:""},
+  {cat:"Accord & Désaccord",nl:"Mag ik een alternatief voorstellen dat het risico beperkt?",fr:"Puis-je proposer une alternative qui limite le risque ?",ph:""},
+  {cat:"Accord & Désaccord",nl:"Zou het kunnen dat we verschillende aannames gebruiken?",fr:"Se pourrait-il que nous utilisions des hypothèses différentes ?",ph:""},
+  {cat:"Accord & Désaccord",nl:"Ik zie geen grote bezwaren tegen dit voorstel.",fr:"Je ne vois pas d\x27objections majeures à cette proposition.",ph:""},
+  {cat:"Accord & Désaccord",nl:"Er moet rekening worden gehouden met bijkomende factoren.",fr:"Il faut tenir compte d\x27autres éléments.",ph:""},
+  {cat:"Clarifications",nl:"Kunt u dat verduidelijken?",fr:"Pouvez-vous clarifier cela ?",ph:"Kunt ü dat vər-DŒYD-ə-lij-kən"},
+  {cat:"Clarifications",nl:"Wat bedoelt u precies?",fr:"Que voulez-vous dire exactement ?",ph:"Wat bə-DULT ü prə-SEES"},
+  {cat:"Clarifications",nl:"Heeft u hier vragen over?",fr:"Avez-vous des questions à ce sujet ?",ph:"Heyft ü heer VRA-ghən O-ver"},
+  {cat:"Clarifications",nl:"Kunt u dat punt wat verder verduidelijken?",fr:"Pourriez-vous préciser un peu plus ce point ?",ph:""},
+  {cat:"Clarifications",nl:"Wat bedoelt u precies met deze opmerking?",fr:"Que voulez-vous dire exactement par cette remarque ?",ph:""},
+  {cat:"Clarifications",nl:"Kunt u een concreet voorbeeld geven?",fr:"Pouvez-vous donner un exemple concret ?",ph:""},
+  {cat:"Clarifications",nl:"Als ik het goed begrijp, zegt u dat…",fr:"Si je comprends bien, vous dites que…",ph:""},
+  {cat:"Clarifications",nl:"Mag ik vragen hoe dit in de praktijk toegepast wordt?",fr:"Puis-je demander comment cela est appliqué en pratique ?",ph:""},
+  {cat:"Clarifications",nl:"Kunt u dat laatste herhalen, alstublieft?",fr:"Pouvez-vous répéter la dernière partie, s\x27il vous plaît ?",ph:""},
+  {cat:"Clarifications",nl:"Waar baseren we deze aanname precies op?",fr:"Sur quoi basons-nous exactement cette hypothèse ?",ph:""},
+  {cat:"Clarifications",nl:"Als je wil, kan ik deze zin nog verder verduidelijken.",fr:"Si tu veux, je peux clarifier davantage cette phrase.",ph:""},
+  {cat:"Commenter résultats",nl:"De presentatie was duidelijk en gestructureerd.",fr:"La présentation était claire et structurée.",ph:""},
+  {cat:"Commenter résultats",nl:"Er zijn enkele punten die verder uitgewerkt moeten worden.",fr:"Il y a quelques points qui doivent être approfondis.",ph:""},
+  {cat:"Commenter résultats",nl:"De analyse biedt een goed overzicht van de situatie.",fr:"L\x27analyse offre une bonne vue d\x27ensemble de la situation.",ph:""},
+  {cat:"Commenter résultats",nl:"Het verslag toont aan dat de resultaten beter zijn dan verwacht.",fr:"Le rapport montre que les résultats sont meilleurs que prévu.",ph:""},
+  {cat:"Commenter résultats",nl:"Uw bijdrage was zeer waardevol voor dit project.",fr:"Votre contribution a été très précieuse pour ce projet.",ph:""},
+  {cat:"Commenter résultats",nl:"Er ontbreken nog enkele details in dit document.",fr:"Il manque encore quelques détails dans ce document.",ph:""},
+  {cat:"Commenter résultats",nl:"De conclusies zijn goed onderbouwd.",fr:"Les conclusions sont bien étayées.",ph:""},
+  {cat:"Commenter résultats",nl:"Het zou nuttig zijn om dit verder te illustreren met voorbeelden.",fr:"Il serait utile d\x27illustrer cela davantage avec des exemples.",ph:""},
+  {cat:"Commenter résultats",nl:"Alles verloopt zoals gepland.",fr:"Tout se passe comme prévu.",ph:""},
+  {cat:"Commenter résultats",nl:"Ik ben tevreden met de huidige stand van zaken.",fr:"Je suis satisfait de la situation actuelle.",ph:""},
+  {cat:"Suivi & Actions",nl:"Ik stuur u een samenvatting.",fr:"Je vous enverrai un résumé.",ph:"Ik stür ü ən SA-mən-fat-ting"},
+  {cat:"Suivi & Actions",nl:"Wat is de deadline hiervoor?",fr:"Quelle est la deadline pour cela ?",ph:"Wat is də DEYD-layn HEER-for"},
+  {cat:"Suivi & Actions",nl:"Ik hou u op de hoogte.",fr:"Je vous tiens informé(e).",ph:"Ik hœœ ü op də HOOGH-tə"},
+  {cat:"Suivi & Actions",nl:"Kunnen we dit volgende week bespreken?",fr:"Pouvons-nous en discuter la semaine prochaine ?",ph:"KU-nen wə dit FOL-ghen-də weyk bə-SPREY-kən"},
+  {cat:"Suivi & Actions",nl:"Laten we dit verder opvolgen in de komende weken.",fr:"Suivons cela dans les prochaines semaines.",ph:""},
+  {cat:"Suivi & Actions",nl:"Ik kom hier later vandaag op terug.",fr:"Je reviens dessus plus tard aujourd\x27hui.",ph:""},
+  {cat:"Suivi & Actions",nl:"Ik ga dit intern afstemmen en kom bij je terug.",fr:"Je vais coordonner en interne et revenir vers toi.",ph:""},
+  {cat:"Suivi & Actions",nl:"Laat me weten als er iets verandert.",fr:"Tiens-moi informé si quelque chose change.",ph:""},
+  {cat:"Suivi & Actions",nl:"Ik zal dit opvolgen en je op de hoogte houden.",fr:"Je vais suivre cela et te tenir informé.",ph:""},
+  {cat:"Suivi & Actions",nl:"Kunnen we dit even kort bespreken na de meeting?",fr:"Peut-on en discuter rapidement après la réunion ?",ph:""},
+  {cat:"Suivi & Actions",nl:"We moeten dit prioriteren gezien de impact.",fr:"Nous devons prioriser cela vu l\x27impact.",ph:""},
+  {cat:"Suivi & Actions",nl:"Ik stel voor om dit eerst intern af te stemmen.",fr:"Je propose de coordonner cela en interne d\x27abord.",ph:""},
+  {cat:"Suivi & Actions",nl:"Kunnen we dit opnieuw bekijken met extra informatie?",fr:"Peut-on revoir cela avec des informations supplémentaires ?",ph:""},
+  {cat:"Suivi & Actions",nl:"We zitten op schema voor de deadline.",fr:"Nous sommes dans les temps pour la deadline.",ph:""},
+  {cat:"Suivi & Actions",nl:"Is iedereen akkoord met dit voorstel?",fr:"Tout le monde est d\x27accord avec cette proposition ?",ph:""},
+  {cat:"Suivi & Actions",nl:"Bedankt om ons op de hoogte te houden.",fr:"Merci de nous tenir au courant.",ph:""},
+  {cat:"Bureau quotidien",nl:"Kun je dit even nakijken en mij je feedback geven?",fr:"Peux-tu vérifier cela et me donner ton retour ?",ph:""},
+  {cat:"Bureau quotidien",nl:"Heb je een update over dit dossier?",fr:"As-tu une mise à jour sur ce dossier ?",ph:""},
+  {cat:"Bureau quotidien",nl:"Zou je dit tegen het einde van de dag kunnen bezorgen?",fr:"Pourrais-tu envoyer cela d\x27ici la fin de journée ?",ph:""},
+  {cat:"Bureau quotidien",nl:"Dit lijkt me nog niet volledig duidelijk.",fr:"Cela ne me semble pas encore totalement clair.",ph:""},
+  {cat:"Bureau quotidien",nl:"Ik ben momenteel bezig met een ander dossier.",fr:"Je suis actuellement occupé sur un autre dossier.",ph:""},
+  {cat:"Bureau quotidien",nl:"Ik zie je punt, maar ik wil dit nog even verifiëren.",fr:"Je comprends ton point, mais je veux encore vérifier cela.",ph:""},
+  {cat:"Bureau quotidien",nl:"Dit moet nog verder worden uitgewerkt.",fr:"Cela doit encore être développé davantage.",ph:""},
+  {cat:"Bureau quotidien",nl:"Voor mij is dit op dit moment voldoende duidelijk.",fr:"Pour moi, cela est suffisamment clair pour l\x27instant.",ph:""},
+  {cat:"Bureau quotidien",nl:"We moeten hier voorzichtig mee omgaan.",fr:"Nous devons être prudents avec cela.",ph:""},
+  {cat:"Audit & Risque",nl:"Als we de aanbevelingen vandaag goedkeuren, kunnen we ervoor zorgen dat het project zonder vertraging wordt uitgevoerd.",fr:"Si nous approuvons les recommandations aujourd\x27hui, nous pouvons garantir que le projet sera exécuté sans retard.",ph:""},
+  {cat:"Audit & Risque",nl:"Ik moet een grondige analyse van de risico\x27s maken, zodat we de conclusie aan de raad van bestuur kunnen voorstellen.",fr:"Je dois réaliser une analyse approfondie des risques afin de présenter la conclusion au conseil d\x27administration.",ph:""},
+  {cat:"Audit & Risque",nl:"Hoewel het risico beperkt lijkt, moeten we bijkomende controles uitvoeren omdat de impact aanzienlijk kan zijn.",fr:"Bien que le risque semble limité, nous devons effectuer des contrôles supplémentaires car l\x27impact peut être significatif.",ph:""},
+  {cat:"Audit & Risque",nl:"Als we de interne controles versterken, kunnen we het operationele risico aanzienlijk verminderen.",fr:"Si nous renforçons les contrôles internes, nous pouvons réduire significativement le risque opérationnel.",ph:""},
+  {cat:"Audit & Risque",nl:"Hoewel de cijfers stabiel lijken, moeten we de onderliggende risico\x27s opnieuw evalueren.",fr:"Bien que les chiffres semblent stables, nous devons réévaluer les risques sous-jacents.",ph:""},
+  {cat:"Audit & Risque",nl:"We moeten een duidelijke analyse uitvoeren voordat we conclusies trekken over de impact.",fr:"Nous devons réaliser une analyse claire avant de tirer des conclusions sur l\x27impact.",ph:""},
+  {cat:"Audit & Risque",nl:"Omdat de documentatie onvolledig is, kunnen we geen definitief oordeel geven.",fr:"Comme la documentation est incomplète, nous ne pouvons pas donner un avis définitif.",ph:""},
+  {cat:"Audit & Risque",nl:"Zodra de gegevens volledig zijn, zullen we een gedetailleerd rapport opstellen.",fr:"Dès que les données seront complètes, nous établirons un rapport détaillé.",ph:""},
+  {cat:"Audit & Risque",nl:"Als het management de aanbevelingen goedkeurt, kunnen we de implementatie onmiddellijk starten.",fr:"Si la direction approuve les recommandations, nous pouvons lancer la mise en œuvre immédiatement.",ph:""},
+  {cat:"Audit & Risque",nl:"We moeten ervoor zorgen dat alle processen correct worden gedocumenteerd.",fr:"Nous devons nous assurer que tous les processus sont correctement documentés.",ph:""},
+  {cat:"Audit & Risque",nl:"Hoewel er verbeteringen zijn doorgevoerd, blijven er nog belangrijke tekortkomingen bestaan.",fr:"Bien que des améliorations aient été mises en place, il subsiste encore des lacunes importantes.",ph:""},
+  {cat:"Audit & Risque",nl:"Op basis van onze analyse doen we een aanbeveling om het controleproces te herzien.",fr:"Sur la base de notre analyse, nous recommandons de réviser le processus de contrôle.",ph:""},
+  {cat:"Audit & Risque",nl:"We kunnen pas een conclusie formuleren nadat alle risico\x27s in kaart zijn gebracht.",fr:"Nous ne pouvons formuler une conclusion qu\x27après avoir identifié tous les risques.",ph:""},
+  {cat:"Audit & Risque",nl:"We merken op dat de huidige procedure niet volledig voldoet aan de interne richtlijnen.",fr:"Nous constatons que la procédure actuelle ne répond pas entièrement aux directives internes.",ph:""},
+  {cat:"Audit & Risque",nl:"Door een gebrek aan transparantie ontstaat er een verhoogd risico op fouten.",fr:"En raison d\x27un manque de transparence, un risque accru d\x27erreurs apparaît.",ph:""},
+  {cat:"Audit & Risque",nl:"We stellen voor om de rapporteringsstructuur te vereenvoudigen om de efficiëntie te verhogen.",fr:"Nous proposons de simplifier la structure de reporting afin d\x27augmenter l\x27efficacité.",ph:""},
+  {cat:"Audit & Risque",nl:"Indien nodig zullen we bijkomende audits uitvoeren om de situatie verder te verduidelijken.",fr:"Si nécessaire, nous effectuerons des audits supplémentaires afin de clarifier davantage la situation.",ph:""},
+  {cat:"Audit & Risque",nl:"Ik wil mijn rapport presenteren aan de raad, omdat het belangrijk is dat ze de conclusie begrijpen.",fr:"Je veux présenter mon rapport au conseil car il est important qu\x27ils comprennent la conclusion.",ph:""},
+  {cat:"E-mails formels",nl:"Graag ontvang ik een bevestiging van uw deelname.",fr:"J\x27aimerais recevoir une confirmation de votre participation.",ph:""},
+  {cat:"E-mails formels",nl:"Ik zou willen vragen of u het rapport kunt opsturen.",fr:"Je voudrais vous demander si vous pouvez envoyer le rapport.",ph:""},
+  {cat:"E-mails formels",nl:"Bijgevoegd vindt u het overzicht van de resultaten.",fr:"Vous trouverez ci-joint le récapitulatif des résultats.",ph:""},
+  {cat:"E-mails formels",nl:"Ik kijk uit naar uw antwoord.",fr:"J\x27attends avec impatience votre réponse.",ph:""},
+  {cat:"E-mails formels",nl:"Met vriendelijke groet,",fr:"Cordialement,",ph:""},
+  {cat:"E-mails formels",nl:"Kunt u tegen vrijdag feedback bezorgen?",fr:"Pourriez-vous fournir un retour pour vendredi ?",ph:""},
+  {cat:"E-mails formels",nl:"Dank bij voorbaat voor uw medewerking.",fr:"Merci d\x27avance pour votre collaboration.",ph:""},
+  {cat:"Networking",nl:"Aangenaam kennis te maken, ik heb al veel over u gehoord.",fr:"Enchanté de faire votre connaissance, j\x27ai déjà beaucoup entendu parler de vous.",ph:""},
+  {cat:"Networking",nl:"Leuk u weer te zien op deze conferentie.",fr:"Ravi de vous revoir à cette conférence.",ph:""},
+  {cat:"Networking",nl:"Hoe gaat het met uw team de laatste tijd?",fr:"Comment va votre équipe ces derniers temps ?",ph:""},
+  {cat:"Networking",nl:"Wat vond u van de presentatie van daarnet?",fr:"Qu\x27avez-vous pensé de la présentation à l\x27instant ?",ph:""},
+  {cat:"Networking",nl:"Ik zou graag contact houden na dit evenement.",fr:"J\x27aimerais rester en contact après cet événement.",ph:""},
+  {cat:"Networking",nl:"Zullen we later vandaag even afspreken?",fr:"On se voit un moment plus tard aujourd\x27hui ?",ph:""},
+  {cat:"Networking",nl:"Mag ik u toevoegen op LinkedIn?",fr:"Puis-je vous ajouter sur LinkedIn ?",ph:""}
+,
+  {cat:"Chunks fluides",nl:"Zoals ik al zei,",fr:"Comme je l'ai déjà dit,",ph:""},
+  {cat:"Chunks fluides",nl:"Wat ik eigenlijk wil zeggen is…",fr:"Ce que je veux vraiment dire, c'est…",ph:""},
+  {cat:"Chunks fluides",nl:"Om eerlijk te zijn,",fr:"Pour être honnête,",ph:""},
+  {cat:"Chunks fluides",nl:"Laat me even nadenken.",fr:"Laisse-moi réfléchir un instant.",ph:""},
+  {cat:"Chunks fluides",nl:"Dat is een goede vraag.",fr:"C'est une bonne question.",ph:""},
+  {cat:"Chunks fluides",nl:"Als ik het goed begrijp,",fr:"Si je comprends bien,",ph:""},
+  {cat:"Chunks fluides",nl:"Daar ben ik het mee eens, maar…",fr:"Je suis d'accord avec ça, mais…",ph:""},
+  {cat:"Chunks fluides",nl:"Mag ik even onderbreken?",fr:"Puis-je vous interrompre un instant ?",ph:""},
+  {cat:"Chunks fluides",nl:"Ik kom zo dadelijk op dat punt terug.",fr:"Je reviens sur ce point dans un moment.",ph:""},
+  {cat:"Chunks fluides",nl:"Met andere woorden,",fr:"En d'autres termes,",ph:""},
+  {cat:"Chunks fluides",nl:"Aan de ene kant… aan de andere kant…",fr:"D'un côté… de l'autre côté…",ph:""},
+  {cat:"Chunks fluides",nl:"Bovendien wil ik erop wijzen dat…",fr:"De plus, je veux souligner que…",ph:""},
+  {cat:"Chunks fluides",nl:"Daar komt nog bij dat…",fr:"À cela s'ajoute le fait que…",ph:""},
+  {cat:"Chunks fluides",nl:"In dat geval stel ik voor dat we…",fr:"Dans ce cas, je propose que nous…",ph:""},
+  {cat:"Chunks fluides",nl:"Ik begrijp wat u bedoelt.",fr:"Je comprends ce que vous voulez dire.",ph:""},
+  {cat:"Chunks fluides",nl:"Zover ik weet,",fr:"Pour autant que je sache,",ph:""},
+  {cat:"Chunks fluides",nl:"Laten we even een stap terug zetten.",fr:"Faisons un pas en arrière.",ph:""},
+  {cat:"Chunks fluides",nl:"Heeft u daar een voorbeeld van?",fr:"Avez-vous un exemple de cela ?",ph:""},
+  {cat:"Chunks fluides",nl:"Ik wil daar graag op reageren.",fr:"J'aimerais réagir à cela.",ph:""},
+  {cat:"Chunks fluides",nl:"Dat hangt ervan af.",fr:"Ça dépend.",ph:""},
+  {cat:"Chunks fluides",nl:"Enerzijds… anderzijds…",fr:"D'une part… d'autre part…",ph:""},
+  {cat:"Chunks fluides",nl:"We zijn het er allemaal over eens dat…",fr:"Nous sommes tous d'accord que…",ph:""},
+  {cat:"Chunks fluides",nl:"Dat is precies waar ik op wou komen.",fr:"C'est exactement là où je voulais en venir.",ph:""},
+  {cat:"Chunks fluides",nl:"Ik wil hier een nuance aan toevoegen.",fr:"Je veux apporter une nuance ici.",ph:""},
+  {cat:"Chunks fluides",nl:"Concreet gezien betekent dit dat…",fr:"Concrètement, cela signifie que…",ph:""},
+  {cat:"Chunks fluides",nl:"Als ik u een vraag mag stellen,",fr:"Si je peux me permettre une question,",ph:""},
+  {cat:"Chunks fluides",nl:"Ik had het graag willen hebben over…",fr:"J'aurais aimé parler de…",ph:""},
+  {cat:"Chunks fluides",nl:"Dat klopt, maar we mogen niet vergeten dat…",fr:"C'est exact, mais nous ne devons pas oublier que…",ph:""},
+  {cat:"Chunks fluides",nl:"In de praktijk werkt dat als volgt:",fr:"En pratique, ça fonctionne comme suit :",ph:""},
+  {cat:"Chunks fluides",nl:"Ik wil graag afsluiten met de opmerking dat…",fr:"J'aimerais conclure en faisant remarquer que…",ph:""},
+  {cat:"Chunks fluides",nl:"Samenvattend kunnen we stellen dat…",fr:"En résumé, nous pouvons affirmer que…",ph:""},
+  {cat:"Chunks fluides",nl:"Wat is uw mening hierover?",fr:"Quelle est votre opinion là-dessus ?",ph:""},
+  {cat:"Chunks fluides",nl:"Ik heb daar nog geen definitief antwoord op.",fr:"Je n'ai pas encore de réponse définitive là-dessus.",ph:""},
+  {cat:"Chunks fluides",nl:"Dat is een interessant perspectief.",fr:"C'est une perspective intéressante.",ph:""},
+  {cat:"Chunks fluides",nl:"Ik zou dit graag verder onderzoeken.",fr:"J'aimerais approfondir cela.",ph:""},
+  {cat:"Chunks fluides",nl:"Kunt u dat in andere woorden zeggen?",fr:"Pouvez-vous dire cela autrement ?",ph:""},
+  {cat:"Chunks fluides",nl:"Ik volg u niet helemaal.",fr:"Je ne vous suis pas tout à fait.",ph:""},
+  {cat:"Chunks fluides",nl:"Laten we dit punt afwerken voor we verdergaan.",fr:"Finissons ce point avant de continuer.",ph:""},
+  {cat:"Chunks fluides",nl:"Dat valt buiten het bestek van deze vergadering.",fr:"Cela dépasse le cadre de cette réunion.",ph:""},
+  {cat:"Chunks fluides",nl:"Ik stel voor dat we daar een apart moment voor inplannen.",fr:"Je propose que nous planifions un moment séparé pour cela.",ph:""}
+];
+
+// ── State ─────────────────────────────────────────────────────
+let filtered = [...DATA], idx = 0, mode = 'study', loopTimer = null;
+let filteredCat = 'Tout', scores = {}, isOpen = false;
+const allCats = ['Tout', ...new Set(DATA.map(p => p.cat))];
+
+// ── Persist ───────────────────────────────────────────────────
+const SK = 'nl_vr_scores';
+function save() { try { localStorage.setItem(SK, JSON.stringify(scores)); } catch(e){} }
+function load() { try { const s = localStorage.getItem(SK); if(s) scores = JSON.parse(s); } catch(e){} }
+
+function exportScores() {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(scores,null,2)],{type:'application/json'}));
+  a.download = 'scores_vr_phrases.json'; a.click();
+}
+document.getElementById('score-input').addEventListener('change', e => {
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => { try { scores = JSON.parse(ev.target.result); save(); updateStats(); alert('Scores importés !'); } catch(e){ alert('Fichier invalide.'); }};
+  r.readAsText(f);
+});
+
+// ── Cats ──────────────────────────────────────────────────────
+function renderCats() {
+  const el = document.getElementById('cats');
+  el.innerHTML = allCats.map(c =>
+    `<button class="cbtn${c===filteredCat?' on':''}" data-c="${c.replace(/"/g,'&quot;')}">${c}</button>`
+  ).join('');
+  el.querySelectorAll('.cbtn').forEach(b =>
+    b.addEventListener('click', () => { filteredCat = b.dataset.c; applyFilter(); })
+  );
+}
+
+function applyFilter() {
+  const base = filteredCat==='Tout' ? [...DATA] : DATA.filter(p=>p.cat===filteredCat);
+  filtered = mode==='hard' ? base.filter(p=>scores[p.nl]===false) : base;
+  idx = 0; renderCats(); render(); updateHardBanner();
+}
+
+// ── Render ────────────────────────────────────────────────────
+function render() {
+  isOpen = false;
+  const card = document.getElementById('card');
+  card.classList.remove('open','ok','ko');
+  document.getElementById('sbwrap').classList.remove('on');
+
+  if (!filtered.length) {
+    document.getElementById('cfr').textContent = mode==='hard' ? '🎉 Aucune phrase difficile !' : 'Aucune phrase dans cette catégorie.';
+    document.getElementById('cnl').textContent = '';
+    document.getElementById('cph').textContent = '';
+    document.getElementById('ccat').textContent = '';
+    document.getElementById('nctr').textContent = '0 / 0';
+    document.getElementById('prog').style.width = '0%';
+    document.getElementById('proglbl').textContent = '';
+    return;
+  }
+
+  const p = filtered[idx];
+  document.getElementById('ccat').textContent = p.cat;
+  document.getElementById('cfr').textContent = p.fr;
+  document.getElementById('cnl').textContent = p.nl;
+  document.getElementById('cph').textContent = p.ph ? '/ ' + p.ph + ' /' : '';
+  document.getElementById('nctr').textContent = `${idx+1} / ${filtered.length}`;
+  const pct = Math.round(((idx+1)/filtered.length)*100);
+  document.getElementById('prog').style.width = pct+'%';
+  document.getElementById('proglbl').textContent = `${idx+1} sur ${filtered.length} — ${pct}%`;
+}
+
+function handleClick() {
+  if (!filtered.length || isOpen) return;
+  isOpen = true;
+  document.getElementById('card').classList.add('open');
+  document.getElementById('sbwrap').classList.add('on');
+  speakNow();
+}
+
+// ── Score ─────────────────────────────────────────────────────
+function score(knew) {
+  if (!filtered.length) return;
+  scores[filtered[idx].nl] = knew;
+  save(); updateStats();
+  document.getElementById('card').classList.add(knew?'ok':'ko');
+  setTimeout(() => {
+    if (mode==='hard') {
+      filtered = filtered.filter(p=>scores[p.nl]===false);
+      if (idx>=filtered.length) idx = Math.max(0,filtered.length-1);
+      updateHardBanner();
+    }
+    go(1);
+  }, 600);
+}
+
+function updateStats() {
+  const v = Object.values(scores);
+  document.getElementById('stok').textContent = v.filter(x=>x===true).length;
+  document.getElementById('stko').textContent = v.filter(x=>x===false).length;
+  document.getElementById('sttot').textContent = DATA.length;
+}
+
+function updateHardBanner() {
+  const el = document.getElementById('hdbanner');
+  if (mode==='hard') {
+    const n = DATA.filter(p=>scores[p.nl]===false).length;
+    el.textContent = `🔥 Mode difficiles — ${n} phrase${n>1?'s':''} à retravailler`;
+    el.classList.add('on');
+  } else { el.classList.remove('on'); }
+}
+
+// ── Nav ───────────────────────────────────────────────────────
+function go(dir) {
+  if (!filtered.length) return;
+  idx = (idx+dir+filtered.length)%filtered.length;
+  render();
+}
+
+function doShuffle() {
+  if (loopTimer) { clearInterval(loopTimer); loopTimer=null; }
+  mode='study'; ['study','hard','loop'].forEach(m=>{ const el=document.getElementById('m-'+m); if(el) el.classList.toggle('on',m==='study'); });
+  for (let i=filtered.length-1;i>0;i--) {
+    const j=Math.floor(Math.random()*(i+1));
+    [filtered[i],filtered[j]]=[filtered[j],filtered[i]];
+  }
+  idx=0; render();
+}
+
+// ── Speech ────────────────────────────────────────────────────
+function speakNow() {
+  if (!filtered.length) return;
+  const btn = document.getElementById('spkbtn');
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(filtered[idx].nl);
+  utt.lang='nl-NL'; utt.rate=0.82;
+  btn.classList.add('playing');
+  utt.onend = ()=>btn.classList.remove('playing');
+  utt.onerror = ()=>btn.classList.remove('playing');
+  window.speechSynthesis.speak(utt);
+}
+
+// ── Modes ─────────────────────────────────────────────────────
+function setMode(m) {
+  mode=m;
+  if (loopTimer) { clearInterval(loopTimer); loopTimer=null; }
+  ['study','hard','loop'].forEach(id=>{ const el=document.getElementById('m-'+id); if(el) el.classList.toggle('on',id===m); });
+  applyFilter();
+  if (m==='loop') {
+    speakNow();
+    loopTimer = setInterval(()=>{ go(1); setTimeout(speakNow,600); }, 5500);
+  }
+}
+
+// ── Focus ─────────────────────────────────────────────────────
+function toggleFocus() {
+  document.body.classList.toggle('focus');
+  const btn = document.getElementById('focusbtn');
+  btn.textContent = document.body.classList.contains('focus') ? '✕ Quitter focus' : '🎯 Focus VR';
+  btn.classList.toggle('on', document.body.classList.contains('focus'));
+}
+
+// ── Keyboard ──────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  const tag = document.activeElement.tagName;
+  if (tag==='INPUT'||tag==='TEXTAREA') return;
+  if (e.key===' '||e.key==='Enter') { e.preventDefault(); handleClick(); }
+  else if (e.key==='ArrowRight') go(1);
+  else if (e.key==='ArrowLeft') go(-1);
+  else if (e.key==='1') score(true);
+  else if (e.key==='2') score(false);
+  else if (e.key==='s'||e.key==='S') speakNow();
+});
+
+// ── Init ──────────────────────────────────────────────────────
+load(); renderCats(); applyFilter(); updateStats();
+</script>
+</body>
+</html>
